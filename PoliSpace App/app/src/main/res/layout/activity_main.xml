@@ -6,97 +6,181 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp"
     android:background="@drawable/gradient_background"
     tools:context=".MainActivity">
 
-    <!-- Logo -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        app:cardCornerRadius="28dp"
-        app:cardElevation="10dp"
-        app:cardBackgroundColor="@color/white">
+    <!-- Espaciado superior  -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15" />
 
-        <ImageView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center"
-            android:src="@drawable/logo"
-            android:contentDescription="Logo Polispace" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <!-- Título PoliSpace -->
+    <!-- Sección Superior: Logo y Títulos -->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingHorizontal="24dp">
 
+        <!-- Título PoliSpace-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Poli"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Space"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <!-- Subtítulo -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Poli"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:text="ESTUDIA  •  CONECTA  •  AVANZA"
+            android:textSize="10sp"
+            android:letterSpacing="0.15"
+            android:textAlignment="center"
+            android:textColor="#94A3B8"
+            android:layout_marginBottom="12dp" />
 
+        <!-- Eslogan institucional -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Space"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            android:textColor="#4E1831" />
+            android:text="Tu comunidad politécnica, en un solo espacio."
+            android:textSize="14sp"
+            android:textColor="#E2E8F0"
+            android:textAlignment="center"
+            android:layout_marginBottom="24dp" />
 
     </LinearLayout>
 
-    <!-- Subtítulo -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ESTUDIA  •  CONECTA  •  AVANZA"
-        android:textSize="11sp"
-        android:letterSpacing="0.15"
-        android:textAlignment="center"
-        android:textColor="#94A3B8"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="40dp"
-        android:layout_gravity="center_horizontal" />
+    <!-- Contenedor Inferior -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.85"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="16dp"
+        android:layout_marginBottom="-20dp">
 
-    <!-- Botón Iniciar Sesión -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogin"
-        android:layout_width="240dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Iniciar Sesión"
-        android:textAllCaps="false"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:cornerRadius="16dp"
-        app:backgroundTint="@color/white"
-        android:textColor="@color/black"
-        android:layout_marginBottom="12dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="32dp"
+            android:paddingTop="36dp">
 
-    <!-- Botón Registrarse -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRegister"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="240dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Registrarse"
-        android:textAllCaps="false"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:cornerRadius="16dp"
-        app:strokeColor="#1D4ED8"
-        app:strokeWidth="2dp"
-        android:textColor="#EA540D25" />
+            <!-- Logo en tarjeta pequeña -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="#E2E8F0"
+                app:strokeWidth="1dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo"
+                    android:contentDescription="Logo Polispace" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Título de Bienvenida  -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¡Bienvenido!"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#0F172A"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selecciona una opción para continuar"
+                android:textSize="13sp"
+                android:textColor="#64748B"
+                android:layout_marginBottom="36dp"
+                android:textAlignment="center" />
+
+            <!-- Botón Iniciar Sesión-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Iniciar Sesión"
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="16dp"
+                app:backgroundTint="#7A1D32"
+                android:textColor="@color/white"
+                android:layout_marginBottom="14dp" />
+
+            <!-- Botón Registrarse -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRegister"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Registrarse"
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="16dp"
+                app:strokeColor="#7A1D32"
+                app:strokeWidth="2dp"
+                android:textColor="#7A1D32" />
+
+            <!-- Espaciador -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Texto Legal -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Al registrarte aceptas las normas de usuario y las políticas de privacidad."
+                android:textSize="11sp"
+                android:textColor="#94A3B8"
+                android:textAlignment="center"
+                android:paddingHorizontal="12dp" />
+
+            <!-- Espaciado-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

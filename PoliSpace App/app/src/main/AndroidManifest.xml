@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PoliSpace">
         <activity
+            android:name=".registrarte"
+            android:exported="false" />
+        <activity
             android:name=".Iniciarsesion"
             android:exported="false" />
         <activity

@@ -30,13 +30,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // botón de registrarse:
-        /*
+
         val btnRegister = findViewById<MaterialButton>(R.id.btnRegister)
         btnRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
+            val intent = Intent(this, registrarte::class.java)
             startActivity(intent)
         }
-        */
+
     }
 }
