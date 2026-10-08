@@ -130,7 +130,7 @@
 
             <!-- Botón Iniciar Sesión-->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnIniciarsesion"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:text="Iniciar Sesión"
@@ -144,7 +144,7 @@
 
             <!-- Botón Registrarse -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnRegister"
+                android:id="@+id/btnRegistrar"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
