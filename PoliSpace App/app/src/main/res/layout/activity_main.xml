@@ -71,7 +71,7 @@
 
     </LinearLayout>
 
-    <!-- Contenedor Inferior -->
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -89,7 +89,7 @@
             android:paddingHorizontal="32dp"
             android:paddingTop="36dp">
 
-            <!-- Logo en tarjeta pequeña -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="72dp"
                 android:layout_height="72dp"
@@ -109,7 +109,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Título de Bienvenida  -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                 android:layout_marginBottom="36dp"
                 android:textAlignment="center" />
 
-            <!-- Botón Iniciar Sesión-->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnIniciarsesion"
                 android:layout_width="match_parent"
@@ -142,7 +142,7 @@
                 android:textColor="@color/white"
                 android:layout_marginBottom="14dp" />
 
-            <!-- Botón Registrarse -->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRegistrar"
                 style="?attr/materialButtonOutlinedStyle"
@@ -157,13 +157,13 @@
                 app:strokeWidth="2dp"
                 android:textColor="#7A1D32" />
 
-            <!-- Espaciador -->
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <!-- Texto Legal -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
                 android:textAlignment="center"
                 android:paddingHorizontal="12dp" />
 
-            <!-- Espaciado-->
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".activities.iniciarsesion">
 
-    <!-- Contenido superior -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -18,7 +18,7 @@
         android:paddingEnd="28dp"
         android:paddingTop="65dp">
 
-        <!-- Nombre de la aplicación -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:textSize="40sp"
             android:textStyle="bold" />
 
-        <!-- Eslogan pequeño -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             android:textColor="@color/white"
             android:textSize="15sp" />
 
-        <!-- Descripción -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
 
     </LinearLayout>
 
-    <!-- Tarjeta del formulario -->
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="380dp"
@@ -76,7 +76,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Descripción -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                 android:textColor="#8991A3"
                 android:textSize="9sp" />
 
-            <!-- Matrícula / Usuario -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -106,12 +106,13 @@
                     android:layout_height="match_parent"
                     android:hint="  Correo o usuario"
                     android:inputType="text"
+                    android:textColor="@color/black"
                     android:paddingStart="0dp"
                     android:textSize="11sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Contraseña -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -132,6 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="  Contraseña"
+                    android:textColor="@color/black"
                     android:inputType="textPassword"
                     android:paddingStart="0dp"
                     android:textSize="11sp" />
@@ -153,7 +155,7 @@
                 app:cornerRadius="24dp"
                 app:elevation="0dp" />
 
-            <!-- Registro -->
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -169,7 +171,7 @@
                     android:textSize="9sp" />
 
                 <TextView
-                    android:id="@+id/tvRegistro"
+                    android:id="@+id/confirmRegistro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Regístrate"

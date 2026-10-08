@@ -26,12 +26,12 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
-        // Cargar el fragmento de Inicio al abrir la pantalla por primera vez
+
         if (savedInstanceState == null) {
             replaceFragment(new InicioFragment());
         }
 
-        // Escuchar clics en los elementos del menú inferior
+
         bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
