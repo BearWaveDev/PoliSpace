@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
     android:orientation="vertical"
-    tools:context=".iniciarsesion">
+    tools:context=".activities.iniciarsesion">
 
     <!-- Contenido superior -->
     <LinearLayout
@@ -138,7 +138,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Botón -->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnConfirmLogin"
                 android:layout_width="match_parent"

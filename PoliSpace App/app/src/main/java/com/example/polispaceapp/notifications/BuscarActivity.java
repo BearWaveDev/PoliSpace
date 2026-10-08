@@ -1,4 +1,4 @@
-package com.example.polispaceapp;
+package com.example.polispaceapp.notifications;
 
 import android.os.Bundle;
 
@@ -8,13 +8,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class registrarse extends AppCompatActivity {
+import com.example.polispaceapp.R;
+
+public class BuscarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_registrarse);
+        setContentView(R.layout.activity_buscar);
 
     }
 }

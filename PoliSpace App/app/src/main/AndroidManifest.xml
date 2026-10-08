@@ -12,13 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PoliSpaceApp">
         <activity
-            android:name=".registrarse"
+            android:name=".notifications.LikesActivity"
             android:exported="false" />
         <activity
-            android:name=".iniciarsesion"
+            android:name=".notifications.BuscarActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MenuPrincipalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.registrarse"
+            android:exported="false" />
+        <activity
+            android:name=".activities.iniciarsesion"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
