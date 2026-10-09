@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.polispaceapp.R;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     Button btnIniciarsesion, btnRegistrar;
 
@@ -21,21 +21,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         btnIniciarsesion = findViewById(R.id.btnIniciarsesion);
-        btnIniciarsesion.setOnClickListener(this);
         btnRegistrar = findViewById(R.id.btnRegistrar);
-        btnRegistrar.setOnClickListener(this);
 
-    }
+        // Botón para ir a la pantalla de Iniciar Sesión
+        btnIniciarsesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, iniciarsesion.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.btnIniciarsesion){
-            Intent intentito = new Intent(MainActivity.this, iniciarsesion.class);
-            startActivity(intentito);
-        } if (v.getId() == R.id.btnRegistrar){
-            Intent intentito = new Intent ( MainActivity.this, registrarse.class);
-            startActivity(intentito);
-        }
-
+        // Botón para ir a la pantalla de Registrarse
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, registrarseIdentificacion.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }

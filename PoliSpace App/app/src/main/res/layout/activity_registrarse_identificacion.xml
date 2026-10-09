@@ -36,7 +36,7 @@
             android:textColor="@color/white"
             android:textSize="15sp" />
 
-        <!-- Descripción -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="559dp"
+        android:layout_height="450dp"
         android:layout_marginBottom="18dp"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
@@ -64,80 +64,57 @@
             android:layout_height="500dp"
             android:orientation="vertical"
             android:paddingStart="16dp"
-            android:paddingTop="18dp"
+            android:paddingTop="48dp"
             android:paddingEnd="16dp">
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Registrarse"
+                android:layout_gravity="center"
+                android:text="Selecciona tu tipo de usuario"
                 android:textColor="#172B4D"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="Registrate con tu correo institucional"
+                android:text="Selecciona una opcion de usuario y entra"
                 android:textColor="#8991A3"
                 android:textSize="9sp" />
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="18dp"
-                app:boxBackgroundColor="#F1F3F7"
-                app:boxBackgroundMode="filled"
-                app:boxCornerRadiusBottomEnd="24dp"
-                app:boxCornerRadiusBottomStart="24dp"
-                app:boxCornerRadiusTopEnd="24dp"
-                app:boxCornerRadiusTopStart="24dp"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:hintEnabled="false">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/rgUsuario"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="  Nombre de usuario"
-                    android:inputType="text"
-                    android:paddingStart="0dp"
-                    android:textColor="@color/black"
-                    android:textSize="11sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                app:boxBackgroundColor="#F1F3F7"
-                app:boxBackgroundMode="filled"
-                app:boxCornerRadiusBottomEnd="24dp"
-                app:boxCornerRadiusBottomStart="24dp"
-                app:boxCornerRadiusTopEnd="24dp"
-                app:boxCornerRadiusTopStart="24dp"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:endIconMode="password_toggle"
-                app:hintEnabled="false">
+            <RadioButton
+                android:id="@+id/btPrefecto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="Prefecto"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:buttonTint="#7A1D32"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="  Contraseña"
-                    android:inputType="textPassword"
-                    android:paddingStart="0dp"
-                    android:textSize="11sp" />
+            <RadioButton
+                android:id="@+id/btAlumno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Alumno"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:buttonTint="#7A1D32"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
+            </RadioGroup>
 
 
             <com.google.android.material.button.MaterialButton
@@ -159,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="24dp"
                 android:orientation="horizontal">
 
                 <TextView

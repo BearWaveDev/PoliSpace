@@ -21,7 +21,6 @@ public class HorarioFragment extends Fragment {
     public HorarioFragment() {
 
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_horario, container, false);
@@ -37,7 +36,6 @@ public class HorarioFragment extends Fragment {
             tvTitulo.setText("Horario");
         }
 
-
         ImageView btnBuscar = view.findViewById(R.id.btnBuscar);
         ImageView btnLikes = view.findViewById(R.id.btnLikes);
 
@@ -47,7 +45,6 @@ public class HorarioFragment extends Fragment {
                 startActivity(intent);
             });
         }
-
         if (btnLikes != null) {
             btnLikes.setOnClickListener(v -> {
                 Intent intent = new Intent(getActivity(), LikesActivity.class);

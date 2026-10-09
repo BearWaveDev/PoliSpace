@@ -35,13 +35,20 @@ public class iniciarsesion extends AppCompatActivity implements View.OnClickList
                 finish();
             }
         });
+        confirmRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentito = new Intent(iniciarsesion.this, registrarseIdentificacion.class);
+                startActivity(intentito);
+                finish();
+            }
+        });
+
+
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(iniciarsesion.this, registrarse.class);
-        startActivity(intent);
-        finish();
 
     }
 }

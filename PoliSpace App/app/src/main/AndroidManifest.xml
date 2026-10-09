@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PoliSpaceApp">
+        android:theme="@style/Theme.PoliSpaceApp" >
+        <activity
+            android:name=".activities.registrarsePrefecto"
+            android:exported="false" />
+        <activity
+            android:name=".activities.registrarseIdentificacion"
+            android:exported="false" />
         <activity
             android:name=".notifications.LikesActivity"
             android:exported="false" />
@@ -21,14 +27,14 @@
             android:name=".activities.MenuPrincipalActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.registrarse"
+            android:name=".activities.registrarseAlumno"
             android:exported="false" />
         <activity
             android:name=".activities.iniciarsesion"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
