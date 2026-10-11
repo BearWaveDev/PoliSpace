@@ -11,13 +11,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 // Importamos los fragments creados en tu paquete "fragments"
-import com.example.polispaceapp.fragments.InicioFragment;
-import com.example.polispaceapp.fragments.HorarioFragment;
-import com.example.polispaceapp.fragments.PublicarFragment;
-import com.example.polispaceapp.fragments.MaterialFragment;
-import com.example.polispaceapp.fragments.PerfilFragment;
+import com.example.polispaceapp.fragmentsAlumno.InicioFragment;
+import com.example.polispaceapp.fragmentsAlumno.HorarioFragment;
+import com.example.polispaceapp.fragmentsAlumno.PublicarFragment;
+import com.example.polispaceapp.fragmentsAlumno.MaterialFragment;
+import com.example.polispaceapp.fragmentsAlumno.PerfilFragment;
 
-public class MenuPrincipalActivity extends AppCompatActivity {
+public class MenuPrincipalActivityAlumno extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

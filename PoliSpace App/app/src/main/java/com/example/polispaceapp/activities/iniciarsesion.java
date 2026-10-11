@@ -30,7 +30,7 @@ public class iniciarsesion extends AppCompatActivity implements View.OnClickList
         btnConfirmLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(iniciarsesion.this, MenuPrincipalActivity.class);
+                Intent intent = new Intent(iniciarsesion.this, MenuPrincipalActivityAlumno.class);
                 startActivity(intent);
                 finish();
             }
@@ -44,11 +44,8 @@ public class iniciarsesion extends AppCompatActivity implements View.OnClickList
             }
         });
 
-
     }
-
     @Override
     public void onClick(View v) {
-
     }
 }

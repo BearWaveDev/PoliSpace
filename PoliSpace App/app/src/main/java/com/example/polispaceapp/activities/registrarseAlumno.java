@@ -31,7 +31,7 @@ public class registrarseAlumno extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.btnConfirmLogin){
-            Intent intentito = new Intent(registrarseAlumno.this, MenuPrincipalActivity.class);
+            Intent intentito = new Intent(registrarseAlumno.this, MenuPrincipalActivityAlumno.class);
             startActivity(intentito);
         } if (v.getId() == R.id.tvRegistro){
             Intent intentito = new Intent ( registrarseAlumno.this, iniciarsesion.class);

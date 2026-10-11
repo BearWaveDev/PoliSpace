@@ -18,13 +18,13 @@
             android:name=".activities.registrarseIdentificacion"
             android:exported="false" />
         <activity
-            android:name=".notifications.LikesActivity"
+            android:name=".notificationsAlumno.LikesActivity"
             android:exported="false" />
         <activity
-            android:name=".notifications.BuscarActivity"
+            android:name=".notificationsAlumno.BuscarActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MenuPrincipalActivity"
+            android:name=".activities.MenuPrincipalActivityAlumno"
             android:exported="false" />
         <activity
             android:name=".activities.registrarseAlumno"

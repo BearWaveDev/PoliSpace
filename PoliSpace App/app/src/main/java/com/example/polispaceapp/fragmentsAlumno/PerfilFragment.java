@@ -1,4 +1,4 @@
-package com.example.polispaceapp.fragments;
+package com.example.polispaceapp.fragmentsAlumno;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.polispaceapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PublicarFragment#newInstance} factory method to
+ * Use the {@link PerfilFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PublicarFragment extends Fragment {
+public class PerfilFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class PublicarFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public PublicarFragment() {
+    public PerfilFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class PublicarFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PublicarFragment.
+     * @return A new instance of fragment PerfilFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PublicarFragment newInstance(String param1, String param2) {
-        PublicarFragment fragment = new PublicarFragment();
+    public static PerfilFragment newInstance(String param1, String param2) {
+        PerfilFragment fragment = new PerfilFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class PublicarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_publicar, container, false);
+        return inflater.inflate(R.layout.fragment_perfil, container, false);
     }
 }

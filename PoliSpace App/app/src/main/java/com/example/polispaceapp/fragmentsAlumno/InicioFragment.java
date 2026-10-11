@@ -1,4 +1,4 @@
-package com.example.polispaceapp.fragments;
+package com.example.polispaceapp.fragmentsAlumno;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.polispaceapp.notifications.BuscarActivity;
-import com.example.polispaceapp.notifications.LikesActivity;
+import com.example.polispaceapp.notificationsAlumno.BuscarActivity;
+import com.example.polispaceapp.notificationsAlumno.LikesActivity;
 import com.example.polispaceapp.R;
 
 public class InicioFragment extends Fragment {
