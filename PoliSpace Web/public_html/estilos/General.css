@@ -1,0 +1,197 @@
+/* Reset global para evitar espacios no deseados */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    background-color: #f5f6fa;
+}
+
+/* Contenedor principal */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Barra Lateral Azul */
+.sidebar {
+  width: 260px; /* Actualizado ligeramente para dar mejor proporción al logo */
+  background-color: #0b2545; /* Ajustado al tono exacto de azul oscuro institucional */
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Asegura distribución entre arriba y el footer */
+  padding: 24px 0; /* Padding ajustado para controlar mejor los elementos internos */
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+/* Contenedor del encabezado superior */
+.logo-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 16px 15px 16px;
+}
+
+/* Estilos de la imagen del logo en forma de círculo */
+.logo-img {
+    width: 65px;          
+    height: 65px;         
+    object-fit: cover;    
+    border-radius: 50%;  
+    border: 2px solid #4da8da; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+    margin-bottom: 10px;
+}
+
+/* Estilos para el texto y eslogan */
+.logo-text h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+}
+
+.logo-text p {
+    font-size: 8px;
+    font-weight: 600;
+    color: #a5c4d4;
+    letter-spacing: 1.5px;
+    margin-top: 4px;
+    text-transform: uppercase;
+}
+
+/* Menú de Navegación */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+  padding-top: 10px;
+}
+
+/* Elementos de Navegación */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #d1d8e0;
+  text-decoration: none;
+  padding: 12px 24px; /* Ajustado el espaciado horizontal para coincidir */
+  border-radius: 0; /* Se quita el borde completo para aplicar el estilo lateral derecho en activo */
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-item .icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+/* Hover */
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+/* Opción Activa ("Mi perfil") */
+.nav-item.active {
+  background-color: #7b1113; /* Color guinda institucional */
+  color: #ffffff;
+  font-weight: 500;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  margin-right: 16px;
+  box-shadow: 0 4px 12px rgba(123, 17, 19, 0.4);
+}
+
+/* Pie de página de la barra */
+.sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 24px 0 24px;
+}
+
+/* Área de Contenido Principal */
+.main-content {
+  margin-left: 260px;
+  padding: 30px;
+  width: calc(100% - 260px);
+}
+
+/* Barra Superior Header */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0b2545;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: #eef2f6;
+    padding: 8px 16px;
+    border-radius: 20px;
+    gap: 10px;
+    width: 220px;
+}
+
+.search-box i {
+    color: #8c9ba5;
+    font-size: 14px;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 13px;
+    width: 100%;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: #0b2545;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid #7b1113;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #7b1113;
+    background-color: #ffffff;
+}

@@ -58,46 +58,47 @@ body {
 /* ===== Panel izquierdo ===== */
 
 .brand-panel {
-  background:
-    linear-gradient(
-      160deg,
-      var(--navy) 0%,
-      var(--navy-mid) 100%
-    );
-
+  background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 100%);
   color: var(--white);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 3rem;
-
-  position: relative;
-  overflow: hidden;
+  position: relative; 
+  overflow: hidden;   
 }
-
 
 .brand-panel::before {
   content: "";
-
   position: absolute;
-  inset: 0;
-
-  background:
-    radial-gradient(
-      ellipse at 30% 20%,
-      rgba(27, 58, 95, 0.4) 0%,
-      transparent 60%
-    );
-
+  bottom: -60px;
+  left: -50px;
+  width: 320px;
+  height: 240px;
+  background-color: var(--maroon);
+  transform: rotate(-22deg);
+  z-index: 1;
   pointer-events: none;
 }
 
+.brand-panel::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  right: -30px;
+  width: 220px;
+  height: 120px;
+  background-color: #83b3d4; 
+  transform: rotate(-25deg);
+  z-index: 1;
+  pointer-events: none;
+}
 
 .brand-content {
   position: relative;
-  max-width: 480px;
+  z-index: 2; /* Mayor que el z-index de las figuras */
+  max-width: 420px;
+  width: 100%;
 }
 
 
