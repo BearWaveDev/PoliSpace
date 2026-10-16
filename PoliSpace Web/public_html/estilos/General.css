@@ -1,197 +1,232 @@
-/* Reset global para evitar espacios no deseados */
-* {
+:root {
+  --color-sidebar-bg: #0d233a;       
+  --color-sidebar-text: #8e9dae;     
+  --color-sidebar-text-active: #ffffff; 
+  --color-primary-brand: #9c1d4e;    
+  --color-primary-hover: #80143f;    
+
+  --color-cherry: #800000; 
+
+  --color-accent-teal: #4cd4b0;     
+  --color-accent-teal-text: #054e3d; 
+  --color-badge-magenta: #fad2e1;    
+
+  --color-body-bg: #f3f5f9;        
+  --color-card-bg: #ffffff;         
+  --color-card-secondary: #eaf3f9;    
+
+  --color-text-main: #0d233a;       
+  --color-text-muted: #6c7a89;       
+  --color-border: #e2e8f0;          
+
+  --font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.03);
+  --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.06);
+
+  --transition-fast: 0.2s ease;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
-    margin: 0;
-    font-family: 'Nunito', sans-serif;
-    background-color: #f5f6fa;
+html, body {
+  height: 100%;
+  font-family: var(--font-family-base);
+  background-color: var(--color-body-bg);
+  color: var(--color-text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Contenedor principal */
-.container {
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-body-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: var(--radius-sm);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.app-container {
   display: flex;
   min-height: 100vh;
 }
 
-/* Barra Lateral Azul */
 .sidebar {
-  width: 260px; /* Actualizado ligeramente para dar mejor proporción al logo */
-  background-color: #0b2545; /* Ajustado al tono exacto de azul oscuro institucional */
-  color: #ffffff;
+  width: 260px;
+  background-color: var(--color-sidebar-bg);
+  color: var(--color-sidebar-text);
+  padding: 24px 16px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Asegura distribución entre arriba y el footer */
-  padding: 24px 0; /* Padding ajustado para controlar mejor los elementos internos */
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
+  justify-content: space-between;
+  flex-shrink: 0;
 }
 
-/* Contenedor del encabezado superior */
-.logo-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 20px 16px 15px 16px;
-}
-
-/* Estilos de la imagen del logo en forma de círculo */
-.logo-img {
-    width: 65px;          
-    height: 65px;         
-    object-fit: cover;    
-    border-radius: 50%;  
-    border: 2px solid #4da8da; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
-    margin-bottom: 10px;
-}
-
-/* Estilos para el texto y eslogan */
-.logo-text h1 {
-    font-size: 22px;
-    font-weight: 800;
-    color: #ffffff;
-    line-height: 1.1;
-    letter-spacing: 0.5px;
-}
-
-.logo-text p {
-    font-size: 8px;
-    font-weight: 600;
-    color: #a5c4d4;
-    letter-spacing: 1.5px;
-    margin-top: 4px;
-    text-transform: uppercase;
-}
-
-/* Menú de Navegación */
-.sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex-grow: 1;
-  padding-top: 10px;
-}
-
-/* Elementos de Navegación */
-.nav-item {
+.sidebar-nav-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  color: #d1d8e0;
-  text-decoration: none;
-  padding: 12px 24px; /* Ajustado el espaciado horizontal para coincidir */
-  border-radius: 0; /* Se quita el borde completo para aplicar el estilo lateral derecho en activo */
-  font-size: 14px;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  color: var(--color-sidebar-text);
   font-weight: 500;
-  transition: all 0.2s ease-in-out;
+  transition: all var(--transition-fast);
 }
 
-.nav-item .icon {
-  font-size: 16px;
-  width: 20px;
-  text-align: center;
-}
-
-/* Hover */
-.nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+.sidebar-nav-item:hover {
   color: #ffffff;
+  background-color: var(--color-cherry);
 }
 
-/* Opción Activa ("Mi perfil") */
-.nav-item.active {
-  background-color: #7b1113; /* Color guinda institucional */
-  color: #ffffff;
-  font-weight: 500;
-  border-top-right-radius: 25px;
-  border-bottom-right-radius: 25px;
-  margin-right: 16px;
-  box-shadow: 0 4px 12px rgba(123, 17, 19, 0.4);
+.sidebar-nav-item.active {
+  background-color: var(--color-primary-brand);
+  color: var(--color-sidebar-text-active);
 }
 
-/* Pie de página de la barra */
-.sidebar-footer {
-  margin-top: auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 16px 24px 0 24px;
+.sidebar-nav-item.active:hover {
+  background-color: var(--color-cherry);
 }
 
-/* Área de Contenido Principal */
 .main-content {
-  margin-left: 260px;
-  padding: 30px;
-  width: calc(100% - 260px);
+  flex: 1;
+  padding: 32px 48px;
+  overflow-y: auto;
 }
 
-/* Barra Superior Header */
-.top-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
 }
 
-.page-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: #0b2545;
+.search-bar {
+  background-color: #eef2f6;
+  border-radius: 20px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 320px;
 }
 
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+.search-bar input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  color: var(--color-text-main);
 }
 
-.search-box {
-    display: flex;
-    align-items: center;
-    background-color: #eef2f6;
-    padding: 8px 16px;
-    border-radius: 20px;
-    gap: 10px;
-    width: 220px;
+.card {
+  background-color: var(--color-card-bg);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-subtle);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.search-box i {
-    color: #8c9ba5;
-    font-size: 14px;
+.card:hover {
+  box-shadow: var(--shadow-hover);
 }
 
-.search-box input {
-    border: none;
-    background: transparent;
-    outline: none;
-    font-size: 13px;
-    width: 100%;
+.card-featured {
+  background-color: var(--color-card-secondary);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
 }
 
-.icon-btn {
-    background: transparent;
-    border: none;
-    font-size: 18px;
-    color: #0b2545;
-    cursor: pointer;
-    padding: 6px;
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
-.user-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 1.5px solid #7b1113;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    color: #7b1113;
-    background-color: #ffffff;
+.badge-mint {
+  background-color: var(--color-accent-teal);
+  color: var(--color-accent-teal-text);
+}
+
+.badge-pink {
+  background-color: var(--color-badge-magenta);
+  color: var(--color-primary-brand);
+}
+
+.btn-primary {
+  background-color: var(--color-primary-brand);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  transition: background-color var(--transition-fast);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-cherry);
+}
+
+.title-large {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+.text-bold {
+  font-weight: 600;
+}
+.nav-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  display: block;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cards-grid {
+  display: flex;             /* Las coloca en una sola fila horizontal */
+  gap: 20px;                 /* Espacio entre cada tarjeta */
+  margin-top: 24px;          /* Margen superior para el bloque entero */
+}
+
+/* Para que las tres tarjetas midan exactamente lo mismo y se distribuyan parejas */
+.cards-grid .card {
+  flex: 1;
 }
