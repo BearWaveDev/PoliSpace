@@ -37,9 +37,11 @@ public class registrarseIdentificacion extends AppCompatActivity implements View
             if (selectedId == R.id.btPrefecto) {
                 Intent intentito = new Intent(registrarseIdentificacion.this, registrarsePrefecto.class);
                 startActivity(intentito);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             } else if (selectedId == R.id.btAlumno) {
                 Intent intentito = new Intent(registrarseIdentificacion.this, registrarseAlumno.class);
                 startActivity(intentito);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             } else {
                 Toast.makeText(this, "Por favor selecciona una opción", Toast.LENGTH_SHORT).show();
             }

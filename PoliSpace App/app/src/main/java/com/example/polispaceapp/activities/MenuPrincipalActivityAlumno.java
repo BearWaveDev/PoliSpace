@@ -43,7 +43,7 @@ public class MenuPrincipalActivityAlumno extends AppCompatActivity {
                 } else if (itemId == R.id.nav_horario) {
                     replaceFragment(new HorarioFragment());
                     return true;
-                } else if (itemId == R.id.nav_publicar) {
+                } else if (itemId == R.id.nav_chat) {
                     replaceFragment(new PublicarFragment());
                     return true;
                 } else if (itemId == R.id.nav_material) {

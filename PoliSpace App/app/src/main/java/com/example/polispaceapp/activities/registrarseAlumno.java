@@ -13,8 +13,8 @@ import com.example.polispaceapp.R;
 
 public class registrarseAlumno extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnConfirmLogin;
-    TextView tvRegistro;
+    Button btnConfirmRegister;
+    TextView tvLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,21 +22,35 @@ public class registrarseAlumno extends AppCompatActivity implements View.OnClick
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_registrarse);
 
-        btnConfirmLogin = findViewById(R.id.btnConfirmLogin);
-        btnConfirmLogin.setOnClickListener(this);
-        tvRegistro = findViewById(R.id.tvRegistro);
-        tvRegistro.setOnClickListener(this);
+        // Vinculación de los componentes con los IDs del XML
+        btnConfirmRegister = findViewById(R.id.btnConfirmRegister);
+        btnConfirmRegister.setOnClickListener(this);
 
+        tvLogin = findViewById(R.id.tvLogin);
+        tvLogin.setOnClickListener(this);
     }
+
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btnConfirmLogin){
-            Intent intentito = new Intent(registrarseAlumno.this, MenuPrincipalActivityAlumno.class);
+        if (v.getId() == R.id.btnConfirmRegister) {
+            // Navega hacia la pantalla para ingresar el Nombre Completo y Nombre de Usuario
+            Intent intentito = new Intent(registrarseAlumno.this, registrarse_NombreUsuario.class);
             startActivity(intentito);
-        } if (v.getId() == R.id.tvRegistro){
-            Intent intentito = new Intent ( registrarseAlumno.this, iniciarsesion.class);
-            startActivity(intentito);
-        }
 
+            // Animación de deslizamiento hacia la izquierda ("swoosh")
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+        } else if (v.getId() == R.id.tvLogin) {
+            // Regresa a la pantalla de Iniciar Sesión
+            Intent intentito = new Intent(registrarseAlumno.this, iniciarsesion.class);
+            startActivity(intentito);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        }
+    }
+    @Override
+    public void finish() {
+        super.finish();
+
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

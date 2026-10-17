@@ -30,13 +30,13 @@ public class MaterialFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //Cambiar el título a "Material"
+
         TextView tvTitulo = view.findViewById(R.id.tvTituloToolbar);
         if (tvTitulo != null) {
             tvTitulo.setText("Material");
         }
 
-        // Programa los clics de la top_bar
+
         ImageView btnBuscar = view.findViewById(R.id.btnBuscar);
         ImageView btnLikes = view.findViewById(R.id.btnLikes);
 
