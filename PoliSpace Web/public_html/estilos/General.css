@@ -230,3 +230,159 @@ button {
 .cards-grid .card {
   flex: 1;
 }
+.preference-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    color: var(--navy);
+    font-size: 0.95rem;
+}
+
+/* El diseño del switch deslizable */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 24px;
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #52c4b9; /* Color verdecito de los switches de tu imagen */
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
+/* Responsivo para celulares */
+@media (max-width: 900px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.btn-edit {
+    background: #f8eef1;
+    color: var(--maroon);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.search-bar--wide {
+    width: 100%;
+    max-width: 830px;
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    padding: 14px 18px;
+    gap: 14px;
+  }
+  .search-bar--wide svg {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+  }
+  .search-bar--wide input {
+    font-family: inherit;
+    font-size: 0.85rem;
+  }
+  .search-bar--wide input::placeholder {
+    color: var(--color-text-muted);
+  }
+  .search-bar--wide:focus-within {
+    border-color: var(--color-primary-brand);
+  }
+
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 270px));
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .item-card {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    min-height: 130px;
+  }
+
+  .item-card-head {
+    display: flex;
+    gap: 14px;
+  }
+
+  .item-avatar, .avatar {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--color-primary-brand);
+    border-radius: 50%;
+    color: var(--color-primary-brand);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .item-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    line-height: 1.3;
+  }
+
+  .item-meta {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+
+  .item-card .badge {
+    align-self: flex-start;
+    padding: 5px 12px;
+    font-size: 0.65rem;
+    color: var(--color-cherry);
+  }
+
+  .items-empty {
+    margin-top: 32px;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 900px) {
+    .items-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 600px) {
+    .items-grid { grid-template-columns: 1fr; }
+  }
