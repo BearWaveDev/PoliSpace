@@ -3,26 +3,132 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="estilos/General.css"/>
-</head>
-<body>
-    <div class="app-container">
-        <div id="sidebar-container"></div>
-              
-        <main class="main-content">
-            <header class="topbar">
-                <h2 class="title-large">Publicaciones</h2>
-                <div class="search-bar">
-                    <input type="text" placeholder="Buscar...">
-                </div>
-                <div>
-                    <img src="Imagenes/Notis.png" alt="Notificaciones" class="nav-icon">
-                </div>
-                <div class="avatar">D</div>
-            </header>
-        </main>
-    </div>
-        <script src="main.js"></script>
+        <link rel="stylesheet" href="estilos/General.css"/>
+    </head>
+    <body>
+        <div class="app-container">
+            <div id="sidebar-container"></div>
+                  
+            <main class="main-content">
+                <header class="topbar">
+                    <h2 class="title-large">Publicaciones</h2>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Buscar...">
+                    </div>
+                    <div>
+                        <img src="Imagenes/Notis.png" alt="Notificaciones" class="nav-icon">
+                    </div>
+                    <div class="avatar">D</div>
+                </header>
 
+                <div class="content-layout">
+                    <div class="feed-section">
+                        
+                        <label class="search-bar search-bar--wide">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                              <circle cx="10" cy="10" r="6.5"></circle>
+                              <line x1="15" y1="15" x2="21" y2="21"></line>
+                            </svg>
+                            <input type="search" id="buscador-articulos" placeholder="Buscar en la comunidad ..."
+                                   aria-label="Buscar Publicaciones">
+                        </label>
+                           
+                        <div class="filters-grid">
+                            <button class="filter-card active">
+                                <span class="filter-name">General</span>
+                            </button>
+                           <a href="MaterialEstudioso.html" class="filter-card">
+                           <span class="filter-name">Material de estudio</span>
+                            </a>
+                            <a href="Chat.html" class="filter-card">
+                                <span class="filter-name">Chat</span>
+                            </a>
+                            <a href="MarketPlace.html" class="filter-card">
+                                 <span class="filter-name">MarketPlace</span>
+                            </a>
+                            <a href="MisPublicaciones.html" class="filter-card">
+                                <span class="filter-name">Mis Publicaciones</span>
+                            </a>
+                        </div>
+
+                        <label class="search-bar search-bar--wide create-post-box">
+                            <input type="search" placeholder="¿Que quieres compartir?">
+                            <button class="filter-card action-btn">
+                                <span class="filter-name">Documento</span>
+                            </button>
+                            <button class="filter-card action-btn">
+                                <span class="filter-name">Imagen</span>
+                            </button>
+                            <button class="filter-card action-btn">
+                                <span class="filter-name">Enlace</span>
+                            </button>
+                            <button class="filter-card action-btn publish-btn active">
+                                <span class="filter-name">Publicar</span>
+                            </button>
+                        </label>
+
+                        <div id="lista-publicaciones">
+                            <article class="search-bar search-bar--wide">
+                              <div class="item-card-head">
+                                <span class="item-avatar">S</span>
+                                <div>
+                                  <h2 class="item-title">Sofia Ramirez</h2>
+                                </div>
+                              </div>
+                              <p class="item-meta">Grupo · Tiempo de publicacion</p>
+                              <p class="item-meta">Mensaje</p>
+                              <span class="badge badge-pink">Tipo de Publicacion</span>
+                            </article>
+
+                            <article class="search-bar search-bar--wide">
+                              <div class="item-card-head">
+                                <span class="item-avatar">D</span>
+                                <div>
+                                    <h2 class="item-title">Diego Hernandez</h2>
+                                </div>
+                              </div>
+                              <p class="item-meta">Grupo · Timepo de publicacion</p>
+                              <p class="item-meta">Mensaje</p>
+                              <span class="badge badge-pink">Tipo de Publicacion</span>
+                            </article>
+
+                            <article class="search-bar search-bar--wide">
+                              <div class="item-card-head">
+                                <span class="item-avatar">V</span>
+                                <div class="item-title-container">
+                                  <h2 class="item-title">Valeria Torres</h2>
+                                </div>
+                              </div>
+                              <p class="item-meta">Grupo · Tiempo de Publicacion</p>
+                              <p class="item-meta">Mensaje</p>
+                              <span class="badge badge-pink">tipo de publicacion</span>
+                            </article>
+                        </div>    
+                    </div>
+
+                    <aside class="sidebar-right">
+                        <div class="widget">
+                            <h3>Publicaciones destacadas</h3>
+                            <ul>
+                                <li>Nombre de la publicacion</li>
+                                <li>Nombre de la publicacion2</li>
+                                <li>Nombre de la publicacion3</li>
+                            </ul>
+                        </div>
+
+                        <div class="widget">
+                            <h3>Grupos de la escuela</h3>
+                            <ul>
+                                <li><span>2</span> Grupo </li>
+                                <li><span>2</span> Grupo </li>
+                                <li><span>2</span> Grupo </li>
+                            </ul>
+                        </div>
+                    </aside>
+                </div>
+            </main>
+        </div>
+        <script src="main.js"></script>
     </body>
 </html>

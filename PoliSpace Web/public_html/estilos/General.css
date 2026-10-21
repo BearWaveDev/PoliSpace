@@ -716,3 +716,181 @@ input:checked + .slider:before {
 .btn-action-pink:hover {
     background-color: #f7becf;
 }
+/* Layout general de la vista */
+.content-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.feed-section {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-right {
+  width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.filter-card {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-card:hover {
+  border-color: var(--color-primary-brand);
+}
+
+.filter-card.active {
+  background-color: var(--color-primary-brand);
+  color: #ffffff;
+  border-color: var(--color-primary-brand);
+}
+
+.filter-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.create-post-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.create-post-box input {
+  flex: 1;
+  min-width: 180px;
+}
+
+.create-post-box .action-btn {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+}
+
+.create-post-box .publish-btn {
+  background-color: var(--color-primary-brand);
+  color: #ffffff;
+}
+
+#lista-publicaciones {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#lista-publicaciones article.search-bar--wide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  background-color: var(--color-card-bg);
+  border-radius: var(--radius-md);
+  position: relative;
+  padding: 20px;
+}
+
+#lista-publicaciones article .item-card-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#lista-publicaciones article .badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+/* Widgets del aside derecho */
+.sidebar-right .widget {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.sidebar-right h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 16px;
+}
+
+.sidebar-right ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+}
+
+.sidebar-right .widget:nth-child(1) ul li {
+  background-color: var(--color-card-secondary);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+}
+
+.sidebar-right .widget:nth-child(2) ul li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+  padding: 4px 0;
+}
+
+.sidebar-right .widget:nth-child(2) ul li span {
+  width: 28px;
+  height: 28px;
+  background-color: var(--color-badge-magenta);
+  color: var(--color-primary-brand);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+  .content-layout {
+    flex-direction: column;
+  }
+  .sidebar-right {
+    width: 100%;
+  }
+}
+.empty-icon-img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  display: block;
+}
