@@ -1,17 +1,20 @@
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="estilos/General.css"/>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material de estudio - PoliSpace</title>
+    <link rel="stylesheet" href="estilos/General.css"/>
 </head>
 <body>
     <div class="app-container">
+        <!-- Sidebar container o estático -->
         <div id="sidebar-container"></div>
-              
+
         <main class="main-content">
+            <!-- Topbar -->
             <header class="topbar">
-                <h2 class="title-large">Material de Estudio</h2>
+                <h2 class="title-large">Material de estudio</h2>
                 <div class="search-bar">
                     <input type="text" placeholder="Buscar...">
                 </div>
@@ -20,9 +23,87 @@
                 </div>
                 <div class="avatar">D</div>
             </header>
+
+            <div class="study-search-row">
+                <label class="search-bar search-bar--wide">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="10" cy="10" r="6.5"></circle>
+                        <line x1="15" y1="15" x2="21" y2="21"></line>
+                    </svg>
+                    <input type="search" id="buscador-material" placeholder="Buscar apuntes..." aria-label="Buscar apuntes">
+                </label>
+                <!-- Botón actualizado para redirigir a subir material -->
+                <button class="btn-primary btn-upload" onclick="window.location.href='SubirMaterial.html'">
+                    <span>🗎</span> Subir material
+                </button>
+            </div>
+
+            <div class="study-filters">
+                <button class="filter-card active" onclick="window.location.href='MaterialEstudio.html'">
+                    <span class="filter-name">Todos</span>
+                </button>
+                <button class="filter-card" onclick="window.location.href='MaterialPublicos.html'">
+                    <span class="filter-name">Públicos</span>
+                </button>
+                <button class="filter-card" onclick="window.location.href='MaterialPrivados.html'">
+                    <span class="filter-name">Privados</span>
+                </button>
+            </div>
+
+            <div class="items-grid study-grid">
+                
+                <!-- Tarjeta 1 -->
+                <div class="item-card study-card">
+                    <span class="file-tag tag-pdf">PDF</span>
+                    <h2 class="item-title">Cálculo integral - fórmulas</h2>
+                    <p class="item-meta">Matemáticas · PDF · 2.4 MB</p>
+                    <span class="badge badge-mint">Público</span>
+                </div>
+
+                <!-- Tarjeta 2 -->
+                <div class="item-card study-card">
+                    <span class="file-tag tag-blue">PDF</span>
+                    <h2 class="item-title">Física - guía de ejercicios</h2>
+                    <p class="item-meta">Física · PDF · 1.8 MB</p>
+                    <span class="badge badge-mint">Público</span>
+                </div>
+
+                <!-- Tarjeta 3 -->
+                <div class="item-card study-card">
+                    <span class="file-tag tag-orange">PDF</span>
+                    <h2 class="item-title">Química - resumen</h2>
+                    <p class="item-meta">Química · PDF · 1.2 MB</p>
+                    <span class="badge badge-pink">Privado</span>
+                </div>
+
+                <!-- Tarjeta 4 -->
+                <div class="item-card study-card">
+                    <span class="file-tag tag-purple">PDF</span>
+                    <h2 class="item-title">Inglés - vocabulario</h2>
+                    <p class="item-meta">Inglés · PDF · 980 KB</p>
+                    <span class="badge badge-mint">Público</span>
+                </div>
+
+                <!-- Tarjeta 5 -->
+                <div class="item-card study-card">
+                    <span class="file-tag tag-blue">PDF</span>
+                    <h2 class="item-title">Programación en Java</h2>
+                    <p class="item-meta">Computación · PDF · 3.1 MB</p>
+                    <span class="badge badge-mint">Público</span>
+                </div>
+
+                <!-- Tarjeta 6 -->
+                <div class="item-card study-card">
+                    <span class="file-tag tag-purple">PDF</span>
+                    <h2 class="item-title">Dibujo técnico - planos</h2>
+                    <p class="item-meta">Dibujo Técnico · PDF · 2.7 MB</p>
+                    <span class="badge badge-mint">Público</span>
+                </div>
+
+            </div>
         </main>
     </div>
-        <script src="main.js"></script>
-
-    </body>
+    <script src="main.js"></script>
+</body>
 </html>
