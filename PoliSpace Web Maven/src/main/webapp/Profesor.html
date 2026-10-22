@@ -1,28 +1,102 @@
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de docente - PoliSpace</title>
     <link rel="stylesheet" href="estilos/General.css"/>
 </head>
 <body>
     <div class="app-container">
+        <!-- Sidebar container -->
         <div id="sidebar-container"></div>
-              
+
         <main class="main-content">
+            <!-- Barra superior -->
             <header class="topbar">
-                <h2 class="title-large">Profesor</h2>
+                <h2 class="title-large">Búsqueda de docente</h2>
                 <div class="search-bar">
                     <input type="text" placeholder="Buscar...">
                 </div>
                 <div>
-                    <img src="Imagenes/Notis.png" alt="Notificaciones" class="nav-icon">
+                    <a href="Notificaciones.html">
+                        <img src="Imagenes/Notis.png" alt="Notificaciones" class="nav-icon">
+                    </a>
                 </div>
                 <div class="avatar">D</div>
             </header>
+
+            <!-- Barra de búsqueda de profesor -->
+            <div style="margin-top: 20px; margin-bottom: 24px;">
+                <label class="search-bar search-bar--wide" style="width: 100%; max-width: 100%;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="10" cy="10" r="6.5"></circle>
+                        <line x1="15" y1="15" x2="21" y2="21"></line>
+                    </svg>
+                    <input type="search" id="buscador-docente" placeholder="García" value="García" aria-label="Buscar docente">
+                </label>
+            </div>
+
+            <!-- Tarjeta de resultado del docente -->
+            <div class="card" style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; padding: 20px 24px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <span class="avatar" style="width: 42px; height: 42px; font-size: 0.9rem;">G</span>
+                    <div>
+                        <h2 class="item-title" style="font-size: 1.05rem; margin-bottom: 2px;">Prof. Juan García López</h2>
+                        <p class="item-meta" style="font-size: 0.85rem;">Matemáticas</p>
+                    </div>
+                </div>
+                <button class="btn-action-outline" style="width: auto; padding: 8px 20px; border-radius: 20px;" onclick="window.location.href='perfil-profesor.html'">
+                    Ver perfil
+                </button>
+            </div>
+
+            <!-- Botones de pestañas / Filtros de información del profesor -->
+            <div class="filters-grid" style="grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px;">
+                <button class="filter-card active" style="padding: 12px;">
+                    <span class="filter-name">Ubicación</span>
+                </button>
+                <button class="filter-card" style="padding: 12px;" onclick="window.location.href='horario-docente.html'">
+                    <span class="filter-name">Horario</span>
+                </button>
+                <button class="filter-card" style="padding: 12px;" onclick="window.location.href='perfil-docente.html'">
+                    <span class="filter-name">Perfil</span>
+                </button>
+                <button class="filter-card" style="padding: 12px;" onclick="window.location.href='administrar-docente.html'">
+                    <span class="filter-name">Administrar</span>
+                </button>
+            </div>
+
+            <!-- Tarjetas de detalles (Ubicación actual y Grupo asignado) -->
+            <div class="cards-grid-bottom" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: start;">
+                
+                <!-- Ubicación actual -->
+                <div class="card" style="padding: 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 180px;">
+                    <div>
+                        <h3 class="card-title" style="font-size: 1rem; margin-bottom: 12px;">Ubicación actual</h3>
+                        <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 4px;">Salón A-203</h2>
+                        <p class="subtitle" style="font-size: 0.85rem;">Edificio A · Planta Alta</p>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <button class="btn-action-pink" style="width: fit-content; padding: 8px 18px; border-radius: 20px; font-size: 0.8rem;">
+                            Ver en mapa
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Grupo asignado -->
+                <div class="card" style="padding: 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 180px;">
+                    <div>
+                        <h3 class="card-title" style="font-size: 1rem; margin-bottom: 12px;">Grupo asignado</h3>
+                        <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 4px;">2IM7</h2>
+                        <p class="subtitle" style="font-size: 0.85rem;">Matemáticas · 7:00 – 8:00</p>
+                    </div>
+                </div>
+
+            </div>
         </main>
     </div>
-        <script src="main.js"></script>
-
-    </body>
+    <script src="main.js"></script>
+</body>
 </html>

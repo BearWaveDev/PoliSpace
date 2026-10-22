@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 F:\Quinto semestre\PoliSpace versions\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\ApiCatalogoServlet.java
 F:\Quinto semestre\PoliSpace versions\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\ApiHorarioServlet.java
 F:\Quinto semestre\PoliSpace versions\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\ApiLoginServlet.java
@@ -8,3 +9,13 @@ F:\Quinto semestre\PoliSpace versions\PoliSpace Web Maven\src\main\java\com\myco
 F:\Quinto semestre\PoliSpace versions\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\PasswordUtil.java
 F:\Quinto semestre\PoliSpace versions\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\RegistrarServlet.java
 F:\Quinto semestre\PoliSpace versions\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\TestBDServlet.java
+=======
+E:\PolWeb\PoliSpace\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\ApiCatalogoServlet.java
+E:\PolWeb\PoliSpace\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\ApiLoginServlet.java
+E:\PolWeb\PoliSpace\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\Conexion.java
+E:\PolWeb\PoliSpace\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\LoginServlet.java
+E:\PolWeb\PoliSpace\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\LogoutServlet.java
+E:\PolWeb\PoliSpace\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\PasswordUtil.java
+E:\PolWeb\PoliSpace\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\RegistrarServlet.java
+E:\PolWeb\PoliSpace\PoliSpace Web Maven\src\main\java\com\mycompany\polispace_websito\TestBDServlet.java
+>>>>>>> c428148581c795143f4d518a8c4f36fecf015d37
