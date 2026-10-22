@@ -6,12 +6,12 @@
         android:background="#F5F5F5"
         android:orientation="vertical">
 
-        <!-- 1. BARRA SUPERIOR FIJA -->
+
         <include
             android:id="@+id/topBar"
             layout="@layout/top_bar" />
 
-        <!-- 2. CONTENIDO CON SCROLL ABAJO DE LA BARRA -->
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Encabezado de bienvenida -->
+
                 <TextView
                     android:id="@+id/tvBienvenida"
                     android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
                     android:textColor="#666666"
                     android:textSize="14sp" />
 
-                <!-- Tarjeta de aviso o resumen -->
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

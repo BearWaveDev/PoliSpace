@@ -26,12 +26,20 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("iniciarsesion.html?error=credenciales");
             return;
         }
-        String correo = entrada.contains("@") ? entrada : entrada + "@alumno.ipn.mx";
+        
+        // Si no incluye '@', evaluamos el correo de prueba o el institucional por defecto
+        String correo;
+        if (entrada.contains("@")) {
+            correo = entrada;
+        } else {
+            // Soporta tanto los correos de prueba como el dominio por defecto
+            correo = entrada + "@polispace.test"; 
+        }
 
         // Se puede entrar con nombre de usuario, correo o boleta
         String sql = "SELECT u.id_usuario, u.nombre_completo, u.id_rol, u.contrasena "
                 + "FROM usuario u LEFT JOIN alumno a ON a.id_usuario = u.id_usuario "
-                + "WHERE (u.nombre_usuario = ? OR u.correo_institucional = ? OR a.boleta = ?) "
+                + "WHERE (u.nombre_usuario = ? OR u.correo_institucional = ? OR a.boleta = ? OR u.correo_institucional = ?) "
                 + "AND u.estado = 'activo' LIMIT 1";
 
         try (Connection con = Conexion.conectar();
@@ -39,6 +47,7 @@ public class LoginServlet extends HttpServlet {
             ps.setString(1, entrada);
             ps.setString(2, correo);
             ps.setString(3, entrada);
+            ps.setString(4, entrada + "@alumno.ipn.mx"); // Respaldo por si se usa el dominio real
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next() && PasswordUtil.verificar(password, rs.getString("contrasena"))) {

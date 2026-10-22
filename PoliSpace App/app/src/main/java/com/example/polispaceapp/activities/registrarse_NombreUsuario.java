@@ -31,11 +31,10 @@ public class registrarse_NombreUsuario extends AppCompatActivity {
         btnFinalizarRegistro = findViewById(R.id.btnFinalizarRegistro);
         if (btnFinalizarRegistro != null) {
             btnFinalizarRegistro.setOnClickListener(v -> {
-                // Navegar al menú principal al terminar el registro
                 Intent intent = new Intent(registrarse_NombreUsuario.this, MenuPrincipalActivityAlumno.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish(); // Finaliza el flujo de registro
+                finish();
             });
         }
     }

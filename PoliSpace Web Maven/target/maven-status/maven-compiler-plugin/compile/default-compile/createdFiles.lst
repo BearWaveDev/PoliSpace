@@ -1,8 +1,11 @@
 com\mycompany\polispace_websito\RegistrarServlet.class
 com\mycompany\polispace_websito\LoginServlet.class
 com\mycompany\polispace_websito\ApiCatalogoServlet.class
+com\mycompany\polispace_websito\ApiPerfilServlet.class
 com\mycompany\polispace_websito\Conexion.class
+com\mycompany\polispace_websito\ApiHorarioServlet.class
 com\mycompany\polispace_websito\PasswordUtil.class
 com\mycompany\polispace_websito\TestBDServlet.class
 com\mycompany\polispace_websito\LogoutServlet.class
+com\mycompany\polispace_websito\ApiPerfilServlet$1.class
 com\mycompany\polispace_websito\ApiLoginServlet.class

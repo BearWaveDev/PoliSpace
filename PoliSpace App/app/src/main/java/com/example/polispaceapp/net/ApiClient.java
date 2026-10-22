@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 public class ApiClient {
 
     // Emulador: 10.0.2.2 | Celular real: IP de tu PC
-    public static final String BASE_URL = "http://localhost:8080/PoliSpace_Websito";
+    public static final String BASE_URL = "http://10.0.2.2:8080/PoliSpace_Websito/";
 
     private static final ExecutorService HILO = Executors.newSingleThreadExecutor();
 
