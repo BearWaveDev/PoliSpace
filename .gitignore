@@ -1,0 +1,6 @@
+target/
+build/
+.gradle/
+.idea/
+local.properties
+nbproject/private/
