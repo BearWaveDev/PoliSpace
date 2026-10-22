@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones - PoliSpace</title>
+    <link rel="stylesheet" href="estilos/General.css"/>
+</head>
+<body>
+    <div class="app-container">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content">
+            <header class="topbar">
+                <h2 class="title-large">Notificaciones</h2>
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar...">
+                </div>
+                <div>
+                    <img src="Imagenes/Notis.png" alt="Notificaciones" class="nav-icon">
+                </div>
+                <div class="avatar">D</div>
+            </header>
+
+            <div style="margin-bottom: 24px;">
+                <h2 class="title-large" style="font-size: 1.35rem; margin-bottom: 4px;">Notificaciones</h2>
+                <p class="subtitle">Mantente al tanto de tu actividad académica.</p>
+            </div>
+
+            <div class="notifications-layout-grid" style="display: flex; gap: 24px; align-items: flex-start;">
+                <div class="card" style="flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                    
+                    <!-- Notificación 1 -->
+                    <div class="notification-item" style="background-color: var(--color-card-secondary); padding: 16px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <span style="width: 12px; height: 12px; background-color: #4895ef; border-radius: 50%;"></span>
+                            <div>
+                                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--color-text-main);">Nuevo material compartido</h4>
+                                <p style="font-size: 0.82rem; color: var(--color-text-muted);">Sofía subió "Apuntes de termodinámica".</p>
+                            </div>
+                        </div>
+                        <span style="font-size: 0.75rem; color: var(--color-text-muted); white-space: nowrap;">Hace 5 min</span>
+                    </div>
+
+                    <!-- Notificación 2 -->
+                    <div class="notification-item" style="background-color: var(--color-card-bg); border: 1px solid var(--color-border); padding: 16px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <span style="width: 12px; height: 12px; background-color: #52c4b9; border-radius: 50%;"></span>
+                            <div>
+                                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--color-text-main);">Próxima clase</h4>
+                                <p style="font-size: 0.82rem; color: var(--color-text-muted);">Tu clase de Física comienza en 45 minutos.</p>
+                            </div>
+                        </div>
+                        <span style="font-size: 0.75rem; color: var(--color-text-muted); white-space: nowrap;">Hace 20 min</span>
+                    </div>
+
+                    <!-- Notificación 3 -->
+                    <div class="notification-item" style="background-color: var(--color-card-bg); border: 1px solid var(--color-border); padding: 16px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <span style="width: 12px; height: 12px; background-color: #800000; border-radius: 50%;"></span>
+                            <div>
+                                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--color-text-main);">Nuevo mensaje</h4>
+                                <p style="font-size: 0.82rem; color: var(--color-text-muted);">Diego te envió un archivo.</p>
+                            </div>
+                        </div>
+                        <span style="font-size: 0.75rem; color: var(--color-text-muted); white-space: nowrap;">Hace 1 h</span>
+                    </div>
+
+                    <!-- Notificación 4 -->
+                    <div class="notification-item" style="background-color: var(--color-card-bg); border: 1px solid var(--color-border); padding: 16px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <span style="width: 12px; height: 12px; background-color: #9d4edd; border-radius: 50%;"></span>
+                            <div>
+                                <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--color-text-main);">Publicación destacada</h4>
+                                <p style="font-size: 0.82rem; color: var(--color-text-muted);">Tu publicación recibió 12 reacciones.</p>
+                            </div>
+                        </div>
+                        <span style="font-size: 0.75rem; color: var(--color-text-muted); white-space: nowrap;">Ayer</span>
+                    </div>
+
+                </div>
+
+                <!-- Columna Derecha: Tarjeta de Resumen -->
+                <div class="card-featured" style="width: 300px; flex-shrink: 0; background-color: var(--color-card-secondary); border-radius: var(--radius-md); padding: 24px;">
+                    <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--color-primary-brand); margin-bottom: 16px;">Resumen</h3>
+                    <div style="display: flex; align-items: baseline; gap: 10px;">
+                        <span style="font-size: 2.5rem; font-weight: 700; color: var(--color-primary-brand); line-height: 1;">4</span>
+                        <span style="font-size: 0.9rem; color: var(--color-text-muted); font-weight: 600;">notificaciones nuevas</span>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

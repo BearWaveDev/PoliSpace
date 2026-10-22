@@ -50,6 +50,7 @@ CREATE TABLE escuela (
 ) ENGINE=InnoDB;
 
 
+
 CREATE TABLE rol (
   id_rol SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   nombre_rol VARCHAR(40) NOT NULL,
@@ -403,3 +404,20 @@ SELECT p.id_publicacion, p.titulo, p.contenido, p.tipo, p.estado, p.fecha_public
 FROM publicacion p
 INNER JOIN alumno a ON a.id_alumno = p.id_alumno
 INNER JOIN usuario u ON u.id_usuario = a.id_usuario;
+
+USE PoliSpaceBD;
+
+INSERT IGNORE INTO escuela (id_escuela, nombre_escuela, clave)
+VALUES (1, 'CECyT 9 Juan de Dios Bátiz', 'CECYT9');
+
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Máquinas con Sistemas Automatizados', 'TMSA',  1),
+  ('Técnico en Programación',                         'TPROG', 1),
+  ('Técnico en Sistemas Digitales',                   'TSD',   1),
+  ('Técnico en Desarrollo de Software',               'TDS',   1),
+  ('Técnico en Mecatrónica',                          'TMEC',  1);
+
+COMMIT;
+
+SELECT * FROM escuela;
+SELECT * FROM carrera;
