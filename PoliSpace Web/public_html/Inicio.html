@@ -8,48 +8,8 @@
 </head>
 <body>
     <div class="app-container">
-        <aside class="sidebar">
-            <div class="logo">
-                <img src="Imagenes/#" alt="Logo" class="nav-icon"/>
-                Poli<br>Space
-            </div>
-            <nav class="sidebar-nav">
-                <a href="inicio.html" class="sidebar-nav-item active">
-                    <img src="imagenes/inicio.png" alt="Inicio" class="nav-icon">
-                    <span>Inicio</span>
-                </a>
-                <a href="Perfil.html" class="sidebar-nav-item">
-                    <img src="imagenes/perfil.png" alt="Perfil" class="nav-icon">
-                    <span>Mi Perfil</span>
-                </a>
-                <a href="Horario.html" class="sidebar-nav-item">
-                    <img src="imagenes/horario.png" alt="Horario" class="nav-icon">
-                    <span>Horario</span>
-                </a>
-                <a href="Profesor.html" class="sidebar-nav-item">
-                    <img src="imagenes/perfil.png" alt="Profesor" class="nav-icon">
-                    <span>Profesor</span>
-                </a>
-                <a href="Publicaciones.html" class="sidebar-nav-item">
-                    <img src="imagenes/chat.png" alt="Publicaciones" class="nav-icon">
-                    <span>Publicaciones</span>
-                </a>
-                <a href="MaterialEstudioso.html" class="sidebar-nav-item">
-                    <img src="imagenes/material.png" alt="MaterialEstudio" class="nav-icon">
-                    <span>Material de Estudio</span>
-                </a>
-                <a href="MarketPlace.html" class="sidebar-nav-item">
-                    <img src="imagenes/market.png" alt="Market" class="nav-icon">
-                    <span>Marketplace</span>
-                </a>
-                <a href="Chat.html" class="sidebar-nav-item">
-                    <img src="imagenes/chat.png" alt="Chat" class="nav-icon">
-                    <span>Chat</span>
-                </a>
-            </nav>
-            <a href="index.html" class="sidebar-nav-item">Cerrar sesión</a>
-        </aside>
-
+        <div id="sidebar-container"></div>
+              
         <main class="main-content">
             <header class="topbar">
                 <h2 class="title-large">Inicio</h2>
@@ -62,7 +22,7 @@
                 <div class="avatar">D</div>
             </header>
 
-            <h1 class="title-large">Buenas, Danae</h1>
+            <h1 class="title-large">Hola, Danae</h1>
             <p class="subtitle">Todo lo que necesitas para tu vida académica.</p>
             
             <div class="cards-grid">
@@ -80,17 +40,64 @@
                 </div>
             </div>
 
-            <div class="cards-grid" style="margin-top: 24px;">
-                <div class="card">
-                    <p class="subtitle"><strong>Proxima Clase</strong></p>
-                    <h2 class="title-large"><strong>Fisica</strong></h2>
-                </div>
-                <div class="card">
-                    <p class="subtitle"><strong>Accesos Rapidos</strong></p>
-                    <h2 class="title-large"></h2>
+            <div class="cards-grid-bottom style="margin-top: 24px;">
+    
+            <!-- Tarjeta Próxima clase -->
+            <div class="card">
+                <h3 class="card-title">Próxima clase</h3>
+                <div class="clase-info-box">
+                    <div class="clase-detalles">
+                        <h4 id="proxima-materia" class="materia-nombre">Física I</h4>
+                        <p id="proxima-info" class="subtitle">Grupo 3IM7 · Salón 10</p>
+                        <p id="proxima-horario" class="materia-horario">8:00 - 9:00</p>
+                    </div>
+                    <span id="proxima-tiempo" class="badge badge-mint">En 45 min</span>
                 </div>
             </div>
-        </main>
+            <!-- Tarjetita de Accesos Rapidos -->    
+                <div class="card">
+        <h3 class="card-title">Accesos rápidos</h3>
+        <ul class="quick-links-list">
+            <li>
+                <a href="Horario.html" class="quick-link-item">
+                    <div class="quick-link-content">
+                        <img src="Imagenes/horarioo.png" alt="Horario" class="nav-icon" style="width: 20px; height: 20px;">
+                        <span>Mi horario</span>
+                    </div>
+                    <span class="arrow">&gt;</span>
+                </a>
+            </li>
+            <li>
+                <a href="Profesor.html" class="quick-link-item">
+                    <div class="quick-link-content">
+                        <img src="Imagenes/profesor.png" alt="Profesor" class="nav-icon" style="width: 20px; height: 20px;">
+                        <span>Buscar profesor</span>
+                    </div>
+                    <span class="arrow">&gt;</span>
+                </a>
+            </li>
+            <li>
+                <a href="Publicaciones.html" class="quick-link-item">
+                    <div class="quick-link-content">
+                        <img src="Imagenes/publicaciones.png" alt="Publicaciones" class="nav-icon" style="width: 20px; height: 20px;">
+                        <span>Publicaciones</span>
+                    </div>
+                    <span class="arrow">&gt;</span>
+                </a>
+            </li>
+            <li>
+                <a href="MaterialEstudioso.html" class="quick-link-item">
+                    <div class="quick-link-content">
+                        <img src="Imagenes/material.png" alt="Material" class="nav-icon" style="width: 20px; height: 20px;">
+                        <span>Material de estudio</span>
+                    </div>
+                    <span class="arrow">&gt;</span>
+                </a>
+            </li>
+        </ul>
     </div>
+
+    <!--Script que carga la barra lateral-->
+    <script src="main.js"></script>
 </body>
 </html>
