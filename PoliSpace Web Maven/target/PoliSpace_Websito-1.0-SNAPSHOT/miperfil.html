@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi perfil</title>
+    
+    <link rel="stylesheet" href="miperfil.css">
+</head>
+<body>
+
+    <!-- Contenedor general del dashboard -->
+    <div class="dashboard-container">
+
+        <!-- Aquí se inyectará automáticamente el contenido de sidebar.html -->
+        <div id="sidebar-container"></div>
+
+        <!-- ==========================================
+             CONTENIDO PRINCIPAL (LADO DERECHO)
+             ========================================== -->
+        <main class="main-content">
+            <!-- Título superior de la pantalla -->
+            <header class="content-header">
+                <h2>Mi perfil</h2>
+            </header>
+
+            <!-- Aquí iremos agregando las tarjetas de perfil y preferencias -->
+            <div class="profile-dashboard-body">
+                <!-- Espacio listo para la información de Danae Aguilar y los ajustes -->
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Script para cargar el sidebar.html -->
+    <script>
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error al cargar la barra lateral:', error));
+    </script>
+
+</body>
+</html>

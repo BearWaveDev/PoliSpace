@@ -4,31 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="#F4F6F8"
     android:orientation="vertical"
     tools:context=".fragmentsAlumno.PerfilFragment">
 
-    <!-- Encabezado con foto a la izquierda y datos a la derecha -->
-
-    <!-- Datos Escolares (Boleta y Carrera) -->
+    <!-- Encabezado oscuro (igual que el menú lateral de la web) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient_background_guinda"
+        android:background="#060A23"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="20dp"
         android:paddingTop="40dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="36dp">
+        android:paddingBottom="40dp">
 
-        <!-- Foto de Perfil Circular (Lado Izquierdo) -->
+        <!-- Foto de perfil circular -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="84dp"
             android:layout_height="84dp"
+            app:cardBackgroundColor="#1E2227"
             app:cardCornerRadius="42dp"
-            app:cardElevation="4dp"
-            app:strokeColor="@color/white"
+            app:cardElevation="0dp"
+            app:strokeColor="#7A1D32"
             app:strokeWidth="3dp">
 
             <ImageView
@@ -41,7 +40,7 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Datos del Usuario (Lado Derecho) -->
+        <!-- Datos del usuario -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,49 +48,49 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <!-- Nombre Completo -->
             <TextView
                 android:id="@+id/tvNombreCompleto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nombre del Alumno"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Nombre de Usuario -->
             <TextView
                 android:id="@+id/tvUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="usuario_ipn"
-                android:textColor="#E0E0E0"
+                android:textColor="#A0A7B1"
                 android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/pronombres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:text="papoi"
-                android:textColor="#E0E0E0"
+                android:textColor="#A0A7B1"
                 android:textSize="13sp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <!-- Tarjeta blanca con Boleta y Carrera (como las tarjetas de la web) -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="-24dp"
         android:layout_marginEnd="16dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="16dp"
-        app:cardElevation="3dp"
-        app:strokeWidth="0dp">
+        app:cardElevation="4dp"
+        app:strokeColor="#E8ECF0"
+        app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -111,10 +110,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="BOLETA"
+                    android:text="Boleta"
                     android:textColor="#8991A3"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tvBoleta"
@@ -123,14 +121,14 @@
                     android:layout_marginTop="4dp"
                     android:text="2026000000"
                     android:textColor="#172B4D"
-                    android:textSize="13sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#E0E0E0" />
+                android:background="#E8ECF0" />
 
             <!-- Carrera -->
             <LinearLayout
@@ -143,10 +141,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CARRERA"
+                    android:text="Carrera"
                     android:textColor="#8991A3"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tvCarrera"
@@ -156,7 +153,7 @@
                     android:gravity="center"
                     android:text="Técnico en Programación"
                     android:textColor="#172B4D"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -164,36 +161,52 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Pestañas para cambiar entre Publicaciones y Me Gusta -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayoutPerfil"
+    <!-- Pestañas dentro de una tarjeta redondeada -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        app:tabIndicatorColor="#7A1D32"
-        app:tabSelectedTextColor="#7A1D32"
-        app:tabTextColor="#8991A3">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp"
+        app:strokeColor="#E8ECF0"
+        app:strokeWidth="1dp">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayoutPerfil"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mis Publicaciones" />
+            android:background="@android:color/transparent"
+            app:tabIndicatorColor="#7A1D32"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="3dp"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabSelectedTextColor="#7A1D32"
+            app:tabTextColor="#8991A3">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Me Gusta" />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mis Publicaciones" />
 
-    </com.google.android.material.tabs.TabLayout>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Me Gusta" />
 
-    <!-- Contenedor para la lista de publicaciones o likes -->
+        </com.google.android.material.tabs.TabLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Lista de publicaciones o likes -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPublicacionesPerfil"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:padding="12dp"
-         />
+        android:padding="12dp" />
 
 </LinearLayout>

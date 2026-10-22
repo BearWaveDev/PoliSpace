@@ -71,7 +71,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Registrarse"
+                android:text="Registrarse- Prefecto"
                 android:textColor="#172B4D"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -101,19 +101,19 @@
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/rgUsuario"
+                    android:id="@+id/etCorreo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="  Nombre de usuario"
-                    android:inputType="text"
-                    android:paddingStart="0dp"
+                    android:hint="  Correo institucional (@ipn.mx / @alumno.ipn.mx)"
+                    android:inputType="textEmailAddress"
                     android:textColorHint="#6B778C"
+                    android:paddingStart="12dp"
                     android:textColor="@color/black"
                     android:textSize="11sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-
+            <!-- Contraseña -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -136,10 +136,41 @@
                     android:hint="  Contraseña"
                     android:inputType="textPassword"
                     android:textColorHint="#6B778C"
-                    android:paddingStart="0dp"
+                    android:paddingStart="12dp"
                     android:textSize="11sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Selección de CECyT -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilCecyt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                app:boxBackgroundColor="#F1F3F7"
+                app:boxBackgroundMode="filled"
+                app:boxCornerRadiusBottomEnd="24dp"
+                app:boxCornerRadiusBottomStart="24dp"
+                app:boxCornerRadiusTopEnd="24dp"
+                app:boxCornerRadiusTopStart="24dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:hintEnabled="false">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actvCecyt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="  Selecciona tu CECyT"
+                    android:inputType="none"
+                    android:paddingStart="12dp"
+                    android:textColorHint="#6B778C"
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
 
             <com.google.android.material.button.MaterialButton

@@ -71,7 +71,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Registrarse"
+                    android:text="Registrarse - Alumnos"
                     android:textColor="#172B4D"
                     android:textSize="20sp"
                     android:textStyle="bold" />
