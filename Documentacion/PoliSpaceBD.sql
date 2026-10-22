@@ -1,14 +1,24 @@
 -- =====================================================================
--- PoliSpaceBD  |  Script completo (MySQL 8.0 / Azure Database for MySQL)
--- Orden: 1) Esquema  2) Datos iniciales  3) Vistas
---        4) Procedimientos de registro  5) Roles y usuarios de MySQL
+-- PoliSpaceBD  |  Script completo CORREGIDO (MySQL 8.0 / Azure Database for MySQL)
+-- Orden: 0) Hash de contraseña de prueba  1) Esquema  2) Datos iniciales
+--        3) Usuarios y datos de prueba de la APP  4) Vistas
+--        5) Procedimientos de registro  6) Roles y usuarios de MySQL
 --
 -- Es SEGURO volver a correrlo: no borra tablas ni datos.
 -- Ejecútalo con el usuario administrador del servidor.
 --
--- NOTA: "rol" (alumno/prefecto/administrador) = tabla de la aplicación.
---       "ROLE" de MySQL (rol_polispace_*) = permisos de la base de datos.
+-- CORRECCION PRINCIPAL:
+--   El hash de la contraseña de prueba ahora usa el formato PBKDF2 que
+--   entiende PasswordUtil.java (pbkdf2$iteraciones$sal$hash).
+--   Antes era un hash bcrypt que Java no podia verificar.
+--   Contraseña de prueba en texto plano: PoliSpace2026*
 -- =====================================================================
+
+-- =====================================================================
+-- 0) HASH PBKDF2 DE LA CONTRASEÑA DE PRUEBA (compatible con PasswordUtil.java)
+--    Contraseña en texto plano: PoliSpace2026*
+-- =====================================================================
+SET @hash_demo = 'pbkdf2$120000$vIWU4M51LmpWl26mwzzg6Q==$0fqtCwtrzPNW7e9+OvSvAeh+KzlFUVtId5yKdrJv62A=';
 
 CREATE DATABASE IF NOT EXISTS PoliSpaceBD
   CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
@@ -42,10 +52,8 @@ CREATE TABLE IF NOT EXISTS rol (
 CREATE TABLE IF NOT EXISTS usuario (
   id_usuario BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   nombre_completo VARCHAR(150) NOT NULL,
-  -- Ejemplo: papoi.67 (minusculas, numeros, punto y guion bajo)
   nombre_usuario VARCHAR(30) NOT NULL,
   correo_institucional VARCHAR(150) NOT NULL,
-  -- Guardar SIEMPRE el hash (bcrypt/argon2), nunca texto plano.
   contrasena VARCHAR(255) NOT NULL,
   id_rol SMALLINT UNSIGNED NOT NULL,
   id_escuela BIGINT UNSIGNED NOT NULL,
@@ -99,7 +107,6 @@ CREATE TABLE IF NOT EXISTS alumno (
   boleta VARCHAR(30) NOT NULL,
   id_carrera BIGINT UNSIGNED NOT NULL,
   semestre_actual TINYINT UNSIGNED NULL,
-  -- Se elige despues del registro; sirve para ver materias/horario.
   id_grupo BIGINT UNSIGNED NULL,
   estado ENUM('activo','egresado','baja','suspendido') NOT NULL DEFAULT 'activo',
   UNIQUE KEY uq_alumno_usuario (id_usuario),
@@ -139,7 +146,6 @@ CREATE TABLE IF NOT EXISTS profesor (
   cubiculo VARCHAR(50) NULL,
   id_escuela BIGINT UNSIGNED NOT NULL,
   estado ENUM('activo','inactivo') NOT NULL DEFAULT 'activo',
-  -- Prefecto que dio de alta al profesor.
   id_prefecto_registro BIGINT UNSIGNED NULL,
   fecha_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY uq_profesor_empleado (numero_empleado),
@@ -166,7 +172,6 @@ CREATE TABLE IF NOT EXISTS horario (
   dia_semana ENUM('lunes','martes','miercoles','jueves','viernes','sabado','domingo') NOT NULL,
   hora_inicio TIME NOT NULL,
   hora_fin TIME NOT NULL,
-  -- Ejemplos: 2026-2027 | 2026-2 | 2026-A
   periodo VARCHAR(30) NOT NULL,
   estado ENUM('activo','cancelado') NOT NULL DEFAULT 'activo',
   CONSTRAINT chk_horario_horas CHECK (hora_fin > hora_inicio),
@@ -309,11 +314,9 @@ CREATE TABLE IF NOT EXISTS asistencia_profesor (
   id_prefecto BIGINT UNSIGNED NOT NULL,
   fecha DATE NOT NULL,
   estado ENUM('presente','retardo','ausente','justificado') NOT NULL,
-  -- Hora en la que el prefecto registro la asistencia.
   hora_registro TIME NOT NULL,
   observaciones VARCHAR(500) NULL,
   fecha_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  -- Una clase solo puede tener un registro de asistencia por fecha.
   UNIQUE KEY uq_asistencia_horario_fecha (id_horario, fecha),
   CONSTRAINT fk_asistencia_horario FOREIGN KEY (id_horario) REFERENCES horario(id_horario) ON UPDATE CASCADE ON DELETE RESTRICT,
   CONSTRAINT fk_asistencia_profesor FOREIGN KEY (id_profesor) REFERENCES profesor(id_profesor) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -321,7 +324,7 @@ CREATE TABLE IF NOT EXISTS asistencia_profesor (
 ) ENGINE=InnoDB;
 
 -- =====================================================================
--- 2) DATOS INICIALES (INSERT IGNORE: no duplica si ya existen)
+-- 2) DATOS INICIALES
 -- =====================================================================
 
 INSERT IGNORE INTO rol (id_rol, nombre_rol, descripcion) VALUES
@@ -334,13 +337,95 @@ VALUES (1, 'CECyT 9 Juan de Dios Bátiz', 'CECYT9');
 
 INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
   ('Técnico en Máquinas con Sistemas Automatizados', 'TMSA',  1),
-  ('Técnico en Programación',                         'TPROG', 1),
-  ('Técnico en Sistemas Digitales',                   'TSD',   1),
-  ('Técnico en Desarrollo de Software',               'TDS',   1),
-  ('Técnico en Mecatrónica',                          'TMEC',  1);
+  ('Técnico en Programación',                        'TPROG', 1),
+  ('Técnico en Sistemas Digitales',                  'TSD',   1),
+  ('Técnico en Desarrollo de Software',              'TDS',   1),
+  ('Técnico en Mecatrónica',                         'TMEC',  1);
 
 -- =====================================================================
--- 3) VISTAS (consultas guardadas)
+-- 3) USUARIOS Y DATOS DE PRUEBA DE LA APLICACION
+--    Contraseña de los 3 usuarios de prueba: PoliSpace2026*
+-- =====================================================================
+
+-- 3.1 Administrador
+INSERT IGNORE INTO usuario (nombre_completo, nombre_usuario, correo_institucional,
+                           contrasena, id_rol, id_escuela, estado)
+VALUES ('Administrador PoliSpace', 'admin.poli', 'admin.poli@polispace.test',
+        @hash_demo, 3, 1, 'activo');
+
+INSERT IGNORE INTO administrador (id_usuario, numero_empleado)
+SELECT id_usuario, 'ADM001' FROM usuario WHERE nombre_usuario = 'admin.poli';
+
+-- 3.2 Prefecto
+INSERT IGNORE INTO usuario (nombre_completo, nombre_usuario, correo_institucional,
+                           contrasena, id_rol, id_escuela, estado)
+VALUES ('Prefecto Demo', 'prefecto.demo', 'prefecto.demo@polispace.test',
+        @hash_demo, 2, 1, 'activo');
+
+INSERT IGNORE INTO prefecto (id_usuario, numero_empleado, telefono, id_escuela)
+SELECT id_usuario, 'PRE001', '5500000000', 1
+FROM usuario WHERE nombre_usuario = 'prefecto.demo';
+
+-- 3.3 Alumno
+INSERT IGNORE INTO usuario (nombre_completo, nombre_usuario, correo_institucional,
+                           contrasena, id_rol, id_escuela, estado)
+VALUES ('Alumno Demo', 'alumno.demo', 'alumno.demo@polispace.test',
+        @hash_demo, 1, 1, 'activo');
+
+INSERT IGNORE INTO alumno (id_usuario, boleta, id_carrera, semestre_actual)
+SELECT u.id_usuario, '2026000001',
+       (SELECT id_carrera FROM carrera WHERE clave = 'TPROG' AND id_escuela = 1),
+       3
+FROM usuario u WHERE u.nombre_usuario = 'alumno.demo';
+
+INSERT IGNORE INTO perfil (id_alumno)
+SELECT a.id_alumno FROM alumno a
+INNER JOIN usuario u ON u.id_usuario = a.id_usuario
+WHERE u.nombre_usuario = 'alumno.demo';
+
+-- 3.3.1 CORRECCION: si los usuarios de prueba ya existian con el hash viejo
+--       (bcrypt), INSERT IGNORE no los actualiza. Este UPDATE les pone el
+--       hash PBKDF2 correcto y los deja activos para poder iniciar sesion.
+UPDATE usuario
+SET contrasena = @hash_demo,
+    estado = 'activo'
+WHERE nombre_usuario IN ('admin.poli', 'prefecto.demo', 'alumno.demo');
+
+-- 3.4 Catalogo minimo
+INSERT IGNORE INTO ubicacion (nombre_ubicacion, tipo, edificio, piso, id_escuela)
+VALUES ('Salón 10', 'salon', 'Edificio A', 'Planta baja', 1);
+
+INSERT IGNORE INTO grupo (nombre_grupo, semestre, turno, id_carrera)
+SELECT '3IM7', 3, 'matutino', id_carrera
+FROM carrera WHERE clave = 'TPROG' AND id_escuela = 1;
+
+INSERT IGNORE INTO materia (nombre_materia, clave, id_carrera)
+SELECT 'Física I', 'FIS1', id_carrera
+FROM carrera WHERE clave = 'TPROG' AND id_escuela = 1;
+
+INSERT IGNORE INTO profesor (numero_empleado, nombre_completo, telefono, cubiculo,
+                            id_escuela, id_prefecto_registro)
+SELECT 'PROF001', 'Profesor Demo', NULL, 'C-1', 1, p.id_prefecto
+FROM prefecto p WHERE p.numero_empleado = 'PRE001';
+
+UPDATE alumno a
+INNER JOIN usuario u ON u.id_usuario = a.id_usuario
+INNER JOIN grupo g ON g.nombre_grupo = '3IM7'
+SET a.id_grupo = g.id_grupo
+WHERE u.nombre_usuario = 'alumno.demo' AND a.id_grupo IS NULL;
+
+INSERT IGNORE INTO horario (id_profesor, id_grupo, id_materia, id_ubicacion,
+                           dia_semana, hora_inicio, hora_fin, periodo)
+SELECT pr.id_profesor, g.id_grupo, m.id_materia, ub.id_ubicacion,
+       'lunes', '08:00:00', '09:00:00', '2026-2027'
+FROM profesor pr, grupo g, materia m, ubicacion ub
+WHERE pr.numero_empleado = 'PROF001'
+  AND g.nombre_grupo = '3IM7'
+  AND m.clave = 'FIS1'
+  AND ub.nombre_ubicacion = 'Salón 10' AND ub.id_escuela = 1;
+
+-- =====================================================================
+-- 4) VISTAS
 -- =====================================================================
 
 CREATE OR REPLACE VIEW vista_login AS
@@ -406,10 +491,7 @@ INNER JOIN alumno a ON a.id_alumno = p.id_alumno
 INNER JOIN usuario u ON u.id_usuario = a.id_usuario;
 
 -- =====================================================================
--- 4) PROCEDIMIENTOS DE REGISTRO
---    Crean usuario + fila del rol en UNA transaccion (todo o nada).
---    p_hash = hash bcrypt generado en Java, NUNCA la contrasena real.
---    (Si tu cliente SQL falla con DELIMITER, ejecuta cada bloque aparte.)
+-- 5) PROCEDIMIENTOS DE REGISTRO
 -- =====================================================================
 
 DROP PROCEDURE IF EXISTS sp_registrar_alumno;
@@ -417,7 +499,6 @@ DROP PROCEDURE IF EXISTS sp_registrar_prefecto;
 
 DELIMITER $$
 
--- El alumno queda ACTIVO y puede iniciar sesion de inmediato.
 CREATE PROCEDURE sp_registrar_alumno(
   IN p_nombre_completo VARCHAR(150),
   IN p_nombre_usuario  VARCHAR(30),
@@ -427,7 +508,7 @@ CREATE PROCEDURE sp_registrar_alumno(
   IN p_id_carrera      BIGINT UNSIGNED
 )
 BEGIN
-  DECLARE v_id_escuela BIGINT UNSIGNED;
+  DECLARE v_id_escuela BIGINT UNSIGNED DEFAULT NULL;
   DECLARE v_id_usuario BIGINT UNSIGNED;
   DECLARE v_id_alumno  BIGINT UNSIGNED;
 
@@ -464,8 +545,6 @@ BEGIN
   SELECT v_id_usuario AS id_usuario, v_id_alumno AS id_alumno;
 END$$
 
--- El prefecto queda PENDIENTE hasta que un administrador lo apruebe:
---    UPDATE usuario SET estado='activo' WHERE id_usuario = ?;
 CREATE PROCEDURE sp_registrar_prefecto(
   IN p_nombre_completo  VARCHAR(150),
   IN p_nombre_usuario   VARCHAR(30),
@@ -487,6 +566,8 @@ BEGIN
 
   START TRANSACTION;
 
+  -- El prefecto queda 'pendiente' hasta que un administrador lo active:
+  --   UPDATE usuario SET estado = 'activo' WHERE nombre_usuario = '...';
   INSERT INTO usuario (nombre_completo, nombre_usuario, correo_institucional,
                        contrasena, id_rol, id_escuela, estado)
   VALUES (p_nombre_completo, p_nombre_usuario, p_correo, p_hash,
@@ -506,36 +587,30 @@ END$$
 DELIMITER ;
 
 -- =====================================================================
--- 5) ROLES Y USUARIOS DE MYSQL PARA EL EQUIPO Y LA APLICACIÓN
+-- 6) ROLES Y USUARIOS DE MYSQL
 -- =====================================================================
 
 CREATE ROLE IF NOT EXISTS
-  'rol_polispace_admin_bd',   -- equipo: estructura y datos
-  'rol_polispace_app',        -- aplicación NetBeans/Java
-  'rol_polispace_lectura';    -- solo consultas
+  'rol_polispace_admin_bd',
+  'rol_polispace_app',
+  'rol_polispace_lectura';
 
--- Equipo: administra estructura y datos de PoliSpaceBD.
 GRANT SELECT, INSERT, UPDATE, DELETE,
       CREATE, ALTER, DROP, INDEX, REFERENCES,
       CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE
 ON PoliSpaceBD.* TO 'rol_polispace_admin_bd';
 
--- Aplicacion: lo minimo para funcionar. No puede crear ni borrar tablas.
 GRANT SELECT, INSERT, UPDATE, DELETE, EXECUTE
 ON PoliSpaceBD.* TO 'rol_polispace_app';
 
--- Lectura.
 GRANT SELECT, SHOW VIEW
 ON PoliSpaceBD.* TO 'rol_polispace_lectura';
 
--- Usuario que usa tu proyecto Java (el que va en la cadena JDBC).
 CREATE USER IF NOT EXISTS 'polispace_app'@'%'
   IDENTIFIED BY 'CAMBIAME_contrasena_app_Larga_y_Segura_1!';
 GRANT 'rol_polispace_app' TO 'polispace_app'@'%';
 SET DEFAULT ROLE 'rol_polispace_app' TO 'polispace_app'@'%';
 
--- Cuentas del equipo de trabajo personalizadas:
--- Mariano y Danae (Administradores de BD)
 CREATE USER IF NOT EXISTS 'mariano_polispace'@'%' IDENTIFIED BY 'Mariano2026*';
 GRANT 'rol_polispace_admin_bd' TO 'mariano_polispace'@'%';
 SET DEFAULT ROLE 'rol_polispace_admin_bd' TO 'mariano_polispace'@'%';
@@ -544,7 +619,6 @@ CREATE USER IF NOT EXISTS 'danae_polispace'@'%' IDENTIFIED BY 'Danae2026*';
 GRANT 'rol_polispace_admin_bd' TO 'danae_polispace'@'%';
 SET DEFAULT ROLE 'rol_polispace_admin_bd' TO 'danae_polispace'@'%';
 
--- Melissa y Ashley (Desarrollo / Lectura o App según requieran)
 CREATE USER IF NOT EXISTS 'melissa_polispace'@'%' IDENTIFIED BY 'Melissa2026*';
 GRANT 'rol_polispace_app' TO 'melissa_polispace'@'%';
 SET DEFAULT ROLE 'rol_polispace_app' TO 'melissa_polispace'@'%';
@@ -553,29 +627,13 @@ CREATE USER IF NOT EXISTS 'ashley_polispace'@'%' IDENTIFIED BY 'Ashley2026*';
 GRANT 'rol_polispace_app' TO 'ashley_polispace'@'%';
 SET DEFAULT ROLE 'rol_polispace_app' TO 'ashley_polispace'@'%';
 
--- Verificacion
-SHOW GRANTS FOR 'polispace_app'@'%' USING 'rol_polispace_app';
-SHOW GRANTS FOR 'mariano_polispace'@'%' USING 'rol_polispace_admin_bd';
-
-SELECT * FROM rol;
-SELECT * FROM escuela;
-SELECT * FROM carrera;
-
--- =====================================================================
--- CREACIÓN / CONFIGURACIÓN DEL USUARIO ADMINISTRADOR PRINCIPAL
--- =====================================================================
-
--- 1. Crear el usuario administrador principal en MySQL (si no existe)
-CREATE USER IF NOT EXISTS 'admin_db'@'%' IDENTIFIED BY 'PoliSpace2';
-
--- 2. Otorgar todos los privilegios sobre PoliSpaceBD al administrador
+CREATE USER IF NOT EXISTS 'admin_db'@'%' IDENTIFIED BY 'PoliSpace2026*Admin';
 GRANT ALL PRIVILEGES ON PoliSpaceBD.* TO 'admin_db'@'%' WITH GRANT OPTION;
 
--- 3. Otorgar privilegios globales para crear/gestionar roles y usuarios de MySQL
-GRANT CREATE USER, ROLE_ADMIN, RELOAD ON *.* TO 'admin_db'@'%';
-
--- 4. Aplicar cambios de privilegios
-FLUSH PRIVILEGES;
-
--- 5. Verificación de los permisos concedidos al administrador
-SHOW GRANTS FOR 'admin_db'@'%';
+-- =====================================================================
+-- 7) VERIFICACION RAPIDA (opcional)
+--    Los 3 usuarios deben aparecer 'activo' y con hash que empieza en pbkdf2$
+-- =====================================================================
+SELECT nombre_usuario, estado, LEFT(contrasena, 14) AS inicio_hash
+FROM usuario
+WHERE nombre_usuario IN ('admin.poli', 'prefecto.demo', 'alumno.demo');
