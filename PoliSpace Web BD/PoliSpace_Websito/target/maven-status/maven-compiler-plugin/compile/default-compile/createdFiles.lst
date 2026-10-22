@@ -1,0 +1,6 @@
+com\mycompany\polispace_websito\RegistrarServlet.class
+com\mycompany\polispace_websito\LoginServlet.class
+com\mycompany\polispace_websito\PasswordUtil.class
+com\mycompany\polispace_websito\TestBDServlet.class
+com\mycompany\polispace_websito\LogoutServlet.class
+com\mycompany\polispace_websito\Conexion.class

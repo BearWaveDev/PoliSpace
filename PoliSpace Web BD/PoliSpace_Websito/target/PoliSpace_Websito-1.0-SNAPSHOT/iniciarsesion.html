@@ -1,0 +1,68 @@
+<html lang="es">
+    <head>
+        <title>PoliSpace - Iniciar sesión</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    
+    <body>
+        <link href="estilos/iniciarsesion.css" rel="stylesheet" />
+  <div class="login-page">
+    <aside class="brand-panel">
+      <div class="brand-content">
+        <h1 class="logo">PoliSpace</h1>
+        <p class="tagline">ESTUDIA · CONECTA · AVANZA</p>
+        <p class="description">Tu comunidad politécnica, en un solo espacio.</p>
+
+        <div class="ipn-card">
+          <span class="ipn-title">IPN</span>
+          <span class="ipn-subtitle">CECyT 9 · Juan de Dios Bátiz</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="form-panel">
+      <div class="form-card">
+        <div class="logo-mobile">
+          <img src="Imagenes/Logo2.png" alt="PoliSpace" width="64" height="64">
+        </div>
+
+        <h2>Iniciar sesión</h2>
+        <p class="subtitle">Ingresa con tu matrícula o usuario institucional</p>
+        <p id="msg" class="subtitle" style="font-weight:600;"></p>
+
+        <form action="LoginServlet" method="POST">
+          <div class="field">
+            <label for="user">Matrícula o usuario</label>
+            <input type="text" id="user" name="usuario" placeholder="Matrícula o usuario" required>
+          </div>
+
+          <div class="field">
+            <label for="pass">Contraseña</label>
+            <input type="password" id="pass" name="password" placeholder="Contraseña" required>
+          </div>
+            
+            
+          <button type="submit" class="btn-primary">Entrar</button>
+
+            
+        </form>
+
+        <p class="register-link">
+          ¿No tienes cuenta? <a href="Rol.html">Regístrate</a>
+        </p>
+
+        <p class="legal">
+          Al registrarte aceptas las normas de usuario y las políticas de privacidad.
+        </p>
+      </div>
+    </main>
+  </div>
+<script>
+  var p = new URLSearchParams(location.search), m = document.getElementById("msg");
+  if (p.get("registro") === "ok") { m.style.color = "#1b7f3b"; m.textContent = "¡Registro exitoso! Ya puedes iniciar sesión."; }
+  else if (p.get("error") === "credenciales") { m.style.color = "#b00020"; m.textContent = "Matrícula/usuario o contraseña incorrectos."; }
+  else if (p.get("error") === "bd") { m.style.color = "#b00020"; m.textContent = "Error con la base de datos. Intenta más tarde."; }
+</script>
+</body>
+</html>

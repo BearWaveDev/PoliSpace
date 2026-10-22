@@ -1,0 +1,531 @@
+/* =========================================
+   RESET
+   ========================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* =========================================
+   VARIABLES
+   ========================================= */
+
+:root {
+  --navy: #0A1628;
+  --navy-mid: #0D1B2A;
+
+  --maroon: #8B1A2B;
+  --maroon-hover: #9B1B2E;
+
+  --white: #FFFFFF;
+
+  --gray-text: #6B7280;
+  --gray-border: #E5E7EB;
+  --gray-bg: #F9FAFB;
+
+  --radius: 24px;
+}
+
+
+/* =========================================
+   BODY
+   ========================================= */
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+
+  background: var(--gray-bg);
+
+  color: var(--navy);
+
+  min-height: 100vh;
+}
+
+
+/* =========================================
+   CONTENEDOR PRINCIPAL
+   ========================================= */
+
+.welcome-page {
+  min-height: 100vh;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+}
+
+
+/* =========================================
+   COLUMNA IZQUIERDA
+   ========================================= */
+
+.brand-panel {
+
+  background:
+    linear-gradient(
+      160deg,
+      var(--navy) 0%,
+      var(--navy-mid) 100%
+    );
+
+  color: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 4rem;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+/* Efecto suave del fondo */
+
+.brand-panel::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at 30% 20%,
+      rgba(27, 58, 95, 0.45),
+      transparent 65%
+    );
+
+  pointer-events: none;
+}
+
+
+/* Contenido izquierdo */
+
+.brand-content {
+
+  position: relative;
+
+  width: 100%;
+
+  max-width: 500px;
+}
+
+
+/* Logo */
+
+.logo {
+
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+
+  font-weight: 700;
+
+  letter-spacing: -1px;
+
+  margin-bottom: 0.5rem;
+}
+
+
+/* Lema */
+
+.tagline {
+
+  font-size: 0.85rem;
+
+  letter-spacing: 0.2em;
+
+  text-transform: uppercase;
+
+  opacity: 0.85;
+
+  margin-bottom: 1.5rem;
+}
+
+
+/* Descripción */
+
+.description {
+
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+
+  line-height: 1.6;
+
+  opacity: 0.9;
+
+  max-width: 480px;
+}
+
+
+/* =========================================
+   COLUMNA DERECHA
+   ========================================= */
+
+.welcome-panel {
+
+  background: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 3rem;
+}
+
+
+/* =========================================
+   TARJETA
+   ========================================= */
+
+.welcome-card {
+
+  width: 100%;
+
+  max-width: 430px;
+
+  text-align: center;
+}
+
+
+/* =========================================
+   LOGO / ICONO
+   ========================================= */
+
+.app-icon {
+
+  width: 72px;
+
+  height: 72px;
+
+  margin: 0 auto 1.75rem;
+
+  border-radius: 18px;
+
+  background: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.10);
+}
+
+
+.app-icon img {
+
+  width: 72px;
+
+  height: 72px;
+
+  object-fit: contain;
+
+  border-radius: 18px;
+}
+
+
+/* =========================================
+   TÍTULO
+   ========================================= */
+
+.welcome-card h2 {
+
+  font-size: 2rem;
+
+  font-weight: 700;
+
+  color: var(--navy);
+
+  margin-bottom: 0.5rem;
+}
+
+
+/* =========================================
+   SUBTÍTULO
+   ========================================= */
+
+.subtitle {
+
+  color: var(--gray-text);
+
+  font-size: 1rem;
+
+  margin-bottom: 2.5rem;
+}
+
+
+/* =========================================
+   BOTONES
+   ========================================= */
+
+.actions {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1rem;
+
+  width: 100%;
+}
+
+
+.btn {
+
+  width: 100%;
+
+  min-height: 56px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 999px;
+
+  text-decoration: none;
+
+  font-size: 1rem;
+
+  font-weight: 600;
+
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    transform 0.15s;
+}
+
+
+/* Botón iniciar sesión */
+
+.btn-primary {
+
+  background: var(--maroon);
+
+  color: white;
+
+  border: 2px solid var(--maroon);
+}
+
+
+.btn-primary:hover {
+
+  background: var(--maroon-hover);
+
+  border-color: var(--maroon-hover);
+
+  transform: translateY(-1px);
+}
+
+
+/* Botón registrarse */
+
+.btn-outline {
+
+  background: white;
+
+  color: var(--maroon);
+
+  border: 2px solid var(--maroon);
+}
+
+
+.btn-outline:hover {
+
+  background: var(--maroon);
+
+  color: white;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   TEXTO LEGAL
+   ========================================= */
+
+.legal {
+
+  color: #9CA3AF;
+
+  font-size: 0.78rem;
+
+  line-height: 1.5;
+
+  max-width: 330px;
+
+  margin: 4rem auto 0;
+}
+
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 900px) {
+
+  .welcome-page {
+
+    grid-template-columns: 1fr;
+  }
+
+
+  /* Ocultamos el panel izquierdo */
+
+  .brand-panel {
+
+    display: none;
+  }
+
+
+  .welcome-panel {
+
+    min-height: 100vh;
+
+    padding: 2rem 1.25rem;
+
+    align-items: flex-start;
+
+    background:
+      linear-gradient(
+        180deg,
+        #17275f 0%,
+        #252f78 35%,
+        white 35%
+      );
+  }
+
+
+  .welcome-card {
+
+    max-width: 430px;
+
+    background: white;
+
+    border-radius: 28px;
+
+    padding:
+      2rem
+      1.5rem
+      3rem;
+
+    margin-top: 8rem;
+
+    box-shadow:
+      0 8px 30px rgba(0, 0, 0, 0.18);
+  }
+
+
+  .app-icon {
+
+    margin-bottom: 1.5rem;
+  }
+
+
+  .welcome-card h2 {
+
+    font-size: 1.7rem;
+  }
+
+
+  .subtitle {
+
+    font-size: 0.9rem;
+
+    margin-bottom: 2.25rem;
+  }
+
+
+  .btn {
+
+    min-height: 50px;
+
+    font-size: 0.9rem;
+  }
+
+
+  .legal {
+
+    margin-top: 4.5rem;
+
+    font-size: 0.7rem;
+  }
+}
+
+
+/* =========================================
+   MÓVILES PEQUEÑOS
+   ========================================= */
+
+@media (max-width: 500px) {
+
+  .welcome-panel {
+
+    padding:
+      1rem;
+  }
+
+
+  .welcome-card {
+
+    margin-top: 7rem;
+
+    padding:
+      2rem
+      1.25rem
+      2.5rem;
+
+    border-radius: 26px;
+  }
+
+
+  .app-icon {
+
+    width: 68px;
+
+    height: 68px;
+  }
+
+
+  .app-icon img {
+
+    width: 68px;
+
+    height: 68px;
+  }
+
+
+  .welcome-card h2 {
+
+    font-size: 1.5rem;
+  }
+}
