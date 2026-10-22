@@ -1,4 +1,3 @@
-
 CREATE DATABASE IF NOT EXISTS PoliSpaceBD CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE PoliSpaceBD;
 SET NAMES utf8mb4;
@@ -51,6 +50,7 @@ CREATE TABLE escuela (
 ) ENGINE=InnoDB;
 
 
+
 CREATE TABLE rol (
   id_rol SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   nombre_rol VARCHAR(40) NOT NULL,
@@ -67,7 +67,10 @@ INSERT INTO rol (nombre_rol, descripcion) VALUES
 CREATE TABLE usuario (
   id_usuario BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   nombre_completo VARCHAR(150) NOT NULL,
+  -- Ejemplo: papoi.67 (minusculas, numeros, punto y guion bajo)
+  nombre_usuario VARCHAR(30) NOT NULL,
   correo_institucional VARCHAR(150) NOT NULL,
+  -- Guardar SIEMPRE el hash (bcrypt/argon2), nunca la contrasena en texto plano.
   contrasena VARCHAR(255) NOT NULL,
   id_rol SMALLINT UNSIGNED NOT NULL,
   id_escuela BIGINT UNSIGNED NOT NULL,
@@ -75,6 +78,8 @@ CREATE TABLE usuario (
   fecha_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   fecha_actualizacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY uq_usuario_correo (correo_institucional),
+  UNIQUE KEY uq_usuario_nombre_usuario (nombre_usuario),
+  CONSTRAINT chk_usuario_nombre_usuario CHECK (nombre_usuario REGEXP '^[a-z0-9._]{3,30}$'),
   CONSTRAINT fk_usuario_rol FOREIGN KEY (id_rol) REFERENCES rol(id_rol) ON UPDATE CASCADE ON DELETE RESTRICT,
   CONSTRAINT fk_usuario_escuela FOREIGN KEY (id_escuela) REFERENCES escuela(id_escuela) ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=InnoDB;
@@ -113,30 +118,21 @@ CREATE TABLE grupo (
   CONSTRAINT fk_grupo_carrera FOREIGN KEY (id_carrera) REFERENCES carrera(id_carrera) ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
-CREATE TABLE profesor (
-  id_profesor BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  numero_empleado VARCHAR(30) NOT NULL,
-  nombre_completo VARCHAR(150) NOT NULL,
-  telefono VARCHAR(25) NULL,
-  cubiculo VARCHAR(50) NULL,
-  id_escuela BIGINT UNSIGNED NOT NULL,
-  estado ENUM('activo', 'inactivo') NOT NULL DEFAULT 'activo',
-  UNIQUE KEY uq_profesor_empleado (numero_empleado),
-  CONSTRAINT fk_profesor_escuela FOREIGN KEY (id_escuela) REFERENCES escuela(id_escuela) ON UPDATE CASCADE ON DELETE RESTRICT
-) ENGINE=InnoDB;
-
 CREATE TABLE alumno (
   id_alumno BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   id_usuario BIGINT UNSIGNED NOT NULL,
   boleta VARCHAR(30) NOT NULL,
   id_carrera BIGINT UNSIGNED NOT NULL,
   semestre_actual TINYINT UNSIGNED NULL,
+  -- Se puede elegir despues del registro; sirve para ver sus materias/horario.
+  id_grupo BIGINT UNSIGNED NULL,
   estado ENUM('activo', 'egresado', 'baja', 'suspendido') NOT NULL DEFAULT 'activo',
   UNIQUE KEY uq_alumno_usuario (id_usuario),
   UNIQUE KEY uq_alumno_boleta (boleta),
   CONSTRAINT chk_alumno_semestre CHECK (semestre_actual IS NULL OR semestre_actual BETWEEN 1 AND 12),
   CONSTRAINT fk_alumno_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON UPDATE CASCADE ON DELETE RESTRICT,
-  CONSTRAINT fk_alumno_carrera FOREIGN KEY (id_carrera) REFERENCES carrera(id_carrera) ON UPDATE CASCADE ON DELETE RESTRICT
+  CONSTRAINT fk_alumno_carrera FOREIGN KEY (id_carrera) REFERENCES carrera(id_carrera) ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT fk_alumno_grupo FOREIGN KEY (id_grupo) REFERENCES grupo(id_grupo) ON UPDATE CASCADE ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE administrador (
@@ -158,6 +154,23 @@ CREATE TABLE prefecto (
   UNIQUE KEY uq_prefecto_empleado (numero_empleado),
   CONSTRAINT fk_prefecto_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON UPDATE CASCADE ON DELETE RESTRICT,
   CONSTRAINT fk_prefecto_escuela FOREIGN KEY (id_escuela) REFERENCES escuela(id_escuela) ON UPDATE CASCADE ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+
+CREATE TABLE profesor (
+  id_profesor BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  numero_empleado VARCHAR(30) NOT NULL,
+  nombre_completo VARCHAR(150) NOT NULL,
+  telefono VARCHAR(25) NULL,
+  cubiculo VARCHAR(50) NULL,
+  id_escuela BIGINT UNSIGNED NOT NULL,
+  estado ENUM('activo', 'inactivo') NOT NULL DEFAULT 'activo',
+  -- Prefecto que dio de alta al profesor.
+  id_prefecto_registro BIGINT UNSIGNED NULL,
+  fecha_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_profesor_empleado (numero_empleado),
+  CONSTRAINT fk_profesor_escuela FOREIGN KEY (id_escuela) REFERENCES escuela(id_escuela) ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT fk_profesor_prefecto FOREIGN KEY (id_prefecto_registro) REFERENCES prefecto(id_prefecto) ON UPDATE CASCADE ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
 
@@ -354,11 +367,12 @@ CREATE TABLE asistencia_profesor (
 -- VISTAs 7u7
 
 CREATE OR REPLACE VIEW vista_alumnos AS
-SELECT a.id_alumno, a.boleta, u.nombre_completo, u.correo_institucional, c.nombre_carrera, a.semestre_actual, a.estado AS estado_alumno, e.id_escuela, e.nombre_escuela
+SELECT a.id_alumno, a.boleta, u.nombre_completo, u.nombre_usuario, u.correo_institucional, c.nombre_carrera, a.semestre_actual, a.id_grupo, g.nombre_grupo, a.estado AS estado_alumno, e.id_escuela, e.nombre_escuela
 FROM alumno a
 INNER JOIN usuario u ON u.id_usuario = a.id_usuario
 INNER JOIN carrera c ON c.id_carrera = a.id_carrera
-INNER JOIN escuela e ON e.id_escuela = c.id_escuela;
+INNER JOIN escuela e ON e.id_escuela = c.id_escuela
+LEFT JOIN grupo g ON g.id_grupo = a.id_grupo;
 
 CREATE OR REPLACE VIEW vista_horarios AS
 SELECT h.id_horario, p.id_profesor, p.numero_empleado, p.nombre_completo AS profesor, g.id_grupo, g.nombre_grupo, m.id_materia, m.nombre_materia, ub.id_ubicacion, ub.nombre_ubicacion, h.dia_semana, h.hora_inicio, h.hora_fin, h.periodo, h.estado
@@ -386,7 +400,24 @@ INNER JOIN prefecto pf ON pf.id_prefecto = ap.id_prefecto
 INNER JOIN usuario u ON u.id_usuario = pf.id_usuario;
 
 CREATE OR REPLACE VIEW vista_publicaciones AS
-SELECT p.id_publicacion, p.titulo, p.contenido, p.tipo, p.estado, p.fecha_publicacion, a.id_alumno, u.nombre_completo AS autor, (SELECT COUNT(*) FROM me_gusta mg WHERE mg.id_publicacion = p.id_publicacion) AS total_me_gusta, (SELECT COUNT(*) FROM guardado g WHERE g.id_publicacion = p.id_publicacion) AS total_guardados
+SELECT p.id_publicacion, p.titulo, p.contenido, p.tipo, p.estado, p.fecha_publicacion, a.id_alumno, u.nombre_completo AS autor, u.nombre_usuario AS autor_usuario, (SELECT COUNT(*) FROM me_gusta mg WHERE mg.id_publicacion = p.id_publicacion) AS total_me_gusta, (SELECT COUNT(*) FROM guardado g WHERE g.id_publicacion = p.id_publicacion) AS total_guardados
 FROM publicacion p
 INNER JOIN alumno a ON a.id_alumno = p.id_alumno
 INNER JOIN usuario u ON u.id_usuario = a.id_usuario;
+
+USE PoliSpaceBD;
+
+INSERT IGNORE INTO escuela (id_escuela, nombre_escuela, clave)
+VALUES (1, 'CECyT 9 Juan de Dios Bátiz', 'CECYT9');
+
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Máquinas con Sistemas Automatizados', 'TMSA',  1),
+  ('Técnico en Programación',                         'TPROG', 1),
+  ('Técnico en Sistemas Digitales',                   'TSD',   1),
+  ('Técnico en Desarrollo de Software',               'TDS',   1),
+  ('Técnico en Mecatrónica',                          'TMEC',  1);
+
+COMMIT;
+
+SELECT * FROM escuela;
+SELECT * FROM carrera;
