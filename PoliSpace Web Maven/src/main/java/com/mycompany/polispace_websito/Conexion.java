@@ -13,7 +13,7 @@ public class Conexion {
     private static final String URL = "jdbc:mysql://localhost:3306/PoliSpaceBD"
             + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
     private static final String USUARIO = "root";
-    private static final String CONTRASENA = "root"; // cámbienla por la de su MySQL
+    private static final String CONTRASENA = "1234"; // cámbienla por la de su MySQL
 
     public static Connection conectar() throws SQLException {
         try {

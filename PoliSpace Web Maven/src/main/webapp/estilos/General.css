@@ -894,3 +894,297 @@ input:checked + .slider:before {
   object-fit: contain;
   display: block;
 }
+
+/* Contenedor general */
+.perfil-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Tarjeta Superior de Perfil (Ocupa todo el ancho) */
+.profile-header-card {
+    background: #ffffff;
+    padding: 28px 32px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+/* Alineación de Círculo + Textos */
+.profile-user-info {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* Círculo de la foto/inicial */
+.avatar-circle {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    background-color: #fce8ec; /* Rosa pastel suave */
+    border: 3px solid #801638;  /* Burgundy institucional */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.avatar-letter {
+    font-size: 38px;
+    font-weight: 700;
+    color: #801638;
+}
+
+/* Textos de Nombre y Subtítulo */
+.profile-name {
+    margin: 0 0 6px 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #0e2f50; /* Navy Blue */
+}
+
+.profile-subtitle {
+    margin: 0;
+    font-size: 14px;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+/* Botón Editar Perfil */
+.btn-editar {
+    background-color: #f7e1e6;
+    color: #801638;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-editar:hover {
+    background-color: #801638;
+    color: #ffffff;
+}
+
+/* Cuadrícula Inferior (2 Columnas) */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.card {
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #0e2f50;
+}
+
+/* Grupos de Información Académica */
+.info-group {
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 13px;
+    color: #8a92a6;
+    margin-bottom: 2px;
+}
+
+.value {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0e2f50;
+}
+
+/* Switches de Preferencias */
+.preference-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    font-size: 15px;
+    color: #333333;
+}
+
+/* --- Búsqueda de Profesor --- */
+.docente-search-section {
+    margin-bottom: 20px;
+}
+
+.search-bar-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+    color: #0e2f50;
+}
+
+/* --- Tarjeta del Profesor --- */
+.teacher-info-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    margin-bottom: 20px;
+}
+
+.teacher-profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar-circle-teacher {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #fce8ec;
+    border: 2.5px solid #801638;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.avatar-circle-teacher .avatar-letter {
+    font-size: 28px;
+    font-weight: bold;
+    color: #801638;
+}
+
+.teacher-name {
+    margin: 0 0 4px 0;
+    font-size: 20px;
+    color: #0e2f50;
+}
+
+.teacher-subject {
+    margin: 0;
+    font-size: 14px;
+    color: #801638;
+    font-weight: 500;
+}
+
+.btn-ver-perfil {
+    background: transparent;
+    border: 1.5px solid #801638;
+    color: #801638;
+    padding: 8px 22px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-ver-perfil:hover {
+    background: #801638;
+    color: #ffffff;
+}
+
+/* --- Pestañas / Tabs --- */
+.teacher-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.tab-btn {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #0e2f50;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-btn.active {
+    background: #801638;
+    color: #ffffff;
+    border-color: #801638;
+}
+
+/* --- Tarjetas de Información --- */
+.teacher-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.info-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.card-subtitle {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    color: #0e2f50;
+}
+
+.card-main-title {
+    margin: 0 0 6px 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #0e2f50;
+}
+
+.card-detail {
+    margin: 0 0 20px 0;
+    font-size: 14px;
+    color: #8a92a6;
+}
+
+.btn-mapa {
+    background-color: #f7e1e6;
+    color: #801638;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-mapa:hover {
+    background-color: #801638;
+    color: #ffffff;
+}
