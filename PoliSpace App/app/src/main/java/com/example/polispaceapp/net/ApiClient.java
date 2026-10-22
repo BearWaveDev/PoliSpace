@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 public class ApiClient {
 
     // Emulador: 10.0.2.2 | Celular real: IP de tu PC
-    public static final String BASE_URL = "http://10.0.2.2:8080/PoliSpace_Websito";
+    public static final String BASE_URL = "http://localhost:8080/PoliSpace_Websito";
 
     private static final ExecutorService HILO = Executors.newSingleThreadExecutor();
 
@@ -43,6 +43,27 @@ public class ApiClient {
                 try (OutputStream os = con.getOutputStream()) {
                     os.write(body.toString().getBytes(StandardCharsets.UTF_8));
                 }
+                InputStream is = con.getResponseCode() < 400 ? con.getInputStream() : con.getErrorStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+                StringBuilder sb = new StringBuilder();
+                String linea;
+                while ((linea = br.readLine()) != null) sb.append(linea);
+                cb.onRespuesta(sb.toString());
+            } catch (Exception ex) {
+                cb.onError("No se pudo conectar con el servidor");
+            } finally {
+                if (con != null) con.disconnect();
+            }
+        });
+    }
+    public static void get(String ruta, Callback cb) {
+        HILO.execute(() -> {
+            HttpURLConnection con = null;
+            try {
+                con = (HttpURLConnection) new URL(BASE_URL + ruta).openConnection();
+                con.setRequestMethod("GET");
+                con.setConnectTimeout(8000);
+                con.setReadTimeout(8000);
                 InputStream is = con.getResponseCode() < 400 ? con.getInputStream() : con.getErrorStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
                 StringBuilder sb = new StringBuilder();
