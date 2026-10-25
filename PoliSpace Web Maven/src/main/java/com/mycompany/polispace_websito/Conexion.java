@@ -4,23 +4,51 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * Único lugar donde se configura la conexión a MySQL.
- * Si cambian de usuario/contraseña/base de datos, solo se edita aquí.
- */
 public class Conexion {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/PoliSpaceBD"
-            + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
-    private static final String USUARIO = "root";
-    private static final String CONTRASENA = "1234"; // cámbienla por la de su MySQL
+    private static final String URL = obtenerVariable(
+            "SPRING_DATASOURCE_URL",
+            "jdbc:mysql://localhost:3306/PoliSpaceBD"
+            + "?useSSL=false&allowPublicKeyRetrieval=true"
+            + "&serverTimezone=UTC&characterEncoding=UTF-8"
+    );
+
+    private static final String USUARIO = obtenerVariable(
+            "SPRING_DATASOURCE_USERNAME", "root"
+    );
+
+    private static final String CONTRASENA = obtenerVariable(
+            "SPRING_DATASOURCE_PASSWORD", "root"
+    );
+
+    private Conexion() {
+    }
+
+    private static String obtenerVariable(
+            String nombre, String valorLocal) {
+
+        String valor = System.getenv(nombre);
+
+        if (valor == null || valor.trim().isEmpty()) {
+            return valorLocal;
+        }
+
+        return valor.trim();
+    }
 
     public static Connection conectar() throws SQLException {
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            throw new SQLException("No se encontró el driver de MySQL (revisa el pom.xml)", e);
+            throw new SQLException(
+                    "No se encontró el driver JDBC de MySQL. "
+                    + "Revisa las dependencias del pom.xml.", e
+            );
         }
-        return DriverManager.getConnection(URL, USUARIO, CONTRASENA);
+
+        return DriverManager.getConnection(
+                URL, USUARIO, CONTRASENA
+        );
     }
 }
