@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         btnIniciarsesion = findViewById(R.id.btnIniciarsesion);
         btnRegistrar = findViewById(R.id.btnRegistrar);
 
-        // Botón para ir a la pantalla de Iniciar Sesión
+
         btnIniciarsesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Botón para ir a la pantalla de Registrarse
+
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

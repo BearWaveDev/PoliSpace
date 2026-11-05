@@ -40,7 +40,7 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Datos del usuario -->
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -74,6 +74,23 @@
                 android:text="papoi"
                 android:textColor="#A0A7B1"
                 android:textSize="13sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="255dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/editarPerfil"
+                android:text="Editar Perfil"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:backgroundTint="#7A1D32"
+                app:cornerRadius="24dp"
+                app:elevation="0dp"/>
+
+
+
 
         </LinearLayout>
 
