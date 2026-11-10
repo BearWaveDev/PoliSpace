@@ -1,14 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_perfil_prefecto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragmentsPrefecto.PerfilPrefectoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- CONTENIDO PRINCIPAL DEL PERFIL -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="#F4F6F8"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <!-- ENCABEZADO DEL PREFECTO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#060A23"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingTop="40dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="36dp">
+
+            <!-- FOTO DE PERFIL -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                app:cardBackgroundColor="#1E2227"
+                app:cardCornerRadius="42dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#7A1D32"
+                app:strokeWidth="3dp">
+
+                <ImageView
+                    android:id="@+id/imgFotoPerfilPrefecto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@android:drawable/ic_menu_camera"
+                    tools:ignore="ContentDescription"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- INFORMACIÓN DEL PREFECTO -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvNombrePrefecto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre del Prefecto"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvCorreoPrefecto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="correo.institucional@ipn.mx"
+                    android:textColor="#A0A7B1"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/tvRolPrefecto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Prefectura Turno Matutino"
+                    android:textColor="#A0A7B1"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
+
+            <!-- BOTÓN DEL MENÚ -->
+            <ImageButton
+                android:id="@+id/btn_menu_perfil_prefecto"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Abrir menú de cuenta"
+                android:padding="9dp"
+                android:src="@drawable/ic_menu"
+                app:tint="@color/white"/>
+
+        </LinearLayout>
+
+        <!-- TÍTULO DE SECCIÓN -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Grupos pendientes de pase de lista"
+                android:textColor="#172B4D"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tvContadorPendientes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pendientes"
+                android:textColor="#7A1D32"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <!-- GRUPOS PENDIENTES -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvGruposPendientes"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp"
+            tools:listitem="@android:layout/simple_list_item_2"/>
+
+    </LinearLayout>
+
+    <!-- BARRA LATERAL -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view_perfil_prefecto"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/navmenu_alumno"
+        app:itemIconTint="#7A1D32"
+        app:itemTextColor="#060A23"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>
