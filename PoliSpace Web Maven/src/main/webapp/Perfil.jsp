@@ -14,7 +14,7 @@
     <body>
         <div class="app-container">
 
-            <div id="sidebar-container"></div>
+        <jsp:include page="sidebar.jsp" />
 
             <main class="main-content">
 
@@ -52,9 +52,10 @@
 
                         <br>
 
-                        <button type="button" class="btn-edit">
+                        <a href="EditarPerfil.jsp" class="btn-edit" style="text-decoration: none; 
+                           display: inline-block; text-align: center;">
                             Editar perfil
-                        </button>
+                        </a>
 
                     </div>
                 </div>

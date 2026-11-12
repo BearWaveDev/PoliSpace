@@ -1,11 +1,12 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.*"%>
 
 <%
-    String nombre = (String) request.getAttribute("nombre");
+    String nombre = (String) session.getAttribute("nombre");
 
-    if (nombre == null) nombre = "Danae";
+    if (nombre == null || nombre.trim().isEmpty()) {
+        nombre = "Usuario";
+    }
 
     Integer clasesHoy = (Integer) request.getAttribute("clasesHoy");
     Integer materialesNuevos = (Integer) request.getAttribute("materialesNuevos");
@@ -42,7 +43,8 @@
 
 <div class="app-container">
 
-    <div id="sidebar-container"></div>
+    <!-- Barra lateral integrada correctamente -->
+    <jsp:include page="sidebar.jsp" />
 
     <main class="main-content">
 
@@ -195,9 +197,6 @@
     </main>
 
 </div>
-
-<!-- Barra lateral -->
-<script src="main.js"></script>
 
 </body>
 </html>

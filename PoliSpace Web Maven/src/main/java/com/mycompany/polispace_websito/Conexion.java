@@ -13,7 +13,7 @@ public class Conexion {
     private static final String URL = "jdbc:mysql://localhost:3306/PoliSpaceBD"
             + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
     private static final String USUARIO = "root";
-    private static final String CONTRASENA = "root"; // Contraseña actualizada
+    private static final String CONTRASENA = "n0m3l0"; // Contraseña actualizada
 
     public static Connection conectar() throws SQLException {
         try {
