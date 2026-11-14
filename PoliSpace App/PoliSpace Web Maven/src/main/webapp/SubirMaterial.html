@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir material - PoliSpace</title>
+    <link rel="stylesheet" href="estilos/General.css"/>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar container -->
+        <div id="sidebar-container"></div>
+
+        <main class="main-content">
+            <!-- Barra superior -->
+            <header class="topbar">
+                <h2 class="title-large">Subir material</h2>
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar...">
+                </div>
+                <div>
+                    <img src="Imagenes/Notis.png" alt="Notificaciones" class="nav-icon">
+                </div>
+                <div class="avatar">D</div>
+            </header>
+
+            <!-- Título de sección y descripción -->
+            <div class="upload-header-section" style="margin-bottom: 24px;">
+                <h2 class="title-large" style="font-size: 1.35rem; margin-bottom: 4px;">Subir material</h2>
+                <p class="subtitle">Comparte apuntes útiles con tu comunidad.</p>
+            </div>
+
+            <!-- Contenedor principal de dos columnas (Zona de archivo + Formulario) -->
+            <div class="upload-layout-grid">
+                
+                <!-- Columna Izquierda: Zona de Arrastrar Archivo -->
+                <div class="upload-dropzone-card">
+                    <div class="dropzone-box">
+                        <img src="Imagenes/cuaderno.png" alt="Cuaderno" class="dropzone-icon">
+                        <p class="dropzone-text">Arrastra tu archivo aquí</p>
+                        <span class="dropzone-hint">o selecciona un archivo desde tu equipo</span>
+                        <button type="button" class="btn-primary btn-select-file">Seleccionar archivo</button>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Información del material -->
+                <div class="upload-form-card">
+                    <h3 class="form-card-title">Información del material</h3>
+                    
+                    <form class="upload-form">
+                        <div class="form-group">
+                            <label class="form-label">Título</label>
+                            <input type="text" class="form-input" value="Guía de ejercicios de Física">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Materia</label>
+                            <input type="text" class="form-input" value="Física">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Categoría</label>
+                            <input type="text" class="form-input" value="Apuntes">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Descripción</label>
+                            <input type="text" class="form-input" value="Ejercicios resueltos para estudiar">
+                        </div>
+
+                        <button type="submit" class="btn-primary btn-submit-material">Publicar material</button>
+                    </form>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

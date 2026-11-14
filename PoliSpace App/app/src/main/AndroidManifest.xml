@@ -15,6 +15,12 @@
         android:theme="@style/Theme.PoliSpaceApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".notificacionsPrefecto.NotificationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".notificacionsPrefecto.BuscarPrefectoActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.MenuPrincipal_Prefecto"
             android:exported="false" />
         <activity

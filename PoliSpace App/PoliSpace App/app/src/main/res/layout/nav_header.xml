@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    android:padding="20dp"
+    android:background="#060A23">
+
+    <ImageView
+        android:id="@+id/img_nav_usuario"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@android:drawable/ic_menu_camera"
+        android:scaleType="centerCrop"
+        android:contentDescription="Foto del usuario"/>
+
+    <TextView
+        android:id="@+id/txt_nav_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Nombre del Alumno"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/txt_nav_correo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="usuario@ipn.mx"
+        android:textColor="#A0A7B1"
+        android:textSize="13sp"/>
+
+</LinearLayout>

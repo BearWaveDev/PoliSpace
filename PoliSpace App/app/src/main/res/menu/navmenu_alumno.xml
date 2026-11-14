@@ -5,17 +5,10 @@
         android:id="@+id/nav_mi_informacion"
         android:title="Mi información personal"/>
 
-    <item
-        android:id="@+id/nav_correo"
-        android:title="Correo institucional"/>
 
     <item
         android:id="@+id/nav_seguridad"
         android:title="Seguridad y contraseña"/>
-
-    <item
-        android:id="@+id/nav_notificaciones"
-        android:title="Notificaciones"/>
 
     <item
         android:id="@+id/nav_apariencia"

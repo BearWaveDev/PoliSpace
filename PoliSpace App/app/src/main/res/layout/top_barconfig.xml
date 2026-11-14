@@ -12,8 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="Título"
-        android:textColor="#0B2545"
+        android:text="PoliSpace"
+        android:textColor="#A61956"
         android:textSize="22sp"
         android:textStyle="bold" />
 

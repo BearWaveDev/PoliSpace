@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Bienvenido a PoliSpace"
+                    android:text="Horario"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 

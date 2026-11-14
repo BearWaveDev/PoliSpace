@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".fragmentsPrefecto.inicioPrefectoFragment"
     android:background="#F5F5F5"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
 
     <include
         android:id="@+id/topBar"
-        layout="@layout/top_bar" />
+        layout="@layout/top_barprefecto" />
 
 
     <ScrollView

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_mi_informacion"
+        android:title="Mi información personal"/>
+
+    <item
+        android:id="@+id/nav_correo"
+        android:title="Correo institucional"/>
+
+    <item
+        android:id="@+id/nav_seguridad"
+        android:title="Seguridad y contraseña"/>
+
+    <item
+        android:id="@+id/nav_notificaciones"
+        android:title="Notificaciones"/>
+
+    <item
+        android:id="@+id/nav_apariencia"
+        android:title="Apariencia"/>
+
+    <item
+        android:id="@+id/nav_ayuda"
+        android:title="Ayuda y soporte"/>
+
+    <item
+        android:id="@+id/nav_acerca"
+        android:title="Acerca de PoliSpace"/>
+
+    <item
+        android:id="@+id/nav_cerrar_sesion"
+        android:title="Cerrar sesión"/>
+
+</menu>

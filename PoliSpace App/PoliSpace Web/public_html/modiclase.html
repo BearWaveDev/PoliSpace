@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>PoliSpace - Detalle de clase</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos/General.css"/>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Contenedor cargado dinámicamente desde main.js -->
+        <div id="sidebar-container"></div>
+              
+        <main class="main-content">
+            <header class="topbar">
+                <h2 class="title-large">Horario</h2>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar...">
+                </div>
+
+                <div>
+                    <img src="Imagenes/Notis.png" alt="Notificaciones" class="nav-icon">
+                </div>
+
+                <div class="avatar">D</div>
+            </header>
+
+            <!-- Encabezado con botón de regreso -->
+            <div class="back-header" style="margin-bottom: 24px;">
+                <a href="Horario.html" class="back-link">
+                    <span class="back-arrow">&lt;</span>
+                    <h1 class="title-large" style="display: inline;">Detalle de clase</h1>
+                </a>
+            </div>
+            
+            <!-- Tarjetita Principal: Materia y Estado -->
+            <div class="card card-materia-header" style="margin-bottom: 24px;">
+                <div class="materia-header-content">
+                    <div>
+                        <h2 id="materia-nombre" class="title-large" style="font-size: 2rem;">Matemáticas</h2>
+                        <p id="materia-detalle" class="subtitle" style="margin-top: 4px;">Grupo 2IM7 · Lunes 15 de septiembre</p>
+                    </div>
+                    <span id="materia-estado" class="badge badge-pink">Clase programada</span>
+                </div>
+            </div>
+
+            <!-- Tarjetas Inferiores: Información y Acciones -->
+            <div class="cards-grid-bottom">
+                
+                <!-- Tarjetita de Información de la Sesión -->
+                <div class="card">
+                    <h3 class="card-title">Información de la sesión</h3>
+                    <div class="info-session-grid">
+                        <div class="info-row">
+                            <span class="info-label">Docente</span>
+                            <span id="info-docente" class="info-value">Prof. Juan García López</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Salón</span>
+                            <span id="info-salon" class="info-value">23 · Gallineros</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Horario</span>
+                            <span id="info-horario" class="info-value">7:00 - 8:00</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Duración</span>
+                            <span id="info-duracion" class="info-value">50 minutos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjetita de Acciones -->
+                <div class="card">
+                    <h3 class="card-title">Acciones</h3>
+                    <div class="actions-group">
+                        <a href="Profesor.html" class="btn-action-outline">Ver profesor</a>
+                        <button type="button" class="btn-action-outline">Ver ubicación</button>
+                        <a href="MaterialEstudioso.html" class="btn-action-pink">Abrir materiales</a>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    
+    <!-- Script que carga la barra lateral -->
+    <script src="main.js"></script>
+</body>
+</html>
+

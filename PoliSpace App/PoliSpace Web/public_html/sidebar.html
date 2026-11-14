@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PoliSpace - Mi Perfil</title>
+  <!-- Verifica que General.css esté en la misma carpeta -->
+  <link rel="stylesheet" href="General.css">
+  <link rel="stylesheet" href="estilos/General.css" type="text/css"/>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Barra Lateral (Sidebar) -->
+    <aside class="sidebar">
+      <div class="logo-header">
+            <img src="Imagenes/logo.png" alt="PoliSpace Logo" class="logo-img">
+            <div class="logo-text">
+                <h1>PoliSpace</h1>
+                <p>ESTUDIA • CONECTA • AVANZA</p>
+            </div>
+        </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item"><span class="icon">🏠</span> Inicio</a>
+        <a href="#" class="nav-item active"><span class="icon">👤</span> Mi perfil</a>
+        <a href="#" class="nav-item"><span class="icon">📅</span> Horario</a>
+        <a href="#" class="nav-item"><span class="icon">👨‍🏫</span> Profesor</a>
+        <a href="#" class="nav-item"><span class="icon">💬</span> Publicaciones</a>
+        <a href="#" class="nav-item"><span class="icon">📖</span> Material de estudio</a>
+        <a href="#" class="nav-item"><span class="icon">🛒</span> Marketplace</a>
+        <a href="#" class="nav-item"><span class="icon">🗨️</span> Chat</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="#" class="nav-item"><span class="icon">🚪</span> Cerrar sesión</a>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+
+      <!-- Barra Superior (Buscador, Notificaciones, Avatar) -->
+      <header class="top-header">
+          <h1 class="page-title">Mi perfil</h1>
+          
+          <div class="header-actions">
+              <!-- Buscador con SVG de Lupa -->
+              <div class="search-box">
+                  <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16">
+                      <path fill="#8c9ba5" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.1-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 1 0 0 0 0-288 144 144 1 0 0 0 0 288z"/>
+                  </svg>
+                  <input type="text" placeholder="Buscar...">
+              </div>
+              
+              <!-- Botón de Notificaciones con SVG de Campana -->
+              <button class="icon-btn" aria-label="Notificaciones">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="18" height="18">
+                      <path fill="#0b2545" d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.3-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.8 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c-12-12-28.3-18.7-45.3-18.7s-33.3 6.7-45.3 18.7c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l2.7-2.7 2.7 2.7c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3z"/>
+                  </svg>
+              </button>
+
+              <!-- Avatar del Usuario -->
+              <div class="user-avatar">D</div>
+          </div>
+      </header>
+
+    </main>
+  </div>
+
+</body>
+</html>

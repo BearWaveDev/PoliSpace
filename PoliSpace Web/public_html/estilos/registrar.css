@@ -258,7 +258,8 @@ body {
 }
 
 
-.field input {
+.field input,
+.field select {
   width: 100%;
 
   padding: 0.85rem 1rem;
@@ -279,12 +280,19 @@ body {
 }
 
 
+.field select:disabled {
+  background: #F3F4F6;
+  color: #6B7280;
+}
+
+
 .field input::placeholder {
   color: #9CA3AF;
 }
 
 
-.field input:focus {
+.field input:focus,
+.field select:focus {
   outline: none;
 
   border-color: var(--maroon);

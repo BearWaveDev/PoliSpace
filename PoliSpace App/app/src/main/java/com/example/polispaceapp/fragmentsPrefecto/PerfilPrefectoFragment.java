@@ -15,6 +15,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.polispaceapp.R;
+import com.example.polispaceapp.configuracionLateral.AcercaPoliSpaceFragment;
+import com.example.polispaceapp.configuracionLateral.AparienciaFragment;
+import com.example.polispaceapp.configuracionLateral.AyudaSoporteFragment;
+import com.example.polispaceapp.configuracionLateral.InfoCuentaFragment;
+import com.example.polispaceapp.configuracionLateral.SeguridadCuentaFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class PerfilPrefectoFragment extends Fragment {
@@ -90,40 +95,39 @@ public class PerfilPrefectoFragment extends Fragment {
             int id = item.getItemId();
 
             if (id == R.id.nav_mi_informacion) {
-                mostrarMensaje("Mi información personal");
-
-            } else if (id == R.id.nav_correo) {
-                mostrarMensaje("Correo institucional");
+                replaceFragment(new InfoCuentaFragment());
+                return true;
 
             } else if (id == R.id.nav_seguridad) {
-                mostrarMensaje("Seguridad y contraseña");
-
-            } else if (id == R.id.nav_notificaciones) {
-                mostrarMensaje("Notificaciones");
+                replaceFragment(new SeguridadCuentaFragment());
+                return true;
 
             } else if (id == R.id.nav_apariencia) {
-                mostrarMensaje("Apariencia");
+                replaceFragment(new AparienciaFragment());
+                return true;
 
             } else if (id == R.id.nav_ayuda) {
-                mostrarMensaje("Ayuda y soporte");
+                replaceFragment(new AyudaSoporteFragment());
+                return true;
 
             } else if (id == R.id.nav_acerca) {
-                mostrarMensaje("PoliSpace - BearWave");
+                replaceFragment(new AcercaPoliSpaceFragment());
+                return true;
 
             } else if (id == R.id.nav_cerrar_sesion) {
-                mostrarMensaje("Cierre de sesión pendiente de conectar");
+                replaceFragment(new inicioPrefectoFragment());
+                return true;
             }
 
-            drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
     }
 
-    private void mostrarMensaje(String mensaje) {
-        Toast.makeText(
-                requireContext(),
-                mensaje,
-                Toast.LENGTH_SHORT
-        ).show();
+
+    private void replaceFragment(Fragment fragment) {
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 }

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>PoliSpace - Mi horario</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos/General.css"/>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Contenedor cargado dinámicamente desde main.js -->
+        <div id="sidebar-container"></div>
+              
+        <main class="main-content">
+            <!-- Barra superior / Topbar -->
+            <header class="topbar">
+                <h2 class="title-large">Mi horario</h2>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar...">
+                </div>
+
+                <div>
+                    <img src="Imagenes/Notis.png" alt="Notificaciones" class="nav-icon">
+                </div>
+
+                <div class="avatar">D</div>
+            </header>
+
+            <!-- Selector de Semana -->
+            <div class="week-selector-card">
+                <button class="week-nav-btn">&lt;</button>
+                <span class="week-title">Semana del 15 al 21 sep</span>
+                <button class="week-nav-btn">&gt;</button>
+            </div>
+
+            <!-- Selector de Días -->
+            <div class="days-grid">
+                <button class="day-card active">
+                    <span class="day-name">Lun</span>
+                    <span class="day-number">15</span>
+                </button>
+                <button class="day-card">
+                    <span class="day-name">Mar</span>
+                    <span class="day-number">16</span>
+                </button>
+                <button class="day-card">
+                    <span class="day-name">Mié</span>
+                    <span class="day-number">17</span>
+                </button>
+                <button class="day-card">
+                    <span class="day-name">Jue</span>
+                    <span class="day-number">18</span>
+                </button>
+                <button class="day-card">
+                    <span class="day-name">Vie</span>
+                    <span class="day-number">19</span>
+                </button>
+            </div>
+
+            <!-- Lista de Clases del Día -->
+            <div class="schedule-list">
+
+                <!-- Clase 1: Matemáticas -->
+                <a href="modiclase.html" class="schedule-item-card border-blue">
+                    <div class="schedule-time">7:00 - 8:00</div>
+                    <div class="schedule-info">
+                        <h3 class="schedule-subject">Geometria Analitica</h3>
+                        <p class="schedule-details">Grupo 3IM7 · Salón 23</p>
+                        <p class="schedule-teacher">Prof. Garcia López</p>
+                    </div>
+                    <span class="schedule-arrow">&gt;</span>
+                </a>
+
+                <!-- Clase 2: Física -->
+                <a href="modiclase.html" class="schedule-item-card border-orange">
+                    <div class="schedule-time">8:00 - 9:00</div>
+                    <div class="schedule-info">
+                        <h3 class="schedule-subject">Física</h3>
+                        <p class="schedule-details">Grupo 3IM7 · Salón 12/p>
+                        <p class="schedule-teacher">Prof. Ramírez Soto</p>
+                    </div>
+                    <span class="schedule-arrow">&gt;</span>
+                </a>
+
+                <!-- Clase 3: Química -->
+                <a href="modiclase.html" class="schedule-item-card border-blue">
+                    <div class="schedule-time">9:00 - 10:00</div>
+                    <div class="schedule-info">
+                        <h3 class="schedule-subject">Química</h3>
+                        <p class="schedule-details">Grupo 3IM7 · Laboratorio</p>
+                        <p class="schedule-teacher">Prof. Hernández Díaz</p>
+                    </div>
+                    <span class="schedule-arrow">&gt;</span>
+                </a>
+
+                <!-- Clase 4: Inglés -->
+                <a href="modiclase.html" class="schedule-item-card border-blue">
+                    <div class="schedule-time">10:00 - 11:00</div>
+                    <div class="schedule-info">
+                        <h3 class="schedule-subject">Inglés</h3>
+                        <p class="schedule-details">Grupo 3IM7 · Salón 12</p>
+                        <p class="schedule-teacher">Prof. Torres Vega</p>
+                    </div>
+                    <span class="schedule-arrow">&gt;</span>
+                </a>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Script que carga la barra lateral -->
+    <script src="main.js"></script>
+</body>
+</html>
+
