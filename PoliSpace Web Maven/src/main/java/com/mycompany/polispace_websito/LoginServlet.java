@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
                     sesion.setAttribute("idUsuario", rs.getLong("id_usuario"));
                     sesion.setAttribute("nombre", rs.getString("nombre_completo"));
                     sesion.setAttribute("idRol", rs.getInt("id_rol"));
-                    response.sendRedirect("Inicio.html");
+                    request.getRequestDispatcher("Inicio.jsp").forward(request, response);               
                 } else {
                     response.sendRedirect("iniciarsesion.html?error=credenciales");
                 }
