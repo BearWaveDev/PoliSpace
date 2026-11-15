@@ -1,1 +1,0 @@
-Documentación del proyecto PoliSpace
