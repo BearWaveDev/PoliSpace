@@ -35,6 +35,14 @@ public class iniciarsesion extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
 
         btnConfirmLogin.setOnClickListener(v -> {
+            // Modo sin API: entra directo para revisar los modulos
+            if (ApiClient.MODO_SIN_API) {
+                // Para probar el lado prefecto cambia a MenuPrincipal_Prefecto.class
+                startActivity(new Intent(iniciarsesion.this, MenuPrincipalActivityAlumno.class));
+                finish();
+                return;
+            }
+
             Map<String, String> params = new HashMap<>();
             params.put("usuario", etEmail.getText().toString().trim());
             params.put("password", etPassword.getText().toString());

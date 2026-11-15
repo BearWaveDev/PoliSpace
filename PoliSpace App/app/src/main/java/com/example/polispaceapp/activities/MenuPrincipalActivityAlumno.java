@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.polispaceapp.R;
+import com.example.polispaceapp.fragmentsAlumno.MarketplaceFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -43,8 +44,8 @@ public class MenuPrincipalActivityAlumno extends AppCompatActivity {
                 } else if (itemId == R.id.nav_horario) {
                     replaceFragment(new HorarioFragment());
                     return true;
-                } else if (itemId == R.id.nav_chat) {
-                    replaceFragment(new PublicarFragment());
+                } else if (itemId == R.id.nav_marketplace) {
+                    replaceFragment(new MarketplaceFragment());
                     return true;
                 } else if (itemId == R.id.nav_material) {
                     replaceFragment(new MaterialFragment());

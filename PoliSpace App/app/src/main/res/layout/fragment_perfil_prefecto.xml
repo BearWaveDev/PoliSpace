@@ -6,14 +6,20 @@
     android:id="@+id/drawer_perfil_prefecto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".fragmentsPrefecto.PerfilPrefectoFragment">
 
     <!-- CONTENIDO PRINCIPAL DEL PERFIL -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F4F6F8"
         android:orientation="vertical">
+
+        <include
+            android:id="@+id/topBar"
+            layout="@layout/top_barconfig" />
 
         <!-- ENCABEZADO DEL PREFECTO -->
         <LinearLayout
@@ -42,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@android:drawable/ic_menu_camera"
+                    android:src="@drawable/ic_cuiamordemividaformal"
                     tools:ignore="ContentDescription"/>
 
             </com.google.android.material.card.MaterialCardView>
@@ -71,7 +77,7 @@
                     android:layout_marginTop="4dp"
                     android:text="correo.institucional@ipn.mx"
                     android:textColor="#A0A7B1"
-                    android:textSize="12sp"/>
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tvRolPrefecto"
@@ -81,20 +87,27 @@
                     android:text="Prefectura Turno Matutino"
                     android:textColor="#A0A7B1"
                     android:textSize="12sp"/>
+                <!-- BOTÓN EDITAR -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/editarPerfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Editar perfil"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="#7A1D32"
+                    app:cornerRadius="20dp"
+                    app:elevation="0dp"
+                    app:icon="@android:drawable/ic_menu_edit"
+                    app:iconTint="@color/white"
+                    app:iconSize="14dp" />
 
             </LinearLayout>
 
-            <!-- BOTÓN DEL MENÚ -->
-            <ImageButton
-                android:id="@+id/btn_menu_perfil_prefecto"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="6dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Abrir menú de cuenta"
-                android:padding="9dp"
-                android:src="@drawable/ic_menu"
-                app:tint="@color/white"/>
+
 
         </LinearLayout>
 
@@ -143,16 +156,16 @@
 
     </LinearLayout>
 
-    <!-- BARRA LATERAL -->
+    <!-- MENÚ LATERAL -->
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view_perfil_prefecto"
+        android:id="@+id/nav_view_perfil"
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="end"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/navmenu_alumno"
         app:itemIconTint="#7A1D32"
-        app:itemTextColor="#060A23"/>
+        app:itemTextColor="#060A23" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.MenuPrincipal_Prefecto">
+    tools:context=".activities.MenuPrincipal_Prefecto"
+    >
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -20,6 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:labelVisibilityMode="selected"
+        app:elevation="8dp"
         app:menu="@menu/bottom_nav_menuprefecto" />
 
 </LinearLayout>

@@ -3,27 +3,33 @@
 
     <item
         android:id="@+id/nav_mi_informacion"
+        android:icon="@drawable/ic_infopersonal"
         android:title="Mi información personal"/>
 
 
     <item
         android:id="@+id/nav_seguridad"
+        android:icon="@drawable/ic_seguridad"
         android:title="Seguridad y contraseña"/>
 
     <item
         android:id="@+id/nav_apariencia"
+        android:icon="@drawable/ic_apariencia"
         android:title="Apariencia"/>
 
     <item
         android:id="@+id/nav_ayuda"
+        android:icon="@drawable/ic_ayuda"
         android:title="Ayuda y soporte"/>
 
     <item
         android:id="@+id/nav_acerca"
+        android:icon="@drawable/ic_acercade"
         android:title="Acerca de PoliSpace"/>
 
     <item
         android:id="@+id/nav_cerrar_sesion"
+        android:icon="@drawable/ic_cerrarsesion"
         android:title="Cerrar sesión"/>
 
 </menu>

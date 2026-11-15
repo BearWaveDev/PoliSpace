@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="Título"
-        android:textColor="#0B2545"
-        android:textSize="22sp"
+        android:text="PoliSpace"
+        android:textColor="#89143B"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -26,17 +26,17 @@
 
         <ImageView
             android:id="@+id/btnBuscar"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="18dp"
             android:src="@drawable/ic_buscar"
             app:tint="#0B2545" />
 
         <ImageView
             android:id="@+id/btnLikes"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@drawable/ic_corazon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_like"
             app:tint="#0B2545" />
 
     </LinearLayout>

@@ -9,9 +9,9 @@
         android:icon="@drawable/ic_horario"
         android:title="Horario" />
     <item
-        android:id="@+id/nav_chat"
-        android:icon="@drawable/ic_chat"
-        android:title="Chat" />
+        android:id="@+id/nav_marketplace"
+        android:icon="@drawable/ic_marketplace"
+        android:title="Marketplace" />
     <item
         android:id="@+id/nav_material"
         android:icon="@drawable/ic_material"

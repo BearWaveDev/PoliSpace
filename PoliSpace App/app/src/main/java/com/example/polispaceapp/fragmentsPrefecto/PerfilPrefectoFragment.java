@@ -1,4 +1,3 @@
-
 package com.example.polispaceapp.fragmentsPrefecto;
 
 import android.os.Bundle;
@@ -6,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,11 +33,20 @@ public class PerfilPrefectoFragment extends Fragment {
     private NavigationView navigationView;
     private ImageButton btnMenuPerfil;
 
+    private TextView tvNombrePrefecto;
+    private TextView tvCorreoPrefecto;
+    private TextView tvRolPrefecto;
+
+    private android.widget.ImageView imgFotoPerfilPrefecto;
+
     public PerfilPrefectoFragment() {
         // Constructor vacío requerido
     }
 
-    public static PerfilPrefectoFragment newInstance(String param1, String param2) {
+    public static PerfilPrefectoFragment newInstance(
+            String param1,
+            String param2) {
+
         PerfilPrefectoFragment fragment = new PerfilPrefectoFragment();
 
         Bundle args = new Bundle();
@@ -46,6 +54,7 @@ public class PerfilPrefectoFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
 
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -80,54 +89,126 @@ public class PerfilPrefectoFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
+        // VISTAS DEL PERFIL
         drawerLayout = view.findViewById(R.id.drawer_perfil_prefecto);
-        navigationView = view.findViewById(R.id.nav_view_perfil_prefecto);
-        btnMenuPerfil = view.findViewById(R.id.btn_menu_perfil_prefecto);
+        navigationView = view.findViewById(R.id.nav_view_perfil);
 
-        // Abrir menú lateral
-        btnMenuPerfil.setOnClickListener(v ->
-                drawerLayout.openDrawer(GravityCompat.START)
+        btnMenuPerfil = view.findViewById(R.id.btn_menu_perfil);
+
+        tvNombrePrefecto = view.findViewById(R.id.tvNombrePrefecto);
+        tvCorreoPrefecto = view.findViewById(R.id.tvCorreoPrefecto);
+        tvRolPrefecto = view.findViewById(R.id.tvRolPrefecto);
+
+        imgFotoPerfilPrefecto =
+                view.findViewById(R.id.imgFotoPerfilPrefecto);
+
+        // CARGAR INFORMACIÓN GUARDADA DEL PREFECTO
+        EditarPerfilPrefectoFragment.aplicarPerfilGuardadoPrefecto(
+                requireContext(),
+                tvCorreoPrefecto,
+                tvRolPrefecto,
+                imgFotoPerfilPrefecto
         );
 
-        // Opciones del menú
+        // ABRIR MENÚ LATERAL
+        if (btnMenuPerfil != null) {
+            btnMenuPerfil.setOnClickListener(v ->
+                    drawerLayout.openDrawer(GravityCompat.END)
+            );
+        }
+
+        // BOTÓN EDITAR PERFIL
+        view.findViewById(R.id.editarPerfil)
+                .setOnClickListener(v -> abrirEditarPerfil());
+
+        // OPCIONES DEL MENÚ LATERAL
         navigationView.setNavigationItemSelectedListener(item -> {
 
             int id = item.getItemId();
 
             if (id == R.id.nav_mi_informacion) {
+
                 replaceFragment(new InfoCuentaFragment());
-                return true;
 
             } else if (id == R.id.nav_seguridad) {
+
                 replaceFragment(new SeguridadCuentaFragment());
-                return true;
 
             } else if (id == R.id.nav_apariencia) {
+
                 replaceFragment(new AparienciaFragment());
-                return true;
 
             } else if (id == R.id.nav_ayuda) {
+
                 replaceFragment(new AyudaSoporteFragment());
-                return true;
 
             } else if (id == R.id.nav_acerca) {
+
                 replaceFragment(new AcercaPoliSpaceFragment());
-                return true;
 
             } else if (id == R.id.nav_cerrar_sesion) {
+
                 replaceFragment(new inicioPrefectoFragment());
-                return true;
             }
 
+            drawerLayout.closeDrawer(GravityCompat.END);
             return true;
         });
+
+        /*
+         * IMPORTANTE:
+         * Aquí se conserva tu RecyclerView rvGruposPendientes.
+         * Si ya tenías un Adapter y un LayoutManager para mostrar
+         * los grupos pendientes, conserva aquí ese código.
+         */
     }
 
+    private void abrirEditarPerfil() {
+
+        String nombre = tvNombrePrefecto.getText().toString();
+        String correo = tvCorreoPrefecto.getText().toString();
+        String rol = tvRolPrefecto.getText().toString();
+
+        EditarPerfilPrefectoFragment fragment =
+                EditarPerfilPrefectoFragment.newInstance(
+                        nombre,
+                        correo,
+                        rol
+                );
+
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 
     private void replaceFragment(Fragment fragment) {
+
         getParentFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (getView() != null) {
+
+            tvCorreoPrefecto = getView().findViewById(R.id.tvCorreoPrefecto);
+            tvRolPrefecto = getView().findViewById(R.id.tvRolPrefecto);
+
+            imgFotoPerfilPrefecto =
+                    getView().findViewById(R.id.imgFotoPerfilPrefecto);
+
+            EditarPerfilPrefectoFragment.aplicarPerfilGuardadoPrefecto(
+                    requireContext(),
+                    tvCorreoPrefecto,
+                    tvRolPrefecto,
+                    imgFotoPerfilPrefecto
+            );
+        }
     }
 }

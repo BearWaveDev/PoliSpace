@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:fillViewport="true"
+    tools:context=".fragmentsAlumno.CrearPublicacionFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- ENCABEZADO -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crear publicación"
+            android:textColor="#0D1B2A"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Comparte material y recursos con tu comunidad."
+            android:textColor="#6C757D"
+            android:textSize="14sp" />
+
+        <!-- TÍTULO -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="Título de la publicación *"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#6A1B29"
+            app:boxStrokeWidthFocused="2dp"
+            app:hintTextColor="#6A1B29">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTituloPublicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:textSize="15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- DESCRIPCIÓN -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Descripción *"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#6A1B29"
+            app:boxStrokeWidthFocused="2dp"
+            app:hintTextColor="#6A1B29">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDescripcionPublicacion"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:gravity="top|start"
+                android:inputType="textCapSentences|textMultiLine"
+                android:textSize="15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ESCUELA -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Escuela *"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#6A1B29"
+            app:boxStrokeWidthFocused="2dp"
+            app:hintTextColor="#6A1B29">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEscuela"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:textSize="15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- CARRERA -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Carrera *"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#6A1B29"
+            app:boxStrokeWidthFocused="2dp"
+            app:hintTextColor="#6A1B29">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCarrera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:textSize="15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- MATERIA -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Materia *"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#6A1B29"
+            app:boxStrokeWidthFocused="2dp"
+            app:hintTextColor="#6A1B29">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMateria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:textSize="15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- SECCIÓN ARCHIVO -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Archivo adjunto (opcional)"
+            android:textColor="#0D1B2A"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSeleccionarArchivo"
+            style="?attr5/materialButtonOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:text="Adjuntar archivo"
+            android:textAllCaps="false"
+            android:textColor="#0D1B2A"
+            android:textSize="15sp"
+            app:backgroundTint="#F1F3F5"
+            app:cornerRadius="12dp"
+            app:icon="@android:drawable/ic_menu_upload"
+            app:iconTint="#0D1B2A"
+            app:strokeColor="#CED4DA" />
+
+        <TextView
+            android:id="@+id/tvNombreArchivoSeleccionado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="No se ha seleccionado ningún archivo"
+            android:textColor="#6C757D"
+            android:textSize="13sp" />
+
+        <!-- BOTÓN PUBLICAR -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPublicar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:text="Publicar"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="#1B263B"
+            app:cornerRadius="12dp" />
+
+    </LinearLayout>
+
+</ScrollView>

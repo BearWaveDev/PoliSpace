@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F6F8"
+    android:orientation="vertical"
+    tools:context=".fragmentsAlumno.EditarPerfilFragment">
+
+    <!-- BARRA SUPERIOR -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp">
+
+        <ImageButton
+            android:id="@+id/btnAtras"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Volver"
+            android:padding="10dp"
+            android:src="@drawable/ic_atras" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/btnAtras"
+            android:text="Editar perfil"
+            android:textColor="#060A23"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnGuardar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp"
+            android:text="Guardar"
+            android:textColor="#7A1D32"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="24dp">
+
+            <!-- FOTO DE PERFIL -->
+            <FrameLayout
+                android:id="@+id/contenedorFoto"
+                android:layout_width="108dp"
+                android:layout_height="108dp"
+                android:layout_gravity="center_horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    app:cardBackgroundColor="#1E2227"
+                    app:cardCornerRadius="50dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="#7A1D32"
+                    app:strokeWidth="3dp">
+
+                    <ImageView
+                        android:id="@+id/imgFotoEditar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="Foto de perfil"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_gatocompu" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Insignia de cámara -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="bottom|end"
+                    app:cardBackgroundColor="#7A1D32"
+                    app:cardCornerRadius="17dp"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="2dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="Cambiar foto"
+                        android:padding="7dp"
+                        android:src="@drawable/ic_camara" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/btnCambiarFoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:padding="6dp"
+                android:text="Cambiar foto de perfil"
+                android:textColor="#7A1D32"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <!-- TARJETA DE DATOS -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp"
+                app:strokeColor="#E8ECF0"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <!-- NOMBRE COMPLETO -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilNombre"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Nombre completo"
+                        android:textColorHint="#8991A3"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxStrokeColor="#7A1D32"
+                        app:helperText="El nombre completo no se puede cambiar"
+                        app:hintTextColor="#7A1D32">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etNombre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:inputType="textPersonName|textCapWords"
+                            android:maxLength="60"
+                            android:maxLines="1"
+                            android:textColor="#060A23" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- NOMBRE DE USUARIO -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilUsuario"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:hint="Nombre de usuario"
+                        android:textColorHint="#8991A3"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxStrokeColor="#7A1D32"
+                        app:hintTextColor="#7A1D32"
+                        app:prefixText="\@"
+                        app:prefixTextColor="#8991A3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etUsuario"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textVisiblePassword"
+                            android:maxLength="20"
+                            android:maxLines="1"
+                            android:textColor="#060A23" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- PRONOMBRES -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilPronombres"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:hint="Pronombres"
+                        android:textColorHint="#8991A3"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxStrokeColor="#7A1D32"
+                        app:hintTextColor="#7A1D32">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPronombres"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLength="30"
+                            android:maxLines="1"
+                            android:textColor="#060A23" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- SUGERENCIAS RÁPIDAS DE PRONOMBRES -->
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        app:chipSpacingHorizontal="8dp">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipEl"
+                            style="@style/Widget.Material3.Chip.Suggestion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="él"
+                            android:textColor="#060A23" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipElla"
+                            style="@style/Widget.Material3.Chip.Suggestion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ella"
+                            android:textColor="#060A23" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipElle"
+                            style="@style/Widget.Material3.Chip.Suggestion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="elle"
+                            android:textColor="#060A23" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <!-- DESCRIPCIÓN -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilDescripcion"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="Descripción"
+                        android:textColorHint="#8991A3"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxStrokeColor="#7A1D32"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="150"
+                        app:hintTextColor="#7A1D32">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDescripcion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top|start"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:maxLength="150"
+                            android:minLines="3"
+                            android:textColor="#060A23" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- BOTÓN GUARDAR -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGuardarAbajo"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="20dp"
+                android:text="Guardar cambios"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:backgroundTint="#7A1D32"
+                app:cornerRadius="26dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
