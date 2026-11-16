@@ -1,3 +1,4 @@
+
 package com.example.polispaceapp.fragmentsAlumno;
 
 import android.os.Bundle;
@@ -24,7 +25,6 @@ import com.example.polispaceapp.configuracionLateral.AparienciaFragment;
 import com.example.polispaceapp.configuracionLateral.AyudaSoporteFragment;
 import com.example.polispaceapp.configuracionLateral.InfoCuentaFragment;
 import com.example.polispaceapp.configuracionLateral.SeguridadCuentaFragment;
-import com.example.polispaceapp.fragmentsPrefecto.inicioPrefectoFragment;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -79,11 +79,19 @@ public class PerfilFragment extends Fragment {
 
         // ABRIR PANTALLA DE EDITAR PERFIL
         view.findViewById(R.id.editarPerfil).setOnClickListener(v -> {
-            TextView tvNombre = view.findViewById(R.id.tvNombreCompleto);
+
+            TextView tvNombre = view.findViewById(
+                    R.id.tvNombreCompleto
+            );
+
             getParentFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container,
-                            EditarPerfilFragment.newInstance(tvNombre.getText().toString()))
+                    .replace(
+                            R.id.fragment_container,
+                            EditarPerfilFragment.newInstance(
+                                    tvNombre.getText().toString()
+                            )
+                    )
                     .addToBackStack(null)
                     .commit();
         });
@@ -94,31 +102,50 @@ public class PerfilFragment extends Fragment {
                 view.findViewById(R.id.tvUsername),
                 view.findViewById(R.id.pronombres),
                 view.findViewById(R.id.tvDescripcion),
-                view.findViewById(R.id.imgFotoPerfil));
+                view.findViewById(R.id.imgFotoPerfil)
+        );
 
         // FOTO Y NOMBRE EN EL ENCABEZADO DEL MENÚ LATERAL
         View header = navigationView.getHeaderView(0);
 
+        if (header != null) {
 
-        int idAltura = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        int alturaBarra = idAltura > 0 ? getResources().getDimensionPixelSize(idAltura) : 0;
-        header.setPadding(
-                header.getPaddingLeft(),
-                header.getPaddingTop() + alturaBarra,
-                header.getPaddingRight(),
-                header.getPaddingBottom());
+            int idAltura = getResources().getIdentifier(
+                    "status_bar_height",
+                    "dimen",
+                    "android"
+            );
 
-        EditarPerfilFragment.cargarFotoGuardada(
-                requireContext(),
-                header.findViewById(R.id.img_nav_usuario));
+            int alturaBarra = idAltura > 0
+                    ? getResources().getDimensionPixelSize(idAltura)
+                    : 0;
 
-        TextView tvNombrePerfil = view.findViewById(R.id.tvNombreCompleto);
-        ((TextView) header.findViewById(R.id.txt_nav_nombre))
-                .setText(tvNombrePerfil.getText());
+            header.setPadding(
+                    header.getPaddingLeft(),
+                    header.getPaddingTop() + alturaBarra,
+                    header.getPaddingRight(),
+                    header.getPaddingBottom()
+            );
 
+            EditarPerfilFragment.cargarFotoGuardada(
+                    requireContext(),
+                    header.findViewById(R.id.img_nav_usuario)
+            );
 
+            TextView tvNombrePerfil = view.findViewById(
+                    R.id.tvNombreCompleto
+            );
 
+            TextView txtNavNombre = header.findViewById(
+                    R.id.txt_nav_nombre
+            );
 
+            if (txtNavNombre != null && tvNombrePerfil != null) {
+                txtNavNombre.setText(tvNombrePerfil.getText());
+            }
+        }
+
+        // ABRIR MENÚ LATERAL
         btnMenuPerfil.setOnClickListener(v -> {
             drawerLayout.openDrawer(GravityCompat.END);
         });
@@ -129,31 +156,47 @@ public class PerfilFragment extends Fragment {
             int id = item.getItemId();
 
             if (id == R.id.nav_mi_informacion) {
+
                 replaceFragment(new InfoCuentaFragment());
                 return true;
 
             } else if (id == R.id.nav_seguridad) {
+
                 replaceFragment(new SeguridadCuentaFragment());
                 return true;
 
             } else if (id == R.id.nav_apariencia) {
+
                 replaceFragment(new AparienciaFragment());
                 return true;
 
             } else if (id == R.id.nav_ayuda) {
+
                 replaceFragment(new AyudaSoporteFragment());
                 return true;
 
             } else if (id == R.id.nav_acerca) {
+
                 replaceFragment(new AcercaPoliSpaceFragment());
                 return true;
 
             } else if (id == R.id.nav_cerrar_sesion) {
-                replaceFragment(new InicioFragment());
+
+                // Cerrar el menú y regresar al inicio
+                drawerLayout.closeDrawer(GravityCompat.END);
+
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(
+                                R.id.fragment_container,
+                                new InicioFragment()
+                        )
+                        .commit();
+
                 return true;
             }
 
-            return true;
+            return false;
         });
     }
 
@@ -162,7 +205,7 @@ public class PerfilFragment extends Fragment {
 
         listaPublicaciones = new ArrayList<>();
 
-        // PUBLICACION 1
+        // PUBLICACIÓN 1
         listaPublicaciones.add(new Publicacion(
                 "María López",
                 "Hace 2 horas",
@@ -177,7 +220,7 @@ public class PerfilFragment extends Fragment {
                 "Programación"
         ));
 
-        // PUBLICACION 2
+        // PUBLICACIÓN 2
         listaPublicaciones.add(new Publicacion(
                 "Carlos Hernández",
                 "Hace 5 horas",
@@ -192,7 +235,7 @@ public class PerfilFragment extends Fragment {
                 "Matemáticas"
         ));
 
-        // PUBLICACION 3
+        // PUBLICACIÓN 3
         listaPublicaciones.add(new Publicacion(
                 "Ana Martínez",
                 "Ayer",
@@ -220,11 +263,21 @@ public class PerfilFragment extends Fragment {
         rvPublicacionesPerfil.setAdapter(publicacionAdapter);
     }
 
+    // REEMPLAZAR FRAGMENT Y GUARDAR HISTORIAL
     private void replaceFragment(Fragment fragment) {
 
+        // CERRAR MENÚ LATERAL
+        if (drawerLayout != null &&
+                drawerLayout.isDrawerOpen(GravityCompat.END)) {
+
+            drawerLayout.closeDrawer(GravityCompat.END);
+        }
+
+        // ABRIR NUEVA PANTALLA Y GUARDAR LA ANTERIOR
         getParentFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 }

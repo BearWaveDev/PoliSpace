@@ -79,7 +79,7 @@
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:padding="9dp"
-                        android:src="@android:drawable/ic_menu_day"
+                        android:src="@drawable/ic_apariencia"
                         android:tint="@color/color_primario"
                         android:contentDescription="Modo oscuro" />
 

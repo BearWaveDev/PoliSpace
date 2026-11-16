@@ -1,3 +1,4 @@
+
 package com.example.polispaceapp.fragmentsPrefecto;
 
 import android.os.Bundle;
@@ -6,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,11 +16,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.polispaceapp.R;
+
 import com.example.polispaceapp.configuracionLateral.AcercaPoliSpaceFragment;
 import com.example.polispaceapp.configuracionLateral.AparienciaFragment;
 import com.example.polispaceapp.configuracionLateral.AyudaSoporteFragment;
 import com.example.polispaceapp.configuracionLateral.InfoCuentaFragment;
 import com.example.polispaceapp.configuracionLateral.SeguridadCuentaFragment;
+
 import com.google.android.material.navigation.NavigationView;
 
 public class PerfilPrefectoFragment extends Fragment {
@@ -37,7 +41,7 @@ public class PerfilPrefectoFragment extends Fragment {
     private TextView tvCorreoPrefecto;
     private TextView tvRolPrefecto;
 
-    private android.widget.ImageView imgFotoPerfilPrefecto;
+    private ImageView imgFotoPerfilPrefecto;
 
     public PerfilPrefectoFragment() {
         // Constructor vacío requerido
@@ -47,7 +51,8 @@ public class PerfilPrefectoFragment extends Fragment {
             String param1,
             String param2) {
 
-        PerfilPrefectoFragment fragment = new PerfilPrefectoFragment();
+        PerfilPrefectoFragment fragment =
+                new PerfilPrefectoFragment();
 
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -89,18 +94,34 @@ public class PerfilPrefectoFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
-        // VISTAS DEL PERFIL
-        drawerLayout = view.findViewById(R.id.drawer_perfil_prefecto);
-        navigationView = view.findViewById(R.id.nav_view_perfil);
+        // INICIALIZAR VISTAS DEL PERFIL
+        drawerLayout = view.findViewById(
+                R.id.drawer_perfil_prefecto
+        );
 
-        btnMenuPerfil = view.findViewById(R.id.btn_menu_perfil);
+        navigationView = view.findViewById(
+                R.id.nav_view_perfil
+        );
 
-        tvNombrePrefecto = view.findViewById(R.id.tvNombrePrefecto);
-        tvCorreoPrefecto = view.findViewById(R.id.tvCorreoPrefecto);
-        tvRolPrefecto = view.findViewById(R.id.tvRolPrefecto);
+        btnMenuPerfil = view.findViewById(
+                R.id.btn_menu_perfil
+        );
 
-        imgFotoPerfilPrefecto =
-                view.findViewById(R.id.imgFotoPerfilPrefecto);
+        tvNombrePrefecto = view.findViewById(
+                R.id.tvNombrePrefecto
+        );
+
+        tvCorreoPrefecto = view.findViewById(
+                R.id.tvCorreoPrefecto
+        );
+
+        tvRolPrefecto = view.findViewById(
+                R.id.tvRolPrefecto
+        );
+
+        imgFotoPerfilPrefecto = view.findViewById(
+                R.id.imgFotoPerfilPrefecto
+        );
 
         // CARGAR INFORMACIÓN GUARDADA DEL PREFECTO
         EditarPerfilPrefectoFragment.aplicarPerfilGuardadoPrefecto(
@@ -111,15 +132,23 @@ public class PerfilPrefectoFragment extends Fragment {
         );
 
         // ABRIR MENÚ LATERAL
-        if (btnMenuPerfil != null) {
+        if (btnMenuPerfil != null && drawerLayout != null) {
+
             btnMenuPerfil.setOnClickListener(v ->
                     drawerLayout.openDrawer(GravityCompat.END)
             );
         }
 
         // BOTÓN EDITAR PERFIL
-        view.findViewById(R.id.editarPerfil)
-                .setOnClickListener(v -> abrirEditarPerfil());
+        View btnEditarPerfil = view.findViewById(
+                R.id.editarPerfil
+        );
+
+        if (btnEditarPerfil != null) {
+            btnEditarPerfil.setOnClickListener(v ->
+                    abrirEditarPerfil()
+            );
+        }
 
         // OPCIONES DEL MENÚ LATERAL
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -148,21 +177,25 @@ public class PerfilPrefectoFragment extends Fragment {
 
             } else if (id == R.id.nav_cerrar_sesion) {
 
-                replaceFragment(new inicioPrefectoFragment());
+                cerrarSesion();
+
+            } else {
+
+                return false;
             }
 
-            drawerLayout.closeDrawer(GravityCompat.END);
             return true;
         });
 
         /*
          * IMPORTANTE:
-         * Aquí se conserva tu RecyclerView rvGruposPendientes.
-         * Si ya tenías un Adapter y un LayoutManager para mostrar
-         * los grupos pendientes, conserva aquí ese código.
+         * Aquí puedes conservar la configuración de tu
+         * RecyclerView rvGruposPendientes y su Adapter,
+         * si ya lo tenías implementado.
          */
     }
 
+    // ABRIR EDITAR PERFIL
     private void abrirEditarPerfil() {
 
         String nombre = tvNombrePrefecto.getText().toString();
@@ -183,25 +216,60 @@ public class PerfilPrefectoFragment extends Fragment {
                 .commit();
     }
 
+    // REEMPLAZAR FRAGMENT Y GUARDAR HISTORIAL
     private void replaceFragment(Fragment fragment) {
 
+        // CERRAR MENÚ LATERAL
+        if (drawerLayout != null &&
+                drawerLayout.isDrawerOpen(GravityCompat.END)) {
+
+            drawerLayout.closeDrawer(GravityCompat.END);
+        }
+
+        // ABRIR NUEVA PANTALLA Y GUARDAR LA ANTERIOR
         getParentFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 
+    // CERRAR SESIÓN
+    private void cerrarSesion() {
+
+        if (drawerLayout != null &&
+                drawerLayout.isDrawerOpen(GravityCompat.END)) {
+
+            drawerLayout.closeDrawer(GravityCompat.END);
+        }
+
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(
+                        R.id.fragment_container,
+                        new inicioPrefectoFragment()
+                )
+                .commit();
+    }
+
+    // ACTUALIZAR INFORMACIÓN AL REGRESAR AL PERFIL
     @Override
     public void onResume() {
         super.onResume();
 
         if (getView() != null) {
 
-            tvCorreoPrefecto = getView().findViewById(R.id.tvCorreoPrefecto);
-            tvRolPrefecto = getView().findViewById(R.id.tvRolPrefecto);
+            tvCorreoPrefecto = getView().findViewById(
+                    R.id.tvCorreoPrefecto
+            );
 
-            imgFotoPerfilPrefecto =
-                    getView().findViewById(R.id.imgFotoPerfilPrefecto);
+            tvRolPrefecto = getView().findViewById(
+                    R.id.tvRolPrefecto
+            );
+
+            imgFotoPerfilPrefecto = getView().findViewById(
+                    R.id.imgFotoPerfilPrefecto
+            );
 
             EditarPerfilPrefectoFragment.aplicarPerfilGuardadoPrefecto(
                     requireContext(),

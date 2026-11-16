@@ -1,14 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_fondo"
     tools:context=".configuracionLateral.AyudaSoporteFragment">
 
-
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:background="@color/color_tarjeta"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
 
-</FrameLayout>
+        <!-- BOTON ATRAS -->
+        <ImageButton
+            android:id="@+id/btnAtrasAcerca"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="9dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_atras"
+            android:contentDescription="Regresar" />
+
+        <!-- TITULO -->
+        <TextView
+            android:id="@+id/tvTituloAcerca"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/btnAtrasAcerca"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:text="Ayuda y soporte"
+            android:textColor="@color/color_texto"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:maxLines="1" />
+
+    </RelativeLayout>
+
+    <!-- Contenido -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:padding="18dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="¿En qué podemos ayudarte?"
+                android:textColor="@color/color_texto"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="3dp"
+                android:text="En PoliSpace queremos que tengas la mejor experiencia. Consulta la información de esta sección o ponte en contacto con nuestro equipo."
+                android:textColor="@color/color_texto_secundario"
+                android:textSize="14sp" />
+
+            <!-- Preguntas frecuentes -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                app:cardBackgroundColor="@color/color_tarjeta"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Preguntas frecuentes"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="¿Qué es PoliSpace?"
+                        android:textColor="@color/color_primario"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="PoliSpace es una plataforma creada para que la comunidad politécnica pueda estudiar, conectar y compartir información en un mismo espacio."
+                        android:textColor="@color/color_texto_secundario"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="14dp"
+                        android:background="@color/color_borde" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="¿Tengo problemas para iniciar sesión?"
+                        android:textColor="@color/color_primario"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Verifica que tus datos estén escritos correctamente y que tengas conexión a internet. Si el problema continúa, escríbenos."
+                        android:textColor="@color/color_texto_secundario"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="14dp"
+                        android:background="@color/color_borde" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="¿Cómo reporto un error?"
+                        android:textColor="@color/color_primario"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Describe qué estabas haciendo, qué ocurrió y, si es posible, adjunta una captura de pantalla en tu correo."
+                        android:textColor="@color/color_texto_secundario"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Contacto -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="@color/color_tarjeta"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:contentDescription="Correo electrónico"
+                        android:src="@android:drawable/ic_dialog_email"
+                        app:tint="@color/color_primario" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:text="¿Necesitas más ayuda?"
+                        android:textColor="@color/color_texto"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:gravity="center"
+                        android:text="Contáctanos y cuéntanos cómo podemos ayudarte."
+                        android:textColor="@color/color_texto_secundario"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvCorreoSoporte"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="wearebearwave@gmail.com"
+                        android:textColor="@color/color_primario"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEnviarCorreoSoporte"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Enviar correo"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        app:backgroundTint="@color/color_primario"
+                        app:cornerRadius="12dp"
+                        app:icon="@android:drawable/ic_dialog_email"
+                        app:iconTint="@android:color/white" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:gravity="center"
+                android:text="PoliSpace · ESTUDIA · CONECTA · AVANZA"
+                android:textColor="@color/color_texto_secundario"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
