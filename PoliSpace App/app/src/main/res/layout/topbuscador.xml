@@ -8,7 +8,7 @@
     android:paddingEnd="16dp"
     android:paddingBottom="4dp">
 
-    <!-- Parece un campo de texto, pero es un botón: abre la pantalla de búsqueda -->
+    <!-- Barra de búsqueda -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/layoutBuscar"
         android:layout_width="match_parent"
@@ -18,10 +18,10 @@
         android:layout_toStartOf="@id/btnDerecha"
         android:clickable="true"
         android:focusable="true"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/color_tarjeta"
         app:cardCornerRadius="23dp"
         app:cardElevation="0dp"
-        app:strokeColor="#E8ECF0"
+        app:strokeColor="@color/color_borde"
         app:strokeWidth="1dp">
 
         <LinearLayout
@@ -38,19 +38,20 @@
                 android:layout_marginEnd="10dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_buscar"
-                app:tint="#8991A3" />
+                app:tint="@color/color_texto_secundario" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Buscar"
-                android:textColor="#8991A3"
+                android:textColor="@color/color_texto_secundario"
                 android:textSize="15sp" />
 
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
+    <!-- Botón de guardados -->
     <ImageView
         android:id="@+id/btnDerecha"
         android:layout_width="44dp"
@@ -61,6 +62,6 @@
         android:contentDescription="Guardados"
         android:padding="10dp"
         android:src="@drawable/ic_marcador"
-        app:tint="#060A23" />
+        app:tint="@color/color_texto" />
 
 </RelativeLayout>

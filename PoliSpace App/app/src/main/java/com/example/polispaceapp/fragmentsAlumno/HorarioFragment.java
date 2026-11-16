@@ -1,9 +1,10 @@
+
 package com.example.polispaceapp.fragmentsAlumno;
 
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -21,7 +22,6 @@ import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class HorarioFragment extends Fragment {
 
@@ -40,7 +40,7 @@ public class HorarioFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(
-            @NonNull LayoutInflater inflater,
+            @NonNull android.view.LayoutInflater inflater,
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
@@ -72,11 +72,14 @@ public class HorarioFragment extends Fragment {
         // MOSTRAR CLASES DEL DÍA INICIAL
         mostrarClases("Lunes");
 
+        // CONFIGURAR BÚSQUEDA
         View layoutBuscar = view.findViewById(R.id.layoutBuscar);
 
         if (layoutBuscar != null) {
             layoutBuscar.setOnClickListener(v ->
-                    startActivity(new Intent(requireActivity(), BuscarActivity.class))
+                    startActivity(
+                            new Intent(requireActivity(), BuscarActivity.class)
+                    )
             );
         }
     }
@@ -273,12 +276,17 @@ public class HorarioFragment extends Fragment {
 
             TextView tvSinClases = new TextView(requireContext());
 
-            tvSinClases.setText("No tienes clases programadas para este día.");
-            tvSinClases.setTextSize(14);
-            tvSinClases.setTextColor(
-                    ContextCompat.getColor(requireContext(), android.R.color.darker_gray)
+            tvSinClases.setText(
+                    "No tienes clases programadas para este día."
             );
-            tvSinClases.setGravity(android.view.Gravity.CENTER);
+
+            tvSinClases.setTextSize(14);
+
+            tvSinClases.setTextColor(
+                    obtenerColor(R.color.color_texto_secundario)
+            );
+
+            tvSinClases.setGravity(Gravity.CENTER);
             tvSinClases.setPadding(20, 40, 20, 40);
 
             contenedorClases.addView(tvSinClases);
@@ -302,13 +310,20 @@ public class HorarioFragment extends Fragment {
         parametrosTarjeta.setMargins(0, 0, 0, 12);
 
         tarjeta.setLayoutParams(parametrosTarjeta);
+
+        // COLORES DINÁMICOS SEGÚN EL TEMA
         tarjeta.setCardBackgroundColor(
-                ContextCompat.getColor(requireContext(), android.R.color.white)
+                obtenerColor(R.color.color_tarjeta)
         );
+
         tarjeta.setRadius(18);
         tarjeta.setCardElevation(3);
         tarjeta.setStrokeWidth(1);
-        tarjeta.setStrokeColor(0xFFE8ECF0);
+
+        tarjeta.setStrokeColor(
+                obtenerColor(R.color.color_borde)
+        );
+
         tarjeta.setUseCompatPadding(true);
 
         // CONTENIDO DE LA TARJETA
@@ -321,7 +336,7 @@ public class HorarioFragment extends Fragment {
         TextView tvHora = crearTexto(
                 clase.hora,
                 14,
-                0xFF7A1D32,
+                obtenerColor(R.color.color_primario),
                 true
         );
 
@@ -331,7 +346,7 @@ public class HorarioFragment extends Fragment {
         TextView tvMateria = crearTexto(
                 clase.materia,
                 17,
-                0xFF060A23,
+                obtenerColor(R.color.color_texto),
                 true
         );
 
@@ -342,7 +357,6 @@ public class HorarioFragment extends Fragment {
                 );
 
         margenMateria.topMargin = 8;
-
         tvMateria.setLayoutParams(margenMateria);
 
         contenido.addView(tvMateria);
@@ -351,7 +365,7 @@ public class HorarioFragment extends Fragment {
         TextView tvProfesor = crearTexto(
                 clase.profesor,
                 13,
-                0xFF8991A3,
+                obtenerColor(R.color.color_texto_secundario),
                 false
         );
 
@@ -362,16 +376,16 @@ public class HorarioFragment extends Fragment {
                 );
 
         margenProfesor.topMargin = 10;
-
         tvProfesor.setLayoutParams(margenProfesor);
 
         contenido.addView(tvProfesor);
 
         // GRUPO Y SALÓN
         TextView tvUbicacion = crearTexto(
-                "Grupo: " + clase.grupo + "     |     Salón: " + clase.salon,
+                "Grupo: " + clase.grupo
+                        + "     |     Salón: " + clase.salon,
                 12,
-                0xFF060A23,
+                obtenerColor(R.color.color_texto),
                 true
         );
 
@@ -382,7 +396,6 @@ public class HorarioFragment extends Fragment {
                 );
 
         margenUbicacion.topMargin = 8;
-
         tvUbicacion.setLayoutParams(margenUbicacion);
 
         contenido.addView(tvUbicacion);
@@ -390,6 +403,14 @@ public class HorarioFragment extends Fragment {
         tarjeta.addView(contenido);
 
         contenedorClases.addView(tarjeta);
+    }
+
+    // ------------------------------------------------
+    // OBTENER COLORES DEL TEMA ACTUAL
+    // ------------------------------------------------
+
+    private int obtenerColor(int recursoColor) {
+        return ContextCompat.getColor(requireContext(), recursoColor);
     }
 
     // ------------------------------------------------

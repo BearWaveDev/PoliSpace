@@ -1,18 +1,20 @@
+
 package com.example.polispaceapp.fragmentsAlumno;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.example.polispaceapp.R;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.polispaceapp.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -24,6 +26,8 @@ public class MarketplaceFormularioActivity extends AppCompatActivity {
     private Spinner spCategoria, spCondicion;
 
     private ImageView imgVistaArticulo;
+    private ImageButton btnAtrasMarketplace;
+
     private Uri imagenSeleccionada = null;
 
     private ActivityResultLauncher<String[]> selectorImagen;
@@ -33,6 +37,12 @@ public class MarketplaceFormularioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketplace_formulario);
 
+        // Flecha para regresar
+        btnAtrasMarketplace = findViewById(R.id.btnAtrasMarketplace);
+
+        btnAtrasMarketplace.setOnClickListener(v -> finish());
+
+        // Inicializar campos
         etTitulo = findViewById(R.id.etTitulo);
         etDescripcion = findViewById(R.id.etDescripcion);
         etPrecio = findViewById(R.id.etPrecio);
@@ -51,20 +61,27 @@ public class MarketplaceFormularioActivity extends AppCompatActivity {
                 findViewById(R.id.btnPublicar);
 
         configurarSpinners();
+        configurarSelectorImagen(btnImagen);
+
+        btnPublicar.setOnClickListener(v -> publicarArticulo());
+    }
+
+    private void configurarSelectorImagen(MaterialButton btnImagen) {
 
         selectorImagen = registerForActivityResult(
                 new ActivityResultContracts.OpenDocument(),
                 uri -> {
+
                     if (uri != null) {
+
                         imagenSeleccionada = uri;
 
                         try {
-                            getContentResolver()
-                                    .takePersistableUriPermission(
-                                            uri,
-                                            Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                    );
-                        } catch (Exception ignored) {
+                            getContentResolver().takePersistableUriPermission(
+                                    uri,
+                                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            );
+                        } catch (SecurityException ignored) {
                         }
 
                         imgVistaArticulo.setImageURI(uri);
@@ -75,8 +92,6 @@ public class MarketplaceFormularioActivity extends AppCompatActivity {
         btnImagen.setOnClickListener(v ->
                 selectorImagen.launch(new String[]{"image/*"})
         );
-
-        btnPublicar.setOnClickListener(v -> publicarArticulo());
     }
 
     private void configurarSpinners() {
@@ -147,6 +162,19 @@ public class MarketplaceFormularioActivity extends AppCompatActivity {
 
         if (!telefono.matches("[0-9+() -]{7,20}")) {
             etTelefono.setError("Ingresa un teléfono válido");
+            etTelefono.requestFocus();
+            return;
+        }
+
+        if (spCategoria.getSelectedItem() == null
+                || spCondicion.getSelectedItem() == null) {
+
+            Toast.makeText(
+                    this,
+                    "Selecciona una categoría y una condición",
+                    Toast.LENGTH_SHORT
+            ).show();
+
             return;
         }
 
@@ -157,30 +185,32 @@ public class MarketplaceFormularioActivity extends AppCompatActivity {
         resultado.putExtra("precio", precio);
         resultado.putExtra("vendedor", vendedor);
         resultado.putExtra("telefono", telefono);
+
         resultado.putExtra(
                 "categoria",
                 spCategoria.getSelectedItem().toString()
         );
+
         resultado.putExtra(
                 "condicion",
                 spCondicion.getSelectedItem().toString()
         );
+
         resultado.putExtra("estado", "Disponible");
 
-        if (imagenSeleccionada != null) {
-            resultado.putExtra(
-                    "imagenUri",
-                    imagenSeleccionada.toString()
-            );
-        } else {
-            resultado.putExtra("imagenUri", "");
-        }
+        resultado.putExtra(
+                "imagenUri",
+                imagenSeleccionada != null
+                        ? imagenSeleccionada.toString()
+                        : ""
+        );
 
         setResult(RESULT_OK, resultado);
         finish();
     }
 
     private String obtenerTexto(TextInputEditText campo) {
+
         return campo.getText() == null
                 ? ""
                 : campo.getText().toString().trim();

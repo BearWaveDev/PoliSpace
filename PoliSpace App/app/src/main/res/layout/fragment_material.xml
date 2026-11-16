@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F4F6F8"
+    android:background="@color/color_fondo"
     android:fitsSystemWindows="true">
 
     <!-- TOP BAR CON BUSCADOR -->
@@ -23,7 +23,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/color_fondo">
 
             <!-- ENCABEZADO -->
             <LinearLayout
@@ -39,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Material de estudio"
-                    android:textColor="#060A23"
+                    android:textColor="@color/color_texto"
                     android:textSize="23sp"
                     android:textStyle="bold" />
 
@@ -48,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="Comparte, descubre y aprende con otros estudiantes."
-                    android:textColor="#8991A3"
+                    android:textColor="@color/color_texto_secundario"
                     android:textSize="13sp" />
 
             </LinearLayout>
@@ -75,18 +76,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Todo"
+                        android:textColor="@color/color_primario"
                         android:checkable="true"
                         android:checked="true"
-                        app:chipBackgroundColor="#F0DCE5"
-                        app:checkedIconVisible="false"
-                        app:chipStrokeWidth="0dp" />
+                        app:chipBackgroundColor="@color/color_tarjeta"
+                        app:chipStrokeColor="@color/color_primario"
+                        app:chipStrokeWidth="1dp"
+                        app:checkedIconVisible="false" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipExamenes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Exámenes"
+                        android:textColor="@color/color_texto"
                         android:checkable="true"
+                        app:chipBackgroundColor="@color/color_tarjeta"
+                        app:chipStrokeColor="@color/color_borde"
+                        app:chipStrokeWidth="1dp"
                         app:checkedIconVisible="false" />
 
                     <com.google.android.material.chip.Chip
@@ -94,7 +101,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Apuntes"
+                        android:textColor="@color/color_texto"
                         android:checkable="true"
+                        app:chipBackgroundColor="@color/color_tarjeta"
+                        app:chipStrokeColor="@color/color_borde"
+                        app:chipStrokeWidth="1dp"
                         app:checkedIconVisible="false" />
 
                     <com.google.android.material.chip.Chip
@@ -102,7 +113,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Guías"
+                        android:textColor="@color/color_texto"
                         android:checkable="true"
+                        app:chipBackgroundColor="@color/color_tarjeta"
+                        app:chipStrokeColor="@color/color_borde"
+                        app:chipStrokeWidth="1dp"
                         app:checkedIconVisible="false" />
 
                 </com.google.android.material.chip.ChipGroup>
@@ -115,6 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@color/color_fondo"
                 android:clipToPadding="false"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
@@ -132,7 +148,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="20dp"
             android:contentDescription="Crear publicación"
-            app:backgroundTint="#7A1D32"
+            app:backgroundTint="@color/color_primario"
             app:srcCompat="@android:drawable/ic_input_add"
             app:tint="@color/white"
             app:elevation="6dp" />

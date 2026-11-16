@@ -3,19 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/color_fondo"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
-
 
     <include
         android:id="@+id/topBar"
         layout="@layout/top_bar" />
 
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="16dp">
 
         <LinearLayout
@@ -23,13 +22,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <TextView
                 android:id="@+id/tvBienvenida"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="¡Hola, papoi!"
-                android:textColor="@color/black"
+                android:textColor="@color/color_texto"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -38,16 +36,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Bienvenido a PoliSpace"
-                android:textColor="#666666"
+                android:textColor="@color/color_texto_secundario"
                 android:textSize="14sp" />
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                app:cardBackgroundColor="@color/color_tarjeta"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardElevation="4dp"
+                app:strokeColor="@color/color_borde"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Próxima Clase"
-                        android:textColor="@color/black"
+                        android:textColor="@color/color_texto"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Programación Móvil - Aula 204"
-                        android:textColor="#444444"
+                        android:textColor="@color/color_texto"
                         android:textSize="14sp" />
 
                     <TextView
@@ -76,8 +76,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Horario: 08:00 AM - 10:00 AM"
-                        android:textColor="#888888"
+                        android:textColor="@color/color_texto_secundario"
                         android:textSize="12sp" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

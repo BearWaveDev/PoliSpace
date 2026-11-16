@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F4F6F8"
+    android:background="@color/color_fondo"
     android:fitsSystemWindows="true"
     tools:context=".fragmentsAlumno.HorarioFragment">
 
@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/color_fondo">
 
         <!-- ENCABEZADO -->
         <LinearLayout
@@ -36,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mi horario"
-                android:textColor="#060A23"
+                android:textColor="@color/color_texto"
                 android:textSize="23sp"
                 android:textStyle="bold" />
 
@@ -45,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Consulta tus clases de la semana."
-                android:textColor="#8991A3"
+                android:textColor="@color/color_texto_secundario"
                 android:textSize="13sp" />
 
         </LinearLayout>
@@ -74,7 +75,11 @@
                     android:text="Lunes"
                     android:checkable="true"
                     android:checked="true"
-                    app:checkedIconVisible="false" />
+                    android:textColor="@color/color_texto"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/color_tarjeta"
+                    app:chipStrokeColor="@color/color_borde"
+                    app:chipStrokeWidth="1dp" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipMartes"
@@ -82,7 +87,11 @@
                     android:layout_height="wrap_content"
                     android:text="Martes"
                     android:checkable="true"
-                    app:checkedIconVisible="false" />
+                    android:textColor="@color/color_texto"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/color_tarjeta"
+                    app:chipStrokeColor="@color/color_borde"
+                    app:chipStrokeWidth="1dp" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipMiercoles"
@@ -90,7 +99,11 @@
                     android:layout_height="wrap_content"
                     android:text="Miércoles"
                     android:checkable="true"
-                    app:checkedIconVisible="false" />
+                    android:textColor="@color/color_texto"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/color_tarjeta"
+                    app:chipStrokeColor="@color/color_borde"
+                    app:chipStrokeWidth="1dp" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipJueves"
@@ -98,7 +111,11 @@
                     android:layout_height="wrap_content"
                     android:text="Jueves"
                     android:checkable="true"
-                    app:checkedIconVisible="false" />
+                    android:textColor="@color/color_texto"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/color_tarjeta"
+                    app:chipStrokeColor="@color/color_borde"
+                    app:chipStrokeWidth="1dp" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipViernes"
@@ -106,7 +123,11 @@
                     android:layout_height="wrap_content"
                     android:text="Viernes"
                     android:checkable="true"
-                    app:checkedIconVisible="false" />
+                    android:textColor="@color/color_texto"
+                    app:checkedIconVisible="false"
+                    app:chipBackgroundColor="@color/color_tarjeta"
+                    app:chipStrokeColor="@color/color_borde"
+                    app:chipStrokeWidth="1dp" />
 
             </com.google.android.material.chip.ChipGroup>
 
@@ -121,7 +142,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="12dp"
             android:text="Clases del lunes"
-            android:textColor="#060A23"
+            android:textColor="@color/color_texto"
             android:textSize="17sp"
             android:textStyle="bold" />
 

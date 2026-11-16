@@ -1,16 +1,26 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.PoliSpaceApp" parent="Theme.Material3.DayNight.NoActionBar">
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Tema del modo claro -->
+    <style name="Base.Theme.PoliSpaceApp"
+        parent="Theme.Material3.DayNight.NoActionBar">
+
         <item name="colorPrimary">#7A1D32</item>
         <item name="colorSecondaryContainer">#F3D6DE</item>
         <item name="colorOnSecondaryContainer">#7A1D32</item>
+
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
+
     </style>
-    <style name="ImagenCircular" parent="">
+
+    <!-- Estilo para imágenes circulares -->
+    <style name="ImagenCircular">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="Theme.PoliSpaceApp" parent="Base.Theme.PoliSpaceApp" />
+    <style name="Theme.PoliSpaceApp"
+        parent="Base.Theme.PoliSpaceApp" />
+
 </resources>

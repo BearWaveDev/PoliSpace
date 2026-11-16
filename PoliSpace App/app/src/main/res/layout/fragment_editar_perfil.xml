@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F6F8"
+    android:background="@color/color_fondo"
     android:orientation="vertical"
     tools:context=".fragmentsAlumno.EditarPerfilFragment">
 
@@ -12,7 +13,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/white"
+        android:background="@color/color_tarjeta"
         android:paddingStart="8dp"
         android:paddingEnd="16dp">
 
@@ -24,7 +25,8 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Volver"
             android:padding="10dp"
-            android:src="@drawable/ic_atras" />
+            android:src="@drawable/ic_atras"
+            app:tint="@color/color_texto" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,7 +35,7 @@
             android:layout_marginStart="4dp"
             android:layout_toEndOf="@id/btnAtras"
             android:text="Editar perfil"
-            android:textColor="#060A23"
+            android:textColor="@color/color_texto"
             android:textSize="19sp"
             android:textStyle="bold" />
 
@@ -46,7 +48,7 @@
             android:background="?attr/selectableItemBackground"
             android:padding="8dp"
             android:text="Guardar"
-            android:textColor="#7A1D32"
+            android:textColor="@color/color_primario"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -56,6 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@color/color_fondo"
         android:fillViewport="true">
 
         <LinearLayout
@@ -78,10 +81,10 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    app:cardBackgroundColor="#1E2227"
+                    app:cardBackgroundColor="@color/color_tarjeta"
                     app:cardCornerRadius="50dp"
                     app:cardElevation="0dp"
-                    app:strokeColor="#7A1D32"
+                    app:strokeColor="@color/color_primario"
                     app:strokeWidth="3dp">
 
                     <ImageView
@@ -94,12 +97,12 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Insignia de cámara -->
+                <!-- INSIGNIA DE CAMARA -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="34dp"
                     android:layout_height="34dp"
                     android:layout_gravity="bottom|end"
-                    app:cardBackgroundColor="#7A1D32"
+                    app:cardBackgroundColor="@color/color_primario"
                     app:cardCornerRadius="17dp"
                     app:cardElevation="2dp"
                     app:strokeColor="@color/white"
@@ -110,7 +113,8 @@
                         android:layout_height="match_parent"
                         android:contentDescription="Cambiar foto"
                         android:padding="7dp"
-                        android:src="@drawable/ic_camara" />
+                        android:src="@drawable/ic_camara"
+                        app:tint="@color/white" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -125,7 +129,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:padding="6dp"
                 android:text="Cambiar foto de perfil"
-                android:textColor="#7A1D32"
+                android:textColor="@color/color_primario"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -134,10 +138,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/color_tarjeta"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="2dp"
-                app:strokeColor="#E8ECF0"
+                app:strokeColor="@color/color_borde"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -154,14 +158,14 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Nombre completo"
-                        android:textColorHint="#8991A3"
+                        android:textColorHint="@color/color_texto_secundario"
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxCornerRadiusBottomStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
                         app:boxCornerRadiusTopStart="12dp"
-                        app:boxStrokeColor="#7A1D32"
+                        app:boxStrokeColor="@color/color_primario"
                         app:helperText="El nombre completo no se puede cambiar"
-                        app:hintTextColor="#7A1D32">
+                        app:hintTextColor="@color/color_primario">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etNombre"
@@ -171,7 +175,7 @@
                             android:inputType="textPersonName|textCapWords"
                             android:maxLength="60"
                             android:maxLines="1"
-                            android:textColor="#060A23" />
+                            android:textColor="@color/color_texto" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -183,15 +187,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:hint="Nombre de usuario"
-                        android:textColorHint="#8991A3"
+                        android:textColorHint="@color/color_texto_secundario"
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxCornerRadiusBottomStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
                         app:boxCornerRadiusTopStart="12dp"
-                        app:boxStrokeColor="#7A1D32"
-                        app:hintTextColor="#7A1D32"
+                        app:boxStrokeColor="@color/color_primario"
+                        app:hintTextColor="@color/color_primario"
                         app:prefixText="\@"
-                        app:prefixTextColor="#8991A3">
+                        app:prefixTextColor="@color/color_texto_secundario">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etUsuario"
@@ -200,7 +204,7 @@
                             android:inputType="textVisiblePassword"
                             android:maxLength="20"
                             android:maxLines="1"
-                            android:textColor="#060A23" />
+                            android:textColor="@color/color_texto" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -212,13 +216,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:hint="Pronombres"
-                        android:textColorHint="#8991A3"
+                        android:textColorHint="@color/color_texto_secundario"
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxCornerRadiusBottomStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
                         app:boxCornerRadiusTopStart="12dp"
-                        app:boxStrokeColor="#7A1D32"
-                        app:hintTextColor="#7A1D32">
+                        app:boxStrokeColor="@color/color_primario"
+                        app:hintTextColor="@color/color_primario">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPronombres"
@@ -227,11 +231,11 @@
                             android:inputType="text"
                             android:maxLength="30"
                             android:maxLines="1"
-                            android:textColor="#060A23" />
+                            android:textColor="@color/color_texto" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- SUGERENCIAS RÁPIDAS DE PRONOMBRES -->
+                    <!-- SUGERENCIAS RAPIDAS DE PRONOMBRES -->
                     <com.google.android.material.chip.ChipGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -244,7 +248,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="él"
-                            android:textColor="#060A23" />
+                            android:textColor="@color/color_texto"
+                            app:chipBackgroundColor="@color/color_fondo" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipElla"
@@ -252,7 +257,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="ella"
-                            android:textColor="#060A23" />
+                            android:textColor="@color/color_texto"
+                            app:chipBackgroundColor="@color/color_fondo" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chipElle"
@@ -260,11 +266,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="elle"
-                            android:textColor="#060A23" />
+                            android:textColor="@color/color_texto"
+                            app:chipBackgroundColor="@color/color_fondo" />
 
                     </com.google.android.material.chip.ChipGroup>
 
-                    <!-- DESCRIPCIÓN -->
+                    <!-- DESCRIPCION -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilDescripcion"
                         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -272,15 +279,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:hint="Descripción"
-                        android:textColorHint="#8991A3"
+                        android:textColorHint="@color/color_texto_secundario"
                         app:boxCornerRadiusBottomEnd="12dp"
                         app:boxCornerRadiusBottomStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
                         app:boxCornerRadiusTopStart="12dp"
-                        app:boxStrokeColor="#7A1D32"
+                        app:boxStrokeColor="@color/color_primario"
                         app:counterEnabled="true"
                         app:counterMaxLength="150"
-                        app:hintTextColor="#7A1D32">
+                        app:hintTextColor="@color/color_primario">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etDescripcion"
@@ -290,7 +297,7 @@
                             android:inputType="textMultiLine|textCapSentences"
                             android:maxLength="150"
                             android:minLines="3"
-                            android:textColor="#060A23" />
+                            android:textColor="@color/color_texto" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -298,7 +305,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- BOTÓN GUARDAR -->
+            <!-- BOTON GUARDAR -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGuardarAbajo"
                 android:layout_width="match_parent"
@@ -309,7 +316,7 @@
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                app:backgroundTint="#7A1D32"
+                app:backgroundTint="@color/color_primario"
                 app:cornerRadius="26dp" />
 
         </LinearLayout>

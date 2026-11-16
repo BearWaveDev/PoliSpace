@@ -10,11 +10,10 @@
     tools:context=".fragmentsPrefecto.PerfilPrefectoFragment">
 
     <!-- CONTENIDO PRINCIPAL DEL PERFIL -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F4F6F8"
+        android:background="@color/color_fondo"
         android:orientation="vertical">
 
         <include
@@ -25,7 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#060A23"
+            android:background="@color/color_encabezado"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="20dp"
@@ -37,10 +36,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="84dp"
                 android:layout_height="84dp"
-                app:cardBackgroundColor="#1E2227"
+                app:cardBackgroundColor="@color/color_tarjeta"
                 app:cardCornerRadius="42dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#7A1D32"
+                app:strokeColor="@color/color_primario"
                 app:strokeWidth="3dp">
 
                 <ImageView
@@ -49,7 +48,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_cuiamordemividaformal"
-                    tools:ignore="ContentDescription"/>
+                    tools:ignore="ContentDescription" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -68,7 +67,7 @@
                     android:text="Nombre del Prefecto"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvCorreoPrefecto"
@@ -76,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="correo.institucional@ipn.mx"
-                    android:textColor="#A0A7B1"
+                    android:textColor="#B7BDCE"
                     android:textSize="12sp" />
 
                 <TextView
@@ -85,8 +84,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Prefectura Turno Matutino"
-                    android:textColor="#A0A7B1"
-                    android:textSize="12sp"/>
+                    android:textColor="#B7BDCE"
+                    android:textSize="12sp" />
+
                 <!-- BOTÓN EDITAR -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/editarPerfil"
@@ -98,7 +98,7 @@
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    app:backgroundTint="#7A1D32"
+                    app:backgroundTint="@color/color_primario"
                     app:cornerRadius="20dp"
                     app:elevation="0dp"
                     app:icon="@android:drawable/ic_menu_edit"
@@ -106,8 +106,6 @@
                     app:iconSize="14dp" />
 
             </LinearLayout>
-
-
 
         </LinearLayout>
 
@@ -127,18 +125,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Grupos pendientes de pase de lista"
-                android:textColor="#172B4D"
+                android:textColor="@color/color_texto"
                 android:textSize="15sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvContadorPendientes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pendientes"
-                android:textColor="#7A1D32"
+                android:textColor="@color/color_primario"
                 android:textSize="12sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -148,11 +146,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/color_fondo"
             android:clipToPadding="false"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingBottom="16dp"
-            tools:listitem="@android:layout/simple_list_item_2"/>
+            tools:listitem="@android:layout/simple_list_item_2" />
 
     </LinearLayout>
 
@@ -162,10 +161,11 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
+        android:background="@color/color_tarjeta"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/navmenu_alumno"
-        app:itemIconTint="#7A1D32"
-        app:itemTextColor="#060A23" />
+        app:itemIconTint="@color/color_primario"
+        app:itemTextColor="@color/color_texto" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

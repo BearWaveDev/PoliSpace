@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/color_fondo">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,40 +13,67 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <TextView
+        <!-- Flecha y título -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Publicar artículo"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="6dp"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="6dp">
 
+            <ImageButton
+                android:id="@+id/btnAtrasMarketplace"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:src="@drawable/ic_atras"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                android:padding="8dp"
+                android:contentDescription="Regresar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Publicar artículo"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="@color/color_texto"
+                android:layout_marginStart="8dp"/>
+
+        </LinearLayout>
+
+        <!-- Subtítulo -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Comparte artículos escolares con otros alumnos"
             android:textSize="14sp"
-            android:textColor="#777777"
+            android:textColor="@color/color_texto_secundario"
             android:layout_marginBottom="18dp"/>
 
+        <!-- Fotografía -->
         <ImageView
             android:id="@+id/imgVistaArticulo"
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:src="@android:drawable/ic_menu_gallery"
             android:scaleType="centerCrop"
-            android:background="#EEEEEE"
+            android:background="@color/color_tarjeta"
             android:contentDescription="Fotografía del artículo"/>
 
+        <!-- Seleccionar fotografía -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSeleccionarImagen"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Seleccionar fotografía"
             android:textAllCaps="false"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:textColor="@color/color_primario"
+            app:strokeColor="@color/color_primario"
             android:layout_marginBottom="16dp"/>
 
+        <!-- Nombre del artículo -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,9 +83,11 @@
                 android:id="@+id/etTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="60"/>
+                android:maxLength="60"
+                android:textColor="@color/color_texto"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Descripción -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,21 +100,26 @@
                 android:layout_height="wrap_content"
                 android:minLines="3"
                 android:gravity="top"
-                android:inputType="textMultiLine"/>
+                android:inputType="textMultiLine"
+                android:textColor="@color/color_texto"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Categoría -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Categoría"
             android:textStyle="bold"
+            android:textColor="@color/color_texto"
             android:layout_marginTop="14dp"/>
 
         <Spinner
             android:id="@+id/spCategoria"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:backgroundTint="@color/color_primario"/>
 
+        <!-- Precio -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -95,21 +130,26 @@
                 android:id="@+id/etPrecio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences"/>
+                android:inputType="textCapSentences"
+                android:textColor="@color/color_texto"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Condición -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Condición del artículo"
             android:textStyle="bold"
+            android:textColor="@color/color_texto"
             android:layout_marginTop="14dp"/>
 
         <Spinner
             android:id="@+id/spCondicion"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:backgroundTint="@color/color_primario"/>
 
+        <!-- Vendedor -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -119,9 +159,11 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etVendedor"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_texto"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Teléfono -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,15 +174,19 @@
                 android:id="@+id/etTelefono"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"/>
+                android:inputType="phone"
+                android:textColor="@color/color_texto"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Publicar -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPublicar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Publicar artículo"
             android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/color_primario"
             app:cornerRadius="12dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="20dp"/>

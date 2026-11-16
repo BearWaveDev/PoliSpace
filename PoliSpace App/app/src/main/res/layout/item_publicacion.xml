@@ -8,10 +8,10 @@
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
     android:layout_marginBottom="14dp"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/color_tarjeta"
     app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
-    app:strokeColor="#E8ECF0"
+    app:strokeColor="@color/color_borde"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -31,9 +31,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="44dp"
                 android:layout_height="44dp"
+                app:cardBackgroundColor="@color/color_fondo"
                 app:cardCornerRadius="22dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#7A1D32"
+                app:strokeColor="@color/color_primario"
                 app:strokeWidth="1dp">
 
                 <ImageView
@@ -42,7 +43,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@android:drawable/ic_menu_myplaces"
-                    android:contentDescription="Foto del usuario"/>
+                    android:contentDescription="Foto del usuario" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -59,10 +60,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="María López"
-                    android:textColor="#060A23"
+                    android:textColor="@color/color_texto"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:maxLines="1"/>
+                    android:maxLines="1" />
 
                 <TextView
                     android:id="@+id/tvFechaPublicacion"
@@ -70,8 +71,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="Hace 2 horas"
-                    android:textColor="#8991A3"
-                    android:textSize="11sp"/>
+                    android:textColor="@color/color_texto_secundario"
+                    android:textSize="11sp" />
 
             </LinearLayout>
 
@@ -82,7 +83,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_menu_more"
                 android:contentDescription="Opciones de publicación"
-                app:tint="#8991A3"/>
+                app:tint="@color/color_texto_secundario" />
 
         </LinearLayout>
 
@@ -93,9 +94,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:text="Examen de programación - Segundo parcial"
-            android:textColor="#060A23"
+            android:textColor="@color/color_texto"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <!-- DESCRIPCION -->
         <TextView
@@ -104,9 +105,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:text="Les comparto el examen que utilizamos para estudiar el segundo parcial. Incluye ejercicios de arreglos, ciclos y funciones. ¡Espero que les sirva!"
-            android:textColor="#50586A"
+            android:textColor="@color/color_texto_secundario"
             android:textSize="13sp"
-            android:lineSpacingExtra="3dp"/>
+            android:lineSpacingExtra="3dp" />
 
         <!-- ARCHIVO ADJUNTO -->
         <com.google.android.material.card.MaterialCardView
@@ -114,10 +115,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            app:cardBackgroundColor="#F4F6F9"
+            app:cardBackgroundColor="@color/color_fondo"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
-            app:strokeColor="#E5E8EF"
+            app:strokeColor="@color/color_borde"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -131,7 +132,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="46dp"
                     android:layout_height="52dp"
-                    app:cardBackgroundColor="#FCE8EB"
+                    app:cardBackgroundColor="@color/color_tarjeta"
                     app:cardCornerRadius="9dp"
                     app:cardElevation="0dp">
 
@@ -141,9 +142,9 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="PDF"
-                        android:textColor="#7A1D32"
+                        android:textColor="@color/color_primario"
                         android:textSize="13sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -160,10 +161,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Examen_Programacion.pdf"
-                        android:textColor="#060A23"
+                        android:textColor="@color/color_texto"
                         android:textSize="13sp"
                         android:textStyle="bold"
-                        android:maxLines="2"/>
+                        android:maxLines="2" />
 
                     <TextView
                         android:id="@+id/tvPesoArchivo"
@@ -171,8 +172,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Documento PDF · 2.4 MB"
-                        android:textColor="#8991A3"
-                        android:textSize="11sp"/>
+                        android:textColor="@color/color_texto_secundario"
+                        android:textSize="11sp" />
 
                 </LinearLayout>
 
@@ -184,7 +185,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@android:drawable/stat_sys_download"
                     android:contentDescription="Descargar archivo"
-                    app:tint="#7A1D32"/>
+                    app:tint="@color/color_primario" />
 
             </LinearLayout>
 
@@ -196,9 +197,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:text="Clasificación académica"
-            android:textColor="#8991A3"
+            android:textColor="@color/color_texto_secundario"
             android:textSize="11sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupEtiquetas"
@@ -215,42 +216,45 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CECyT 9"
-                android:textColor="#315D8A"
+                android:textColor="@color/color_primario"
                 android:textSize="11sp"
-                app:chipBackgroundColor="#E8F1FA"
-                app:chipStrokeWidth="0dp"
+                android:checkable="false"
+                app:chipBackgroundColor="@color/color_tarjeta"
+                app:chipStrokeColor="@color/color_borde"
+                app:chipStrokeWidth="1dp"
                 app:ensureMinTouchTargetSize="false"
                 app:chipMinHeight="30dp"
-                app:closeIconVisible="false"
-                android:checkable="false"/>
+                app:closeIconVisible="false" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipCarrera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Programación"
-                android:textColor="#6B438C"
+                android:textColor="@color/color_primario"
                 android:textSize="11sp"
-                app:chipBackgroundColor="#F1EAF8"
-                app:chipStrokeWidth="0dp"
+                android:checkable="false"
+                app:chipBackgroundColor="@color/color_tarjeta"
+                app:chipStrokeColor="@color/color_borde"
+                app:chipStrokeWidth="1dp"
                 app:ensureMinTouchTargetSize="false"
                 app:chipMinHeight="30dp"
-                app:closeIconVisible="false"
-                android:checkable="false"/>
+                app:closeIconVisible="false" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipMateria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Programación"
-                android:textColor="#8B5B27"
+                android:textColor="@color/color_primario"
                 android:textSize="11sp"
-                app:chipBackgroundColor="#FFF2DF"
-                app:chipStrokeWidth="0dp"
+                android:checkable="false"
+                app:chipBackgroundColor="@color/color_tarjeta"
+                app:chipStrokeColor="@color/color_borde"
+                app:chipStrokeWidth="1dp"
                 app:ensureMinTouchTargetSize="false"
                 app:chipMinHeight="30dp"
-                app:closeIconVisible="false"
-                android:checkable="false"/>
+                app:closeIconVisible="false" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -260,7 +264,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="8dp"
-            android:background="#E8ECF0"/>
+            android:background="@color/color_borde" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -286,7 +290,7 @@
                     android:layout_height="19dp"
                     android:src="@android:drawable/btn_star_big_off"
                     android:contentDescription="Me gusta"
-                    app:tint="#7A1D32"/>
+                    app:tint="@color/color_primario" />
 
                 <TextView
                     android:id="@+id/tvMeGusta"
@@ -294,8 +298,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:text="Me gusta"
-                    android:textColor="#50586A"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/color_texto_secundario"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -316,7 +320,7 @@
                     android:layout_height="19dp"
                     android:src="@android:drawable/ic_menu_edit"
                     android:contentDescription="Comentar"
-                    app:tint="#50586A"/>
+                    app:tint="@color/color_texto_secundario" />
 
                 <TextView
                     android:id="@+id/tvCantidadComentarios"
@@ -324,8 +328,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:text="Comentar"
-                    android:textColor="#50586A"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/color_texto_secundario"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -347,15 +351,15 @@
                     android:layout_height="19dp"
                     android:src="@android:drawable/ic_menu_save"
                     android:contentDescription="Guardar publicación"
-                    app:tint="#50586A"/>
+                    app:tint="@color/color_texto_secundario" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:text="Guardar"
-                    android:textColor="#50586A"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/color_texto_secundario"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 

@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Colores básicos -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Colores del modo claro -->
+    <color name="color_fondo">#F4F6F8</color>
+    <color name="color_tarjeta">#FFFFFF</color>
+    <color name="color_texto">#060A23</color>
+    <color name="color_texto_secundario">#8991A3</color>
+    <color name="color_encabezado">#060A23</color>
+    <color name="color_borde">#E8ECF0</color>
+
+    <!-- Colores PoliSpace -->
+    <color name="color_primario">#7A1D32</color>
+    <color name="color_acento">#A61956</color>
+    <color name="color_exito">#16834A</color>
+
 </resources>
