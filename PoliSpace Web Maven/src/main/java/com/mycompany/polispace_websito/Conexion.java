@@ -9,34 +9,24 @@ public class Conexion {
 
     public static Connection conectar() throws SQLException {
 
-        String host = System.getenv("POLISPACE_DB_HOST");
-        String usuario = System.getenv("POLISPACE_DB_USER");
-        String password = System.getenv("POLISPACE_DB_PASSWORD");
+        String url = System.getenv("SPRING_DATASOURCE_URL");
+        String usuario = System.getenv("SPRING_DATASOURCE_USERNAME");
+        String contrasena = System.getenv("SPRING_DATASOURCE_PASSWORD");
 
-        String puerto = System.getenv("POLISPACE_DB_PORT");
-        String baseDatos = System.getenv("POLISPACE_DB_NAME");
-
-        if (host == null || usuario == null || password == null) {
+        if (url == null || usuario == null || contrasena == null) {
             throw new SQLException(
-                "Faltan variables de entorno de la base de datos."
+                "Faltan variables de conexión en Azure."
             );
         }
-
-        if (puerto == null) puerto = "3306";
-        if (baseDatos == null) baseDatos = "PoliSpaceBD";
-
-        String url = "jdbc:mysql://" + host + ":" + puerto + "/"
-                + baseDatos
-                + "?useSSL=true&requireSSL=true"
-                + "&serverTimezone=UTC"
-                + "&characterEncoding=UTF-8";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            throw new SQLException("No se encontró el driver MySQL.", e);
+            throw new SQLException(
+                "No se encontró el driver de MySQL.", e
+            );
         }
 
-        return DriverManager.getConnection(url, usuario, password);
+        return DriverManager.getConnection(url, usuario, contrasena);
     }
 }
