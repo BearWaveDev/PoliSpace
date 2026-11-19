@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.util.*"%>
@@ -21,10 +20,11 @@
 %>
 
 <%
+    // 1. Verificar sesión
     Object sesionUsuario = session.getAttribute("idUsuario");
 
     if (sesionUsuario == null) {
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("iniciarsesion.html");
         return;
     }
 
@@ -33,7 +33,8 @@
     try {
         idUsuario = Long.parseLong(sesionUsuario.toString());
     } catch (NumberFormatException e) {
-        response.sendError(403, "Sesión inválida.");
+        session.invalidate();
+        response.sendRedirect("iniciarsesion.html");
         return;
     }
 
@@ -41,23 +42,25 @@
     String diaSeleccionado = request.getParameter("dia");
 
     String[] diasValidos = {
-        "lunes", "martes", "miercoles", "jueves", "viernes",
-        "sabado", "domingo"
+        "lunes", "martes", "miercoles", "jueves",
+        "viernes", "sabado", "domingo"
     };
 
-    boolean diaValido = false;
+    if (diaSeleccionado != null && !diaSeleccionado.isEmpty()) {
+        boolean valido = false;
 
-    if (diaSeleccionado != null) {
-        for (String d : diasValidos) {
-            if (d.equals(diaSeleccionado)) {
-                diaValido = true;
+        for (String dia : diasValidos) {
+            if (dia.equals(diaSeleccionado)) {
+                valido = true;
                 break;
             }
         }
 
-        if (!diaValido) {
+        if (!valido) {
             diaSeleccionado = null;
         }
+    } else {
+        diaSeleccionado = null;
     }
 
     List<Map<String, String>> horarios = new ArrayList<>();
@@ -65,106 +68,128 @@
 
     try (Connection cn = Conexion.conectar()) {
 
-        // Consultar el rol directamente en MySQL.
+        if (cn == null || cn.isClosed()) {
+            throw new SQLException("No existe conexión con la base de datos.");
+        }
+
+        // 2. Obtener rol del usuario
         String sqlRol =
             "SELECT r.nombre_rol " +
             "FROM usuario u " +
-            "INNER JOIN rol r ON r.id_rol = u.id_rol " +
-            "WHERE u.id_usuario = ? AND u.estado = 'activo'";
+            "INNER JOIN rol r ON u.id_rol = r.id_rol " +
+            "WHERE u.id_usuario = ? " +
+            "AND u.estado = 'activo'";
 
         try (PreparedStatement ps = cn.prepareStatement(sqlRol)) {
+
             ps.setLong(1, idUsuario);
 
             try (ResultSet rs = ps.executeQuery()) {
+
                 if (rs.next()) {
                     rol = rs.getString("nombre_rol");
-                }
-            }
-        }
 
-        if (rol.isEmpty()) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
-        String sql;
-
-        if ("administrador".equals(rol)) {
-
-            sql =
-                "SELECT id_horario, nombre_materia, nombre_grupo, " +
-                "nombre_ubicacion, profesor, dia_semana, " +
-                "hora_inicio, hora_fin, periodo " +
-                "FROM vista_horarios " +
-                "WHERE estado = 'activo' ";
-
-        } else if ("alumno".equals(rol)) {
-
-            sql =
-                "SELECT vh.id_horario, vh.nombre_materia, " +
-                "vh.nombre_grupo, vh.nombre_ubicacion, vh.profesor, " +
-                "vh.dia_semana, vh.hora_inicio, vh.hora_fin, vh.periodo " +
-                "FROM vista_horarios vh " +
-                "INNER JOIN alumno a ON a.id_grupo = vh.id_grupo " +
-                "WHERE a.id_usuario = ? " +
-                "AND a.estado = 'activo' " +
-                "AND vh.estado = 'activo' ";
-
-        } else {
-            sql = null;
-        }
-
-        if (sql != null) {
-
-            if (diaSeleccionado != null) {
-                sql += " AND dia_semana = ? ";
-            }
-
-            sql +=
-                " ORDER BY FIELD(dia_semana, " +
-                "'lunes','martes','miercoles','jueves'," +
-                "'viernes','sabado','domingo'), hora_inicio";
-
-            try (PreparedStatement ps = cn.prepareStatement(sql)) {
-
-                int indice = 1;
-
-                if ("alumno".equals(rol)) {
-                    ps.setLong(indice++, idUsuario);
-                }
-
-                if (diaSeleccionado != null) {
-                    ps.setString(indice, diaSeleccionado);
-                }
-
-                try (ResultSet rs = ps.executeQuery()) {
-
-                    while (rs.next()) {
-
-                        Map<String, String> h = new HashMap<>();
-
-                        h.put("id", rs.getString("id_horario"));
-                        h.put("materia", rs.getString("nombre_materia"));
-                        h.put("grupo", rs.getString("nombre_grupo"));
-                        h.put("ubicacion", rs.getString("nombre_ubicacion"));
-                        h.put("profesor", rs.getString("profesor"));
-                        h.put("dia", rs.getString("dia_semana"));
-                        h.put("inicio", hora(rs.getString("hora_inicio")));
-                        h.put("fin", hora(rs.getString("hora_fin")));
-                        h.put("periodo", rs.getString("periodo"));
-
-                        horarios.add(h);
+                    if (rol != null) {
+                        rol = rol.trim().toLowerCase(Locale.ROOT);
                     }
                 }
             }
         }
 
+        if (rol == null || rol.isEmpty()) {
+            response.sendRedirect("iniciarsesion.html");
+            return;
+        }
+
+        // 3. Construir consulta según el rol
+        StringBuilder sql = new StringBuilder();
+
+        if ("administrador".equals(rol)) {
+
+            sql.append(
+                "SELECT vh.id_horario, vh.nombre_materia, " +
+                "vh.nombre_grupo, vh.nombre_ubicacion, " +
+                "vh.profesor, vh.dia_semana, " +
+                "vh.hora_inicio, vh.hora_fin, vh.periodo " +
+                "FROM vista_horarios vh " +
+                "WHERE vh.estado = 'activo' "
+            );
+
+        } else if ("alumno".equals(rol)) {
+
+            sql.append(
+                "SELECT vh.id_horario, vh.nombre_materia, " +
+                "vh.nombre_grupo, vh.nombre_ubicacion, " +
+                "vh.profesor, vh.dia_semana, " +
+                "vh.hora_inicio, vh.hora_fin, vh.periodo " +
+                "FROM vista_horarios vh " +
+                "INNER JOIN alumno a " +
+                "ON a.id_grupo = vh.id_grupo " +
+                "WHERE a.id_usuario = ? " +
+                "AND a.estado = 'activo' " +
+                "AND vh.estado = 'activo' "
+            );
+
+        } else {
+
+            throw new SQLException(
+                "El rol " + rol + " no tiene una consulta de horario configurada."
+            );
+        }
+
+        // 4. Aplicar filtro por día
+        if (diaSeleccionado != null) {
+            sql.append(" AND vh.dia_semana = ? ");
+        }
+
+        // 5. Ordenar horario
+        sql.append(
+            " ORDER BY FIELD(vh.dia_semana, " +
+            "'lunes','martes','miercoles','jueves'," +
+            "'viernes','sabado','domingo'), vh.hora_inicio"
+        );
+
+        // 6. Ejecutar consulta
+        try (PreparedStatement ps = cn.prepareStatement(sql.toString())) {
+
+            int indice = 1;
+
+            if ("alumno".equals(rol)) {
+                ps.setLong(indice++, idUsuario);
+            }
+
+            if (diaSeleccionado != null) {
+                ps.setString(indice, diaSeleccionado);
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Map<String, String> h = new HashMap<>();
+
+                    h.put("id", rs.getString("id_horario"));
+                    h.put("materia", rs.getString("nombre_materia"));
+                    h.put("grupo", rs.getString("nombre_grupo"));
+                    h.put("ubicacion", rs.getString("nombre_ubicacion"));
+                    h.put("profesor", rs.getString("profesor"));
+                    h.put("dia", rs.getString("dia_semana"));
+                    h.put("inicio", hora(rs.getString("hora_inicio")));
+                    h.put("fin", hora(rs.getString("hora_fin")));
+                    h.put("periodo", rs.getString("periodo"));
+
+                    horarios.add(h);
+                }
+            }
+        }
+
     } catch (SQLException e) {
-        application.log("Error al consultar horarios", e);
-        error = "No fue posible cargar el horario. Intenta nuevamente.";
+
+        application.log("ERROR EN MIHORARIO.JSP: " + e.getMessage(), e);
+
+        error = "No fue posible cargar el horario. Revisa la conexión y las consultas de la base de datos.";
     }
 %>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -400,7 +425,7 @@
 
     </main>
 
-    <script src="js/main.js"></script>
+    <script src="main.js"></script>
 
 </body>
 </html>
