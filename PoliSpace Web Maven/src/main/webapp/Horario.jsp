@@ -1,3 +1,4 @@
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.util.*"%>
@@ -17,14 +18,32 @@
         if (h == null) return "";
         return h.length() >= 5 ? h.substring(0, 5) : h;
     }
+
+    public String nombreDia(String dia) {
+        if (dia == null) return "";
+
+        switch (dia.toLowerCase(Locale.ROOT)) {
+            case "lunes": return "Lunes";
+            case "martes": return "Martes";
+            case "miercoles": return "Miércoles";
+            case "jueves": return "Jueves";
+            case "viernes": return "Viernes";
+            case "sabado": return "Sábado";
+            case "domingo": return "Domingo";
+            default: return dia;
+        }
+    }
 %>
 
 <%
-    // 1. Verificar sesión
+    // =====================================================
+    // 1. VALIDAR SESIÓN
+    // =====================================================
+
     Object sesionUsuario = session.getAttribute("idUsuario");
 
     if (sesionUsuario == null) {
-        response.sendRedirect("iniciarsesion.html");
+        response.sendRedirect(request.getContextPath() + "/iniciarsesion.html");
         return;
     }
 
@@ -34,9 +53,11 @@
         idUsuario = Long.parseLong(sesionUsuario.toString());
     } catch (NumberFormatException e) {
         session.invalidate();
-        response.sendRedirect("iniciarsesion.html");
+        response.sendRedirect(request.getContextPath() + "/iniciarsesion.html");
         return;
     }
+
+    String contexto = request.getContextPath();
 
     String rol = "";
     String diaSeleccionado = request.getParameter("dia");
@@ -46,7 +67,10 @@
         "viernes", "sabado", "domingo"
     };
 
-    if (diaSeleccionado != null && !diaSeleccionado.isEmpty()) {
+    if (diaSeleccionado != null && !diaSeleccionado.trim().isEmpty()) {
+
+        diaSeleccionado = diaSeleccionado.trim().toLowerCase(Locale.ROOT);
+
         boolean valido = false;
 
         for (String dia : diasValidos) {
@@ -59,6 +83,7 @@
         if (!valido) {
             diaSeleccionado = null;
         }
+
     } else {
         diaSeleccionado = null;
     }
@@ -66,13 +91,17 @@
     List<Map<String, String>> horarios = new ArrayList<>();
     String error = null;
 
+    // =====================================================
+    // 2. CONSULTAR BASE DE DATOS
+    // =====================================================
+
     try (Connection cn = Conexion.conectar()) {
 
         if (cn == null || cn.isClosed()) {
             throw new SQLException("No existe conexión con la base de datos.");
         }
 
-        // 2. Obtener rol del usuario
+        // Obtener rol del usuario
         String sqlRol =
             "SELECT r.nombre_rol " +
             "FROM usuario u " +
@@ -97,31 +126,52 @@
         }
 
         if (rol == null || rol.isEmpty()) {
-            response.sendRedirect("iniciarsesion.html");
+            session.invalidate();
+            response.sendRedirect(contexto + "/iniciarsesion.html");
             return;
         }
 
-        // 3. Construir consulta según el rol
+        // =================================================
+        // 3. CONSTRUIR CONSULTA SEGÚN EL ROL
+        // =================================================
+
         StringBuilder sql = new StringBuilder();
 
         if ("administrador".equals(rol)) {
 
+            // El administrador puede consultar todos los horarios.
+
             sql.append(
-                "SELECT vh.id_horario, vh.nombre_materia, " +
-                "vh.nombre_grupo, vh.nombre_ubicacion, " +
-                "vh.profesor, vh.dia_semana, " +
-                "vh.hora_inicio, vh.hora_fin, vh.periodo " +
+                "SELECT " +
+                "vh.id_horario, " +
+                "vh.nombre_materia, " +
+                "vh.nombre_grupo, " +
+                "vh.nombre_ubicacion, " +
+                "vh.profesor, " +
+                "vh.dia_semana, " +
+                "vh.hora_inicio, " +
+                "vh.hora_fin, " +
+                "vh.periodo " +
                 "FROM vista_horarios vh " +
                 "WHERE vh.estado = 'activo' "
             );
 
         } else if ("alumno".equals(rol)) {
 
+            // El alumno solamente puede consultar
+            // los horarios correspondientes a su grupo.
+
             sql.append(
-                "SELECT vh.id_horario, vh.nombre_materia, " +
-                "vh.nombre_grupo, vh.nombre_ubicacion, " +
-                "vh.profesor, vh.dia_semana, " +
-                "vh.hora_inicio, vh.hora_fin, vh.periodo " +
+                "SELECT " +
+                "vh.id_horario, " +
+                "vh.nombre_materia, " +
+                "vh.nombre_grupo, " +
+                "vh.nombre_ubicacion, " +
+                "vh.profesor, " +
+                "vh.dia_semana, " +
+                "vh.hora_inicio, " +
+                "vh.hora_fin, " +
+                "vh.periodo " +
                 "FROM vista_horarios vh " +
                 "INNER JOIN alumno a " +
                 "ON a.id_grupo = vh.id_grupo " +
@@ -133,23 +183,33 @@
         } else {
 
             throw new SQLException(
-                "El rol " + rol + " no tiene una consulta de horario configurada."
+                "Tu rol no tiene permiso para consultar esta sección."
             );
         }
 
-        // 4. Aplicar filtro por día
+        // =================================================
+        // 4. FILTRAR POR DÍA
+        // =================================================
+
         if (diaSeleccionado != null) {
             sql.append(" AND vh.dia_semana = ? ");
         }
 
-        // 5. Ordenar horario
+        // =================================================
+        // 5. ORDENAR HORARIOS
+        // =================================================
+
         sql.append(
             " ORDER BY FIELD(vh.dia_semana, " +
             "'lunes','martes','miercoles','jueves'," +
-            "'viernes','sabado','domingo'), vh.hora_inicio"
+            "'viernes','sabado','domingo'), " +
+            "vh.hora_inicio ASC"
         );
 
-        // 6. Ejecutar consulta
+        // =================================================
+        // 6. EJECUTAR CONSULTA
+        // =================================================
+
         try (PreparedStatement ps = cn.prepareStatement(sql.toString())) {
 
             int indice = 1;
@@ -185,21 +245,29 @@
 
     } catch (SQLException e) {
 
-        application.log("ERROR EN MIHORARIO.JSP: " + e.getMessage(), e);
+        application.log("ERROR EN HORARIO.JSP: " + e.getMessage(), e);
 
-        error = "No fue posible cargar el horario. Revisa la conexión y las consultas de la base de datos.";
+        error = "No fue posible cargar el horario. Intenta nuevamente o revisa la conexión con la base de datos.";
     }
 %>
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>PoliSpace - Mi horario</title>
 
-    <link rel="stylesheet" href="estilos/General.css">
+    <link rel="stylesheet"
+          href="<%= contexto %>/estilos/General.css">
 
     <style>
+
         body {
             font-family: Arial, sans-serif;
             background: #f4f6fa;
@@ -227,17 +295,27 @@
             color: #172b4d;
         }
 
+        .encabezado p {
+            color: #68778d;
+        }
+
         .filtro {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
 
-        select, button {
+        select,
+        button {
             padding: 10px 14px;
             border-radius: 8px;
             border: 1px solid #ccd3df;
             font-size: 14px;
+        }
+
+        select {
+            background: white;
+            color: #263238;
         }
 
         button {
@@ -245,6 +323,10 @@
             color: white;
             border: none;
             cursor: pointer;
+        }
+
+        button:hover {
+            background: #103c83;
         }
 
         .horario-card {
@@ -257,7 +339,7 @@
         }
 
         .horario-card h3 {
-            margin: 0 0 12px;
+            margin: 12px 0;
             color: #174ea6;
         }
 
@@ -276,7 +358,12 @@
             text-decoration: none;
         }
 
-        .sin-horario, .mensaje-error {
+        .editar:hover {
+            background: #103c83;
+        }
+
+        .sin-horario,
+        .mensaje-error {
             background: white;
             padding: 25px;
             border-radius: 10px;
@@ -294,8 +381,43 @@
             padding: 5px 9px;
             border-radius: 6px;
             font-size: 12px;
+            font-weight: bold;
         }
+
+        .cantidad {
+            color: #68778d;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        @media (max-width: 600px) {
+
+            .contenido {
+                padding: 15px;
+                margin: 15px auto;
+            }
+
+            .encabezado {
+                align-items: flex-start;
+            }
+
+            .filtro {
+                width: 100%;
+            }
+
+            .filtro select {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .filtro button {
+                flex-shrink: 0;
+            }
+
+        }
+
     </style>
+
 </head>
 
 <body>
@@ -305,14 +427,21 @@
     <main class="contenido">
 
         <div class="encabezado">
+
             <div>
+
                 <h1>Mi horario</h1>
-                <p>Consulta las clases programadas.</p>
+
+                <p>Consulta tus clases programadas.</p>
+
             </div>
 
-            <form method="GET" action="MiHorario.jsp" class="filtro">
+            <form method="GET"
+                  action="<%= esc(request.getRequestURI()) %>"
+                  class="filtro">
 
                 <select name="dia">
+
                     <option value="">Todos los días</option>
 
                     <option value="lunes"
@@ -349,10 +478,15 @@
                         <%= "domingo".equals(diaSeleccionado) ? "selected" : "" %>>
                         Domingo
                     </option>
+
                 </select>
 
-                <button type="submit">Filtrar</button>
+                <button type="submit">
+                    Filtrar
+                </button>
+
             </form>
+
         </div>
 
         <% if (error != null) { %>
@@ -364,18 +498,27 @@
         <% } else if (horarios.isEmpty()) { %>
 
             <div class="sin-horario">
+
                 <h3>No hay horarios disponibles</h3>
-                <p>No se encontraron clases para mostrar.</p>
+
+                <p>
+                    No se encontraron clases para mostrar.
+                </p>
+
             </div>
 
         <% } else { %>
+
+            <p class="cantidad">
+                Se encontraron <%= horarios.size() %> clases.
+            </p>
 
             <% for (Map<String, String> h : horarios) { %>
 
                 <div class="horario-card">
 
                     <span class="etiqueta">
-                        <%= esc(h.get("dia")) %>
+                        <%= esc(nombreDia(h.get("dia"))) %>
                     </span>
 
                     <h3>
@@ -399,7 +542,8 @@
 
                     <p class="dato">
                         <strong>Horario:</strong>
-                        <%= esc(h.get("inicio")) %> -
+                        <%= esc(h.get("inicio")) %>
+                        -
                         <%= esc(h.get("fin")) %>
                     </p>
 
@@ -411,8 +555,10 @@
                     <% if ("administrador".equals(rol)) { %>
 
                         <a class="editar"
-                           href="modiclase.jsp?idHorario=<%= esc(h.get("id")) %>">
+                           href="<%= contexto %>/modiclase.jsp?idHorario=<%= esc(h.get("id")) %>">
+
                             Editar horario
+
                         </a>
 
                     <% } %>
@@ -425,7 +571,8 @@
 
     </main>
 
-    <script src="main.js"></script>
+    <script src="<%= contexto %>/main.js"></script>
 
 </body>
+
 </html>

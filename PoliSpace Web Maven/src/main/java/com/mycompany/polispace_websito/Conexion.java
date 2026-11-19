@@ -26,7 +26,6 @@ public class Conexion {
                 "No se encontró el driver de MySQL.", e
             );
         }
-
         return DriverManager.getConnection(url, usuario, contrasena);
     }
 }
