@@ -332,16 +332,182 @@ INSERT IGNORE INTO rol (id_rol, nombre_rol, descripcion) VALUES
   (2, 'prefecto',      'Cuenta de personal de prefectura'),
   (3, 'administrador', 'Cuenta administrativa');
 
-INSERT IGNORE INTO escuela (id_escuela, nombre_escuela, clave)
-VALUES (1, 'CECyT 9 Juan de Dios Bátiz', 'CECYT9');
+-- ---------------------------------------------------------------------
+-- 2.1) CATALOGO DE ESCUELAS (CECyT 1 - 19 + UPIIT)
+-- ---------------------------------------------------------------------
+INSERT IGNORE INTO escuela (id_escuela, nombre_escuela, clave) VALUES
+  (1,  'CECyT 1 Gonzalo Vázquez Vela',                     'CECYT1'),
+  (2,  'CECyT 2 Miguel Bernard Perales',                  'CECYT2'),
+  (3,  'CECyT 3 Estanislao Ramírez Ruiz',                  'CECYT3'),
+  (4,  'CECyT 4 Lázaro Cárdenas',                         'CECYT4'),
+  (5,  'CECyT 5 Benito Juárez',                           'CECYT5'),
+  (6,  'CECyT 6 Juan de Dios Bátiz',                      'CECYT6'),
+  (7,  'CECyT 7 Cuauhtémoc',                              'CECYT7'),
+  (8,  'CECyT 8 Narciso Bassols',                         'CECYT8'),
+  (9,  'CECyT 9 Juan de Dios Bátiz',                      'CECYT9'),
+  (10, 'CECyT 10 Carlos Vallejo Márquez',                 'CECYT10'),
+  (11, 'CECyT 11 Wilfrido Massieu',                       'CECYT11'),
+  (12, 'CECyT 12 José María Morelos',                     'CECYT12'),
+  (13, 'CECyT 13 Ricardo Flores Magón',                   'CECYT13'),
+  (14, 'CECyT 14 Luis Enrique Erro Soler',                'CECYT14'),
+  (15, 'CECyT 15 Diódoro Antúnez Echegaray',              'CECYT15'),
+  (16, 'CECyT 16 Hidalgo',                                'CECYT16'),
+  (17, 'CECyT 17 León, Guanajuato',                       'CECYT17'),
+  (18, 'CECyT 18 Zacatecas',                              'CECYT18'),
+  (19, 'CECyT 19 Leona Vicario',                          'CECYT19'),
+  (20, 'Unidad Profesional Interdisciplinaria (UPIIT)',   'UPIIT');
 
+-- ---------------------------------------------------------------------
+-- 2.2) CARRERAS TÉCNICAS POR PLANTEL
+-- ---------------------------------------------------------------------
+
+-- CECyT 1
 INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
-  ('Técnico en Máquinas con Sistemas Automatizados', 'TMSA',  1),
-  ('Técnico en Programación',                        'TPROG', 1),
-  ('Técnico en Sistemas Digitales',                  'TSD',   1),
-  ('Técnico en Desarrollo de Software',              'TDS',   1),
-  ('Técnico en Mecatrónica',                         'TMEC',  1);
+  ('Técnico en Construcción', 'TCONS', 1),
+  ('Técnico en Instalaciones y Sistemas Eléctricos', 'TISE', 1),
+  ('Técnico en Sistemas Digitales', 'TSD', 1),
+  ('Técnico en Mechatrónica', 'TMEC', 1);
 
+-- CECyT 2
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Aeronáutica', 'TAERO', 2),
+  ('Técnico en Dibujo Asistido por Computadora', 'TDAC', 2),
+  ('Técnico en Diseño Gráfico Digital', 'TDGD', 2),
+  ('Técnico en Máquinas con Sistemas Automatizados', 'TMSA', 2),
+  ('Técnico en Metalurgia', 'TMET', 2),
+  ('Técnico en Sistemas Automotrices', 'TSA', 2);
+
+-- CECyT 3
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Aeronáutica', 'TAERO', 3),
+  ('Técnico en Computación', 'TCOMP', 3),
+  ('Técnico en Manufactura Asistida por Computadora', 'TMAC', 3),
+  ('Técnico en Sistemas Automotrices', 'TSA', 3),
+  ('Técnico en Sistemas Digitales', 'TSD', 3),
+  ('Técnico en Sistemas Controlados por Computadora', 'TSCC', 3);
+
+-- CECyT 4
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Aeronáutica', 'TAERO', 4),
+  ('Técnico en Construcción', 'TCONS', 4),
+  ('Técnico en Instalaciones y Sistemas Eléctricos', 'TISE', 4),
+  ('Técnico en Mantenimiento Industrial', 'TMI', 4),
+  ('Técnico en Procesos Industriales', 'TPI', 4),
+  ('Técnico en Sistemas Automotrices', 'TSA', 4);
+
+-- CECyT 5
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Contaduría', 'TCONT', 5),
+  ('Técnico en Comercio Internacional', 'TCI', 5),
+  ('Técnico en Informática', 'TINF', 5);
+
+-- CECyT 6
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico Laboratorista Químico', 'TLQ', 6),
+  ('Técnico en Ecología', 'TECO', 6),
+  ('Técnico Laboratorista Clínico', 'TLC', 6),
+  ('Técnico en Químico Farmacéutico', 'TQFP', 6);
+
+-- CECyT 7
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Automotriz', 'TAUTO', 7),
+  ('Técnico en Construcción', 'TCONS', 7),
+  ('Técnico en Instalaciones y Sistemas Eléctricos', 'TISE', 7),
+  ('Técnico en Mantenimiento Industrial', 'TMI', 7),
+  ('Técnico en Soldadura Industrial', 'TSI', 7);
+
+-- CECyT 8
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Computación', 'TCOMP', 8),
+  ('Técnico en Mantenimiento Industrial', 'TMI', 8),
+  ('Técnico en Plásticos', 'TPLA', 8),
+  ('Técnico en Sistemas Computacionales', 'TSC', 8);
+
+-- CECyT 9
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Máquinas con Sistemas Automatizados', 'TMSA', 9),
+  ('Técnico en Programación', 'TPROG', 9),
+  ('Técnico en Sistemas Digitales', 'TSD', 9),
+  ('Técnico en Desarrollo de Software', 'TDS', 9),
+  ('Técnico en Mecatrónica', 'TMEC', 9);
+
+-- CECyT 10
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Diagnóstico y Mejoramiento Ambiental', 'TDMA', 10),
+  ('Técnico Laboratorista Químico', 'TLQ', 10),
+  ('Técnico en Telecomunicaciones', 'TTEL', 10);
+
+-- CECyT 11
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Construcción', 'TCONS', 11),
+  ('Técnico en Instalaciones y Sistemas Eléctricos', 'TISE', 11),
+  ('Técnico en Procesos Industriales', 'TPI', 11),
+  ('Técnico en Telecomunicaciones', 'TTEL', 11);
+
+-- CECyT 12
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Administración', 'TADM', 12),
+  ('Técnico en Contaduría', 'TCONT', 12),
+  ('Técnico en Informática', 'TINF', 12),
+  ('Técnico en Mercadotecnia', 'TMKT', 12);
+
+-- CECyT 13
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Administración', 'TADM', 13),
+  ('Técnico en Contaduría', 'TCONT', 13),
+  ('Técnico en Informática', 'TINF', 13),
+  ('Técnico en Comercio Internacional', 'TCI', 13),
+  ('Técnico en Administración de Empresas Turísticas', 'TAET', 13);
+
+-- CECyT 14
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Administración', 'TADM', 14),
+  ('Técnico en Contaduría', 'TCONT', 14),
+  ('Técnico en Informática', 'TINF', 14),
+  ('Técnico en Mercadotecnia', 'TMKT', 14),
+  ('Técnico en Negocios Internacionales', 'TNI', 14);
+
+-- CECyT 15
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico Laboratorista Clínico', 'TLC', 15),
+  ('Técnico en Nutrición Humana', 'TNH', 15),
+  ('Técnico en Sustentabilidad Agropecuaria', 'TSA', 15),
+  ('Técnico Químico Farmacéutico', 'TQFP', 15);
+
+-- CECyT 16
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Administración', 'TADM', 16),
+  ('Técnico en Comercio Internacional', 'TCI', 16),
+  ('Técnico en Mantenimiento Industrial', 'TMI', 16),
+  ('Técnico Laboratorista Químico', 'TLQ', 16),
+  ('Técnico en Mechatrónica', 'TMEC', 16),
+  ('Técnico en Procesos Industriales', 'TPI', 16);
+
+-- CECyT 17
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Aeronáutica', 'TAERO', 17),
+  ('Técnico en Comercio Internacional', 'TCI', 17),
+  ('Técnico en Metrología del Control de Calidad', 'TMCC', 17),
+  ('Técnico en Sistemas Automotrices', 'TSA', 17),
+  ('Técnico en Administración', 'TADM', 17);
+
+-- CECyT 18
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Biotecnología', 'TBIO', 18),
+  ('Técnico en Enfermería', 'TENF', 18),
+  ('Técnico Laboratorista Químico', 'TLQ', 18),
+  ('Técnico en Sistemas Digitales', 'TSD', 18);
+
+-- CECyT 19
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Aeronáutica', 'TAERO', 19),
+  ('Técnico en Mechatrónica', 'TMEC', 19),
+  ('Técnico en Construcción', 'TCONS', 19);
+
+-- UPIIT
+INSERT IGNORE INTO carrera (nombre_carrera, clave, id_escuela) VALUES
+  ('Técnico en Mecatrónica', 'TMEC', 20),
+  ('Técnico en Sistemas Digitales', 'TSD', 20);
 -- =====================================================================
 -- 3) USUARIOS Y DATOS DE PRUEBA DE LA APLICACION
 --    Contraseña de los 3 usuarios de prueba: PoliSpace2026*
