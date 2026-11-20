@@ -717,7 +717,7 @@ CREATE PROCEDURE sp_registrar_prefecto(
   IN p_correo           VARCHAR(150),
   IN p_hash             VARCHAR(255),
   IN p_numero_empleado  VARCHAR(30),
-  IN p_telefono         VARCHAR(25),
+  IN p_turno            VARCHAR(25),
   IN p_id_escuela       BIGINT UNSIGNED
 )
 BEGIN
