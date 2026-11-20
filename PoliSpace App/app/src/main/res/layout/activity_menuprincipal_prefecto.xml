@@ -27,6 +27,6 @@
         app:itemRippleColor="@color/color_borde"
         app:labelVisibilityMode="selected"
         app:elevation="8dp"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menuprefecto" />
 
 </LinearLayout>

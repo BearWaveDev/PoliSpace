@@ -1,5 +1,5 @@
 
-package com.example.polispaceapp.configuracionLateral;
+package com.example.polispaceapp.configuracionLateralAlumno;
 
 import android.content.Intent;
 import android.net.Uri;

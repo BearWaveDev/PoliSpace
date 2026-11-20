@@ -28,12 +28,6 @@ public class InicioFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Cambia el título
-        TextView tvTitulo = view.findViewById(R.id.tvTituloToolbar);
-        if (tvTitulo != null) {
-            tvTitulo.setText("Inicio");
-        }
-
         // Programa clics de los iconos
         ImageView btnBuscar = view.findViewById(R.id.btnBuscar);
         ImageView btnLikes = view.findViewById(R.id.btnLikes);

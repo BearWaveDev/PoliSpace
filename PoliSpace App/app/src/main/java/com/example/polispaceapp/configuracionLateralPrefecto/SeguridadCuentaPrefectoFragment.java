@@ -1,4 +1,4 @@
-package com.example.polispaceapp.configuracionLateral;
+package com.example.polispaceapp.configuracionLateralPrefecto;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.polispaceapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SeguridadCuentaFragment#newInstance} factory method to
+ * Use the {@link SeguridadCuentaPrefectoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SeguridadCuentaFragment extends Fragment {
+public class SeguridadCuentaPrefectoFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class SeguridadCuentaFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public SeguridadCuentaFragment() {
+    public SeguridadCuentaPrefectoFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class SeguridadCuentaFragment extends Fragment {
      * @return A new instance of fragment SeguridadCuentaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SeguridadCuentaFragment newInstance(String param1, String param2) {
-        SeguridadCuentaFragment fragment = new SeguridadCuentaFragment();
+    public static SeguridadCuentaPrefectoFragment newInstance(String param1, String param2) {
+        SeguridadCuentaPrefectoFragment fragment = new SeguridadCuentaPrefectoFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class SeguridadCuentaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_seguridad_cuenta, container, false);
+        return inflater.inflate(R.layout.fragment_seguridad_cuenta2, container, false);
     }
 }

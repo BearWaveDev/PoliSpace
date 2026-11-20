@@ -4,22 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="16dp"
-    android:paddingTop="12dp"
+    android:paddingTop="16dp"
     android:paddingEnd="16dp"
-    android:paddingBottom="4dp">
+    android:paddingBottom="8dp">
 
     <!-- Barra de búsqueda -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/layoutBuscar"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:layout_centerVertical="true"
+        android:layout_height="50dp"
         android:layout_marginEnd="8dp"
         android:layout_toStartOf="@id/btnDerecha"
         android:clickable="true"
         android:focusable="true"
         app:cardBackgroundColor="@color/color_tarjeta"
-        app:cardCornerRadius="23dp"
+        app:cardCornerRadius="25dp"
         app:cardElevation="0dp"
         app:strokeColor="@color/color_borde"
         app:strokeWidth="1dp">

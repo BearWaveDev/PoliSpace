@@ -17,12 +17,14 @@ import androidx.fragment.app.Fragment;
 
 import com.example.polispaceapp.R;
 
-import com.example.polispaceapp.configuracionLateral.AcercaPoliSpaceFragment;
-import com.example.polispaceapp.configuracionLateral.AparienciaFragment;
-import com.example.polispaceapp.configuracionLateral.AyudaSoporteFragment;
-import com.example.polispaceapp.configuracionLateral.InfoCuentaFragment;
-import com.example.polispaceapp.configuracionLateral.SeguridadCuentaFragment;
+import com.example.polispaceapp.configuracionLateralAlumno.AcercaPoliSpaceFragment;
+import com.example.polispaceapp.configuracionLateralAlumno.AparienciaFragment;
+import com.example.polispaceapp.configuracionLateralAlumno.AyudaSoporteFragment;
+import com.example.polispaceapp.configuracionLateralAlumno.InfoCuentaFragment;
+import com.example.polispaceapp.configuracionLateralAlumno.SeguridadCuentaFragment;
 
+import com.example.polispaceapp.configuracionLateralPrefecto.InfoCuentaPrefectoFragment;
+import com.example.polispaceapp.configuracionLateralPrefecto.SeguridadCuentaPrefectoFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class PerfilPrefectoFragment extends Fragment {
@@ -156,19 +158,15 @@ public class PerfilPrefectoFragment extends Fragment {
             int id = item.getItemId();
 
             if (id == R.id.nav_mi_informacion) {
-
-                replaceFragment(new InfoCuentaFragment());
+                replaceFragment(new InfoCuentaPrefectoFragment());
 
             } else if (id == R.id.nav_seguridad) {
-
-                replaceFragment(new SeguridadCuentaFragment());
+                replaceFragment(new SeguridadCuentaPrefectoFragment());
 
             } else if (id == R.id.nav_apariencia) {
-
                 replaceFragment(new AparienciaFragment());
 
             } else if (id == R.id.nav_ayuda) {
-
                 replaceFragment(new AyudaSoporteFragment());
 
             } else if (id == R.id.nav_acerca) {

@@ -6,8 +6,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Colores del modo oscuro -->
-    <color name="color_fondo">#121212</color>
+    <color name="color_fondo">#090909</color>
     <color name="color_tarjeta">#1E1E1E</color>
+    <color name="color_nav">#000000</color>
     <color name="color_texto">#FFFFFF</color>
     <color name="color_texto_secundario">#B0B0B0</color>
     <color name="color_encabezado">#1E1E1E</color>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_fondo"
+    android:fitsSystemWindows="true">
+
+    <!-- CONTENEDOR DE LA FOTO CIRCULAR -->
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardFotoGrande"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        app:cardBackgroundColor="@color/color_tarjeta"
+        app:cardCornerRadius="150dp"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/color_primario"
+        app:strokeWidth="4dp">
+
+        <ImageView
+            android:id="@+id/imgFotoGrande"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="Fotografía de perfil" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- BOTÓN PARA CAMBIAR FOTOGRAFÍA -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnEditarFotoGrande"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:translationX="125dp"
+        android:translationY="125dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="Cambiar fotografía"
+        app:cardBackgroundColor="@color/color_primario"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="5dp"
+        app:strokeColor="@color/color_tarjeta"
+        app:strokeWidth="2dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:src="@drawable/ic_camara"
+            android:contentDescription="Cámara"
+            app:tint="@color/white" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

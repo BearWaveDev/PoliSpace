@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp"
+    android:background="@color/color_borde">
+
+    <!-- FOTO DEL USUARIO -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        app:cardCornerRadius="26dp"
+        app:cardElevation="0dp"
+        app:strokeColor="@color/color_primario"
+        app:strokeWidth="1.5dp">
+
+        <ImageView
+            android:id="@+id/imgUsuarioLike"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_perfil"
+            android:contentDescription="Foto del usuario"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- INFORMACIÓN -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp">
+
+        <TextView
+            android:id="@+id/tvTextoLike"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_texto"
+            android:textSize="13sp"
+            android:lineSpacingExtra="2dp"
+            android:maxLines="3"/>
+
+        <TextView
+            android:id="@+id/tvTiempoLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Hace unos momentos"
+            android:textColor="@color/color_texto_secundario"
+            android:textSize="11sp"/>
+
+    </LinearLayout>
+
+    <!-- CORAZÓN -->
+    <ImageView
+        android:id="@+id/imgIconoLike"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="5dp"
+        android:src="@android:drawable/btn_star_big_on"
+        android:contentDescription="Me gusta"
+        app:tint="@color/color_primario"/>
+
+</LinearLayout>

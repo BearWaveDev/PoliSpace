@@ -57,7 +57,9 @@
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_gatocompu"
-                        android:contentDescription="Foto de perfil" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="Ver fotografía de perfil" />
 
                 </com.google.android.material.card.MaterialCardView>
 

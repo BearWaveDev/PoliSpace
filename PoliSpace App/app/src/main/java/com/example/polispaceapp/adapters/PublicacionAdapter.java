@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.polispaceapp.R;
+import com.example.polispaceapp.db.PublicacionesDB;
+import com.example.polispaceapp.db.Sesion;
 import com.example.polispaceapp.models.Publicacion;
 import com.google.android.material.chip.Chip;
 
@@ -52,58 +54,43 @@ public class PublicacionAdapter
 
         holder.tvTipoArchivo.setText(publicacion.getTipoArchivo());
         holder.tvNombreArchivo.setText(publicacion.getNombreArchivo());
-        holder.tvPesoArchivo.setText(publicacion.getTipoArchivo()
-                + " · " + publicacion.getPesoArchivo());
+
+        if (publicacion.getNombreArchivo() == null ||
+                publicacion.getNombreArchivo().isEmpty()) {
+
+            holder.tvNombreArchivo.setVisibility(View.GONE);
+            holder.tvPesoArchivo.setVisibility(View.GONE);
+
+        } else {
+            holder.tvNombreArchivo.setVisibility(View.VISIBLE);
+            holder.tvPesoArchivo.setVisibility(View.VISIBLE);
+            holder.tvPesoArchivo.setText(publicacion.getTipoArchivo());
+        }
 
         holder.chipEscuela.setText(publicacion.getEscuela());
         holder.chipCarrera.setText(publicacion.getCarrera());
         holder.chipMateria.setText(publicacion.getMateria());
 
-        // ME GUSTA
+        holder.actualizarMeGusta(publicacion.isMeGusta());
+        holder.actualizarGuardado(publicacion.isGuardada());
+
         holder.btnMeGusta.setOnClickListener(v -> {
-
-            boolean nuevoEstado = !holder.meGusta;
-
-            holder.meGusta = nuevoEstado;
-
-            holder.tvMeGusta.setText(
-                    nuevoEstado ? "Te gusta" : "Me gusta"
-            );
-
-            holder.ivMeGusta.setImageResource(
-                    nuevoEstado
-                            ? android.R.drawable.btn_star_big_on
-                            : android.R.drawable.btn_star_big_off
-            );
+            cambiarEstado(holder, publicacion, true);
         });
 
-        // GUARDAR PUBLICACION
         holder.btnGuardar.setOnClickListener(v -> {
-
-            holder.guardada = !holder.guardada;
-
-            Toast.makeText(
-                    v.getContext(),
-                    holder.guardada
-                            ? "Publicación guardada"
-                            : "Publicación eliminada de guardados",
-                    Toast.LENGTH_SHORT
-            ).show();
+            cambiarEstado(holder, publicacion, false);
         });
 
-        // COMENTARIOS
-        holder.btnComentar.setOnClickListener(v -> {
+        holder.btnComentar.setOnClickListener(v ->
+                Toast.makeText(
+                        v.getContext(),
+                        "Aquí abriremos los comentarios",
+                        Toast.LENGTH_SHORT
+                ).show()
+        );
 
-            Toast.makeText(
-                    v.getContext(),
-                    "Aquí abriremos los comentarios",
-                    Toast.LENGTH_SHORT
-            ).show();
-        });
-
-        // DESCARGAR ARCHIVO
         holder.btnDescargar.setOnClickListener(v -> {
-
             Toast.makeText(
                     v.getContext(),
                     "La descarga estará disponible al conectar los archivos",
@@ -111,15 +98,65 @@ public class PublicacionAdapter
             ).show();
         });
 
-        // OPCIONES
-        holder.btnOpciones.setOnClickListener(v -> {
+        holder.btnOpciones.setOnClickListener(v ->
+                Toast.makeText(
+                        v.getContext(),
+                        "Opciones de publicación",
+                        Toast.LENGTH_SHORT
+                ).show()
+        );
+    }
 
+    private void cambiarEstado(
+            PublicacionViewHolder holder,
+            Publicacion publicacion,
+            boolean esMeGusta
+    ) {
+        long idAlumno = Sesion.idAlumno(holder.itemView.getContext());
+
+        if (idAlumno <= 0 || publicacion.getIdPublicacion() <= 0) {
             Toast.makeText(
-                    v.getContext(),
-                    "Opciones de publicación",
+                    holder.itemView.getContext(),
+                    "No se pudo identificar la publicación o el usuario.",
                     Toast.LENGTH_SHORT
             ).show();
-        });
+            return;
+        }
+
+        try {
+            PublicacionesDB db = new PublicacionesDB(
+                    holder.itemView.getContext()
+            );
+
+            boolean nuevoEstado = esMeGusta
+                    ? db.alternarMeGusta(idAlumno, publicacion.getIdPublicacion())
+                    : db.alternarGuardado(idAlumno, publicacion.getIdPublicacion());
+
+            db.cerrar();
+
+            if (esMeGusta) {
+                publicacion.setMeGusta(nuevoEstado);
+                holder.actualizarMeGusta(nuevoEstado);
+            } else {
+                publicacion.setGuardada(nuevoEstado);
+                holder.actualizarGuardado(nuevoEstado);
+
+                Toast.makeText(
+                        holder.itemView.getContext(),
+                        nuevoEstado
+                                ? "Publicación guardada"
+                                : "Publicación eliminada de guardados",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(
+                    holder.itemView.getContext(),
+                    "No se pudo actualizar: " + e.getMessage(),
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
     }
 
     @Override
@@ -142,62 +179,45 @@ public class PublicacionAdapter
 
         LinearLayout btnMeGusta, btnComentar, btnGuardar;
 
-        boolean meGusta = false;
-        boolean guardada = false;
-
         public PublicacionViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvNombreUsuario = itemView.findViewById(
-                    R.id.tvNombreUsuarioPublicacion);
+            tvNombreUsuario = itemView.findViewById(R.id.tvNombreUsuarioPublicacion);
+            tvFecha = itemView.findViewById(R.id.tvFechaPublicacion);
+            tvTitulo = itemView.findViewById(R.id.tvTituloPublicacion);
+            tvDescripcion = itemView.findViewById(R.id.tvDescripcionPublicacion);
 
-            tvFecha = itemView.findViewById(
-                    R.id.tvFechaPublicacion);
+            tvTipoArchivo = itemView.findViewById(R.id.tvTipoArchivo);
+            tvNombreArchivo = itemView.findViewById(R.id.tvNombreArchivo);
+            tvPesoArchivo = itemView.findViewById(R.id.tvPesoArchivo);
 
-            tvTitulo = itemView.findViewById(
-                    R.id.tvTituloPublicacion);
+            chipEscuela = itemView.findViewById(R.id.chipEscuela);
+            chipCarrera = itemView.findViewById(R.id.chipCarrera);
+            chipMateria = itemView.findViewById(R.id.chipMateria);
 
-            tvDescripcion = itemView.findViewById(
-                    R.id.tvDescripcionPublicacion);
+            tvMeGusta = itemView.findViewById(R.id.tvMeGusta);
+            ivMeGusta = itemView.findViewById(R.id.ivMeGusta);
 
-            tvTipoArchivo = itemView.findViewById(
-                    R.id.tvTipoArchivo);
+            btnDescargar = itemView.findViewById(R.id.btnDescargarArchivo);
+            btnOpciones = itemView.findViewById(R.id.btnOpcionesPublicacion);
 
-            tvNombreArchivo = itemView.findViewById(
-                    R.id.tvNombreArchivo);
+            btnMeGusta = itemView.findViewById(R.id.btnMeGusta);
+            btnComentar = itemView.findViewById(R.id.btnComentar);
+            btnGuardar = itemView.findViewById(R.id.btnGuardarPublicacion);
+        }
 
-            tvPesoArchivo = itemView.findViewById(
-                    R.id.tvPesoArchivo);
+        void actualizarMeGusta(boolean activo) {
+            tvMeGusta.setText(activo ? "Te gusta" : "Me gusta");
 
-            chipEscuela = itemView.findViewById(
-                    R.id.chipEscuela);
+            ivMeGusta.setImageResource(
+                    activo
+                            ? android.R.drawable.btn_star_big_on
+                            : android.R.drawable.btn_star_big_off
+            );
+        }
 
-            chipCarrera = itemView.findViewById(
-                    R.id.chipCarrera);
-
-            chipMateria = itemView.findViewById(
-                    R.id.chipMateria);
-
-            tvMeGusta = itemView.findViewById(
-                    R.id.tvMeGusta);
-
-            ivMeGusta = itemView.findViewById(
-                    R.id.ivMeGusta);
-
-            btnDescargar = itemView.findViewById(
-                    R.id.btnDescargarArchivo);
-
-            btnOpciones = itemView.findViewById(
-                    R.id.btnOpcionesPublicacion);
-
-            btnMeGusta = itemView.findViewById(
-                    R.id.btnMeGusta);
-
-            btnComentar = itemView.findViewById(
-                    R.id.btnComentar);
-
-            btnGuardar = itemView.findViewById(
-                    R.id.btnGuardarPublicacion);
+        void actualizarGuardado(boolean activo) {
+            btnGuardar.setSelected(activo);
         }
     }
 }

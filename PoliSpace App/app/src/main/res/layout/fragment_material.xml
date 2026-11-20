@@ -15,16 +15,16 @@
         layout="@layout/topbuscador" />
 
     <!-- CONTENIDO DEL FEED -->
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/color_fondo">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/color_fondo">
+            android:orientation="vertical">
 
             <!-- ENCABEZADO -->
             <LinearLayout
@@ -128,14 +128,14 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvFeedMaterial"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:background="@color/color_fondo"
                 android:clipToPadding="false"
+
                 android:paddingStart="12dp"
-                android:paddingEnd="12dp"
                 android:paddingTop="5dp"
-                android:paddingBottom="85dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="100dp"
                 tools:listitem="@layout/item_publicacion" />
 
         </LinearLayout>
@@ -153,6 +153,6 @@
             app:tint="@color/white"
             app:elevation="6dp" />
 
-    </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

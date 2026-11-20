@@ -1,11 +1,12 @@
 
 package com.example.polispaceapp.fragmentsAlumno;
 
-import android.content.ContentResolver;
-import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.database.Cursor;
+import android.content.ContentResolver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.polispaceapp.R;
+import com.example.polispaceapp.db.Base;
+import com.example.polispaceapp.db.PublicacionesDB;
+import com.example.polispaceapp.db.Sesion;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.Locale;
@@ -47,6 +51,16 @@ public class CrearPublicacionFragment extends Fragment {
                     uri -> {
                         if (uri != null) {
                             archivoUri = uri;
+
+                            try {
+                                requireContext().getContentResolver()
+                                        .takePersistableUriPermission(
+                                                uri,
+                                                android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                        );
+                            } catch (Exception ignored) {
+                            }
+
                             obtenerInformacionArchivo(uri);
 
                             tvNombreArchivoSeleccionado.setText(
@@ -56,9 +70,7 @@ public class CrearPublicacionFragment extends Fragment {
                     }
             );
 
-    public CrearPublicacionFragment() {
-        // Constructor vacío requerido
-    }
+    public CrearPublicacionFragment() {}
 
     @Nullable
     @Override
@@ -95,13 +107,16 @@ public class CrearPublicacionFragment extends Fragment {
 
         btnPublicar = view.findViewById(R.id.btnPublicar);
 
-        btnSeleccionarArchivo.setOnClickListener(v -> abrirSelectorArchivos());
+        view.findViewById(R.id.btnAtrasCrearPublicacion)
+                .setOnClickListener(v ->
+                        getParentFragmentManager().popBackStack()
+                );
 
+        btnSeleccionarArchivo.setOnClickListener(v -> abrirSelectorArchivos());
         btnPublicar.setOnClickListener(v -> publicar());
     }
 
     private void abrirSelectorArchivos() {
-
         String[] tiposPermitidos = {
                 "application/pdf",
                 "application/msword",
@@ -123,11 +138,7 @@ public class CrearPublicacionFragment extends Fragment {
         };
 
         try (Cursor cursor = resolver.query(
-                uri,
-                columnas,
-                null,
-                null,
-                null
+                uri, columnas, null, null, null
         )) {
 
             if (cursor != null && cursor.moveToFirst()) {
@@ -143,7 +154,6 @@ public class CrearPublicacionFragment extends Fragment {
                 }
 
                 if (columnaPeso != -1 && !cursor.isNull(columnaPeso)) {
-
                     long bytes = cursor.getLong(columnaPeso);
 
                     pesoArchivo = bytes >= 1024 * 1024
@@ -170,17 +180,10 @@ public class CrearPublicacionFragment extends Fragment {
             pesoArchivo = "Tamaño desconocido";
         }
 
-        String extension = "";
-
         int punto = nombreArchivo.lastIndexOf(".");
-
-        if (punto != -1) {
-            extension = nombreArchivo
-                    .substring(punto + 1)
-                    .toUpperCase(Locale.ROOT);
-        }
-
-        tipoArchivo = extension;
+        tipoArchivo = punto == -1
+                ? "otro"
+                : nombreArchivo.substring(punto + 1).toLowerCase(Locale.ROOT);
     }
 
     private void publicar() {
@@ -221,35 +224,50 @@ public class CrearPublicacionFragment extends Fragment {
             return;
         }
 
-        // Si no se adjuntó archivo, la publicación será de texto.
-        String tipo = archivoUri == null ? "Texto" : tipoArchivo;
-        String archivo = archivoUri == null ? "" : nombreArchivo;
-        String peso = archivoUri == null ? "" : pesoArchivo;
+        long idAlumno = Sesion.idAlumno(requireContext());
 
-        Bundle resultado = new Bundle();
+        if (idAlumno <= 0) {
+            Toast.makeText(
+                    requireContext(),
+                    "No se encontró una sesión de alumno activa.",
+                    Toast.LENGTH_LONG
+            ).show();
+            return;
+        }
 
-        resultado.putString("nombreUsuario", "Usuario actual");
-        resultado.putString("fecha", "Ahora");
-        resultado.putString("titulo", titulo);
-        resultado.putString("descripcion", descripcion);
-        resultado.putString("tipoArchivo", tipo);
-        resultado.putString("nombreArchivo", archivo);
-        resultado.putString("pesoArchivo", peso);
-        resultado.putString("escuela", escuela);
-        resultado.putString("carrera", carrera);
-        resultado.putString("materia", materia);
+        String tipo = archivoUri == null ? "general" : "recurso";
 
-        getParentFragmentManager().setFragmentResult(
-                "nueva_publicacion",
-                resultado
-        );
+        try {
+            PublicacionesDB publicacionesDB =
+                    new PublicacionesDB(requireContext());
 
-        Toast.makeText(
-                requireContext(),
-                "¡Publicación creada!",
-                Toast.LENGTH_SHORT
-        ).show();
+            publicacionesDB.insertar(
+                    idAlumno,
+                    titulo,
+                    descripcion,
+                    tipo,
+                    archivoUri,
+                    nombreArchivo,
+                    tipoArchivo,
+                    materia
+            );
 
-        getParentFragmentManager().popBackStack();
+            publicacionesDB.cerrar();
+
+            Toast.makeText(
+                    requireContext(),
+                    "¡Publicación creada!",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            getParentFragmentManager().popBackStack();
+
+        } catch (Exception e) {
+            Toast.makeText(
+                    requireContext(),
+                    "No se pudo publicar: " + e.getMessage(),
+                    Toast.LENGTH_LONG
+            ).show();
+        }
     }
 }

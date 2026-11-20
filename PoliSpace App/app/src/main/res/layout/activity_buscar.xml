@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:backgroundTint="@color/color_fondo"
     tools:context=".notificationsAlumno.BuscarActivity">
 
     <!-- Barra superior: flecha + campo de búsqueda real -->
@@ -27,17 +28,17 @@
             android:contentDescription="Regresar"
             android:padding="10dp"
             android:src="@drawable/ic_atras"
-            app:tint="#060A23" />
+            app:tint="@color/color_texto" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="46dp"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/color_tarjeta"
             app:cardCornerRadius="23dp"
             app:cardElevation="0dp"
-            app:strokeColor="#E8ECF0"
+            app:strokeColor="@color/color_borde"
             app:strokeWidth="1dp">
 
             <LinearLayout
@@ -54,7 +55,7 @@
                     android:layout_marginEnd="10dp"
                     android:importantForAccessibility="no"
                     android:src="@drawable/ic_buscar"
-                    app:tint="#8991A3" />
+                    app:tint="@color/color_texto_secundario" />
 
                 <EditText
                     android:id="@+id/etBuscar"
@@ -66,8 +67,8 @@
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textColor="#060A23"
-                    android:textColorHint="#8991A3"
+                    android:textColor="@color/color_texto"
+                    android:textColorHint="@color/color_texto_secundario"
                     android:textSize="15sp" />
 
             </LinearLayout>

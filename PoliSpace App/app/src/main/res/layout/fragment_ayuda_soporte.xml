@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/color_fondo"
-    tools:context=".configuracionLateral.AyudaSoporteFragment">
+    android:fitsSystemWindows="true"
+    tools:context=".configuracionLateralAlumno.AyudaSoporteFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

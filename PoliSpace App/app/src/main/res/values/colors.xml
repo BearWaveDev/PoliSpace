@@ -8,6 +8,7 @@
     <!-- Colores del modo claro -->
     <color name="color_fondo">#F4F6F8</color>
     <color name="color_tarjeta">#FFFFFF</color>
+    <color name="color_nav">#FFFFFF</color>
     <color name="color_texto">#060A23</color>
     <color name="color_texto_secundario">#8991A3</color>
     <color name="color_encabezado">#060A23</color>

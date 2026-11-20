@@ -1,10 +1,12 @@
-package com.example.polispaceapp.configuracionLateral;
+package com.example.polispaceapp.configuracionLateralAlumno;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 public class AparienciaFragment extends Fragment {
 
     private SwitchMaterial switchModoOscuro;
+    private ImageButton btnAtrasApariencia;
 
     private SharedPreferences preferencias;
 
@@ -43,14 +46,21 @@ public class AparienciaFragment extends Fragment {
         // Inicializar preferencias
         preferencias = requireContext().getSharedPreferences(
                 PREFS_NAME,
-                android.content.Context.MODE_PRIVATE
+                Context.MODE_PRIVATE
         );
 
-        // Obtener interruptor
+        // Inicializar vistas
         switchModoOscuro = view.findViewById(R.id.switchModoOscuro);
+        btnAtrasApariencia = view.findViewById(R.id.btnAtrasApariencia);
+
+        // Configurar botón regresar
+        btnAtrasApariencia.setOnClickListener(v -> regresar());
 
         // Recuperar configuración guardada
-        boolean modoOscuro = preferencias.getBoolean(KEY_MODO_OSCURO, false);
+        boolean modoOscuro = preferencias.getBoolean(
+                KEY_MODO_OSCURO,
+                false
+        );
 
         // Mostrar estado actual
         switchModoOscuro.setChecked(modoOscuro);
@@ -76,5 +86,21 @@ public class AparienciaFragment extends Fragment {
         });
 
         return view;
+    }
+
+    // Regresar a la pantalla anterior
+    private void regresar() {
+
+        if (!isAdded()) {
+            return;
+        }
+
+        if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+            getParentFragmentManager().popBackStack();
+        } else {
+            requireActivity()
+                    .getOnBackPressedDispatcher()
+                    .onBackPressed();
+        }
     }
 }

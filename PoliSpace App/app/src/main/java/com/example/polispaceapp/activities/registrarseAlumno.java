@@ -1,6 +1,8 @@
 package com.example.polispaceapp.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,14 +16,12 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.polispaceapp.R;
-import com.example.polispaceapp.net.ApiClient;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.polispaceapp.db.Base;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class registrarseAlumno extends AppCompatActivity implements View.OnClickListener {
 
@@ -29,9 +29,11 @@ public class registrarseAlumno extends AppCompatActivity implements View.OnClick
     TextView tvLogin;
     EditText etBoleta, etCorreo, etPassword;
     AutoCompleteTextView actvCecyt, actvCarrera;
+    Base admin;
 
-    private JSONArray escuelasJson;
-    private final List<Long> idsCarrera = new ArrayList<>();
+    // nombre que se ve en la lista -> id en la base
+    private final Map<String, Long> idsEscuela = new LinkedHashMap<>();
+    private final Map<String, Long> idsCarrera = new LinkedHashMap<>();
     private long idEscuelaSel = -1;
     private long idCarreraSel = -1;
 
@@ -40,6 +42,8 @@ public class registrarseAlumno extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_registrarse);
+
+        admin = new Base(this, Base.NOMBRE_BD, null, Base.VERSION_BD);
 
         btnConfirmRegister = findViewById(R.id.btnConfirmRegister);
         btnConfirmRegister.setOnClickListener(this);
@@ -53,63 +57,64 @@ public class registrarseAlumno extends AppCompatActivity implements View.OnClick
         actvCecyt = findViewById(R.id.actvCecyt);
         actvCarrera = findViewById(R.id.actvCarrera);
 
+        // Se usa getItemAtPosition porque la lista se filtra mientras escribes
+        // y la posición ya no coincide con la lista original
         actvCecyt.setOnItemClickListener((parent, view, position, id) -> {
-            try {
-                JSONObject esc = escuelasJson.getJSONObject(position);
-                idEscuelaSel = esc.getLong("id");
+            String nombre = (String) parent.getItemAtPosition(position);
+            idEscuelaSel = idsEscuela.get(nombre);
 
-                JSONArray carreras = esc.getJSONArray("carreras");
-                List<String> nombres = new ArrayList<>();
-                idsCarrera.clear();
-                for (int i = 0; i < carreras.length(); i++) {
-                    nombres.add(carreras.getJSONObject(i).getString("nombre"));
-                    idsCarrera.add(carreras.getJSONObject(i).getLong("id"));
-                }
-                idCarreraSel = -1;
-                actvCarrera.setText("", false);
-                actvCarrera.setAdapter(new ArrayAdapter<>(registrarseAlumno.this,
-                        android.R.layout.simple_dropdown_item_1line, nombres));
-            } catch (JSONException e) {
-                Toast.makeText(registrarseAlumno.this, "Error al leer las carreras", Toast.LENGTH_SHORT).show();
-            }
+            idCarreraSel = -1;
+            actvCarrera.setText("", false);
+            cargarCarreras(idEscuelaSel);
         });
 
-        actvCarrera.setOnItemClickListener((parent, view, position, id) ->
-                idCarreraSel = idsCarrera.get(position));
+        actvCarrera.setOnItemClickListener((parent, view, position, id) -> {
+            String nombre = (String) parent.getItemAtPosition(position);
+            idCarreraSel = idsCarrera.get(nombre);
+        });
 
-        cargarCatalogo();
+        cargarEscuelas();
     }
 
-    private void cargarCatalogo() {
-        ApiClient.get("/api/catalogo", new ApiClient.Callback() {
-            @Override
-            public void onRespuesta(String json) {
-                runOnUiThread(() -> {
-                    try {
-                        JSONObject o = new JSONObject(json);
-                        if (!o.getBoolean("ok")) {
-                            Toast.makeText(registrarseAlumno.this, o.getString("error"), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        escuelasJson = o.getJSONArray("escuelas");
-                        List<String> nombres = new ArrayList<>();
-                        for (int i = 0; i < escuelasJson.length(); i++) {
-                            nombres.add(escuelasJson.getJSONObject(i).getString("nombre"));
-                        }
-                        actvCecyt.setAdapter(new ArrayAdapter<>(registrarseAlumno.this,
-                                android.R.layout.simple_dropdown_item_1line, nombres));
-                    } catch (JSONException e) {
-                        Toast.makeText(registrarseAlumno.this, "Respuesta inválida", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        admin.close();
+    }
 
-            @Override
-            public void onError(String mensaje) {
-                runOnUiThread(() ->
-                        Toast.makeText(registrarseAlumno.this, mensaje, Toast.LENGTH_SHORT).show());
-            }
-        });
+    private void cargarEscuelas() {
+        SQLiteDatabase basesita = admin.getReadableDatabase();
+        Cursor fila = basesita.rawQuery(
+                "SELECT id_escuela, nombre_escuela FROM escuela " +
+                        "WHERE estado = 'activa' ORDER BY id_escuela", null);
+
+        idsEscuela.clear();
+        while (fila.moveToNext()) {
+            idsEscuela.put(fila.getString(1), fila.getLong(0));
+        }
+        fila.close();
+
+        actvCecyt.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line,
+                new ArrayList<>(idsEscuela.keySet())));
+    }
+
+    private void cargarCarreras(long idEscuela) {
+        SQLiteDatabase basesita = admin.getReadableDatabase();
+        Cursor fila = basesita.rawQuery(
+                "SELECT id_carrera, nombre_carrera FROM carrera " +
+                        "WHERE id_escuela = ? AND estado = 'activa' ORDER BY nombre_carrera",
+                new String[]{String.valueOf(idEscuela)});
+
+        idsCarrera.clear();
+        while (fila.moveToNext()) {
+            idsCarrera.put(fila.getString(1), fila.getLong(0));
+        }
+        fila.close();
+
+        List<String> nombres = new ArrayList<>(idsCarrera.keySet());
+        actvCarrera.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, nombres));
     }
 
     @Override
