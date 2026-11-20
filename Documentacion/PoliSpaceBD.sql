@@ -803,3 +803,163 @@ GRANT ALL PRIVILEGES ON PoliSpaceBD.* TO 'admin_db'@'%' WITH GRANT OPTION;
 SELECT nombre_usuario, estado, LEFT(contrasena, 14) AS inicio_hash
 FROM usuario
 WHERE nombre_usuario IN ('admin.poli', 'prefecto.demo', 'alumno.demo');
+
+
+-- =========================================================
+-- 1. AMISTADES Y SOLICITUDES DE AMISTAD
+-- =========================================================
+
+CREATE TABLE IF NOT EXISTS amistad (
+    id_amistad BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    id_usuario_solicitante BIGINT UNSIGNED NOT NULL,
+    id_usuario_destino BIGINT UNSIGNED NOT NULL,
+
+    estado ENUM(
+        'pendiente',
+        'aceptada',
+        'rechazada',
+        'cancelada'
+    ) NOT NULL DEFAULT 'pendiente',
+
+    fecha_solicitud TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_respuesta TIMESTAMP NULL,
+
+    -- Evita relaciones duplicadas en ambos sentidos.
+    id_usuario_menor BIGINT UNSIGNED
+        GENERATED ALWAYS AS (
+            LEAST(id_usuario_solicitante, id_usuario_destino)
+        ) STORED,
+
+    id_usuario_mayor BIGINT UNSIGNED
+        GENERATED ALWAYS AS (
+            GREATEST(id_usuario_solicitante, id_usuario_destino)
+        ) STORED,
+
+    UNIQUE KEY uq_amistad_usuarios (
+        id_usuario_menor,
+        id_usuario_mayor
+    ),
+
+    CONSTRAINT chk_amistad_diferentes
+        CHECK (id_usuario_solicitante <> id_usuario_destino),
+
+    CONSTRAINT fk_amistad_solicitante
+        FOREIGN KEY (id_usuario_solicitante)
+        REFERENCES usuario(id_usuario)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+
+    CONSTRAINT fk_amistad_destino
+        FOREIGN KEY (id_usuario_destino)
+        REFERENCES usuario(id_usuario)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+
+    INDEX idx_amistad_destino_estado (
+        id_usuario_destino,
+        estado
+    ),
+
+    INDEX idx_amistad_solicitante_estado (
+        id_usuario_solicitante,
+        estado
+    )
+) ENGINE=InnoDB;
+
+
+-- =========================================================
+-- 2. NOTIFICACIONES
+-- =========================================================
+
+CREATE TABLE IF NOT EXISTS notificacion (
+    id_notificacion BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    id_usuario_destino BIGINT UNSIGNED NOT NULL,
+    id_usuario_origen BIGINT UNSIGNED NULL,
+
+    id_publicacion BIGINT UNSIGNED NULL,
+    id_amistad BIGINT UNSIGNED NULL,
+
+    tipo ENUM(
+        'me_gusta',
+        'solicitud_amistad',
+        'solicitud_aceptada',
+        'comentario'
+    ) NOT NULL,
+
+    mensaje VARCHAR(255) NOT NULL,
+
+    leida BOOLEAN NOT NULL DEFAULT FALSE,
+
+    fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_notificacion_destino
+        FOREIGN KEY (id_usuario_destino)
+        REFERENCES usuario(id_usuario)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+
+    CONSTRAINT fk_notificacion_origen
+        FOREIGN KEY (id_usuario_origen)
+        REFERENCES usuario(id_usuario)
+        ON UPDATE CASCADE ON DELETE SET NULL,
+
+    CONSTRAINT fk_notificacion_publicacion
+        FOREIGN KEY (id_publicacion)
+        REFERENCES publicacion(id_publicacion)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+
+    CONSTRAINT fk_notificacion_amistad
+        FOREIGN KEY (id_amistad)
+        REFERENCES amistad(id_amistad)
+        ON UPDATE CASCADE ON DELETE SET NULL,
+
+    INDEX idx_notificacion_usuario_fecha (
+        id_usuario_destino,
+        fecha
+    ),
+
+    INDEX idx_notificacion_no_leidas (
+        id_usuario_destino,
+        leida
+    )
+) ENGINE=InnoDB;
+
+
+-- =========================================================
+-- 3. COMENTARIOS DE PUBLICACIONES
+-- =========================================================
+
+CREATE TABLE IF NOT EXISTS comentario (
+    id_comentario BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    id_publicacion BIGINT UNSIGNED NOT NULL,
+    id_alumno BIGINT UNSIGNED NOT NULL,
+
+    contenido TEXT NOT NULL,
+
+    fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    fecha_actualizacion TIMESTAMP NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    estado ENUM(
+        'visible',
+        'oculto',
+        'eliminado'
+    ) NOT NULL DEFAULT 'visible',
+
+    CONSTRAINT fk_comentario_publicacion
+        FOREIGN KEY (id_publicacion)
+        REFERENCES publicacion(id_publicacion)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+
+    CONSTRAINT fk_comentario_alumno
+        FOREIGN KEY (id_alumno)
+        REFERENCES alumno(id_alumno)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+
+    INDEX idx_comentario_publicacion (
+        id_publicacion,
+        fecha
+    )
+) ENGINE=InnoDB;
