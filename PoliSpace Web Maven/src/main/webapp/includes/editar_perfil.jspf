@@ -1,0 +1,66 @@
+<%-- Formulario de edición de perfil para los tres roles. Requiere base.jspf. --%>
+<%
+    String titulo = "Editar perfil";
+    Map<String, String> datos = null;
+    try {
+        datos = Db.one("SELECT u.nombre_completo, pe.biografia, pe.foto_perfil FROM usuario u "
+                + "LEFT JOIN alumno a ON a.id_usuario = u.id_usuario LEFT JOIN perfil pe ON pe.id_alumno = a.id_alumno "
+                + "WHERE u.id_usuario = ?", uid);
+    } catch (RuntimeException e) {
+        application.log("Error al cargar perfil para editar", e);
+    }
+%>
+<%@ include file="/includes/top.jspf" %>
+<% if (datos == null) { %>
+    <div class="alerta alerta-error">No se pudo cargar tu perfil.</div>
+<% } else { %>
+<form class="form-card" action="<%= ctx %>/ActualizarPerfilServlet" method="POST" enctype="multipart/form-data" autocomplete="off">
+    <%= Util.csrfField(session) %>
+    <div class="form-grid">
+        <div class="campo ancho">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" name="nombre" value="<%= h(datos.get("nombre_completo")) %>" minlength="3" maxlength="150" required>
+        </div>
+        <% if (rolId == Util.ROL_ALUMNO) { %>
+        <div class="campo ancho">
+            <label for="foto">Foto de perfil</label>
+            <div class="fila">
+                <div class="avatar" style="width:72px;height:72px;font-size:1.6rem;"><%= Util.avatar(ctx, uid, (String) session.getAttribute("nombre")) %></div>
+                <div>
+                    <input type="file" id="foto" name="foto" accept="image/jpeg,image/png,image/gif">
+                    <small>JPG o PNG, máximo 3 MB. Se recorta en cuadrado automáticamente.</small>
+                    <% if (datos.get("foto_perfil") != null) { %><label style="font-weight:400;"><input type="checkbox" name="quitar_foto" value="1"> Quitar mi foto actual</label><% } %>
+                </div>
+            </div>
+        </div>
+        <div class="campo ancho">
+            <label for="biografia">Biografía</label>
+            <textarea id="biografia" name="biografia" maxlength="500" placeholder="Cuéntale a tu comunidad quién eres"><%= h(datos.get("biografia")) %></textarea>
+            <small>Máximo 500 caracteres.</small>
+        </div>
+        <% } %>
+    </div>
+
+    <h3 class="mt" style="font-size:1rem;">Cambiar contraseña <span class="muted">(déjalo vacío si no quieres cambiarla)</span></h3>
+    <div class="form-grid mt">
+        <div class="campo">
+            <label for="password_actual">Contraseña actual</label>
+            <input type="password" id="password_actual" name="password_actual" autocomplete="current-password">
+        </div>
+        <div class="campo">
+            <label for="password">Contraseña nueva</label>
+            <input type="password" id="password" name="password" minlength="8" maxlength="100" autocomplete="new-password">
+            <small>Mínimo 8 caracteres, con letras y números.</small>
+        </div>
+        <div class="campo">
+            <label for="password_confirmar">Confirmar contraseña nueva</label>
+            <input type="password" id="password_confirmar" name="password_confirmar" maxlength="100" autocomplete="new-password">
+        </div>
+    </div>
+    <div class="form-acciones">
+        <button type="submit" class="btn-primary">Guardar cambios</button>
+        <a href="<%= ctx %>/<%= carpetaRol %>/Perfil.jsp" class="btn-sec">Cancelar</a>
+    </div>
+</form>
+<% } %>
+<%@ include file="/includes/bottom.jspf" %>

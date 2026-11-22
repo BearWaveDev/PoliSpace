@@ -15,42 +15,67 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Registro de alumnos y prefectos.
+ *  - Alumno: queda activo y puede entrar de inmediato.
+ *  - Prefecto: queda "pendiente" hasta que un administrador lo active.
+ *  - Los administradores NO se registran aquí: los crea otro administrador.
+ */
 @WebServlet("/RegistrarServlet")
 public class RegistrarServlet extends HttpServlet {
 
     // Misma regla que el CHECK de la tabla usuario
     private static final Pattern USUARIO_OK = Pattern.compile("^[a-z0-9._]{3,30}$");
-    private static final String DOMINIO = "@alumno.ipn.mx";
+    private static final Pattern BOLETA_OK = Pattern.compile("^[A-Za-z0-9]{5,30}$");
+    private static final Pattern EMPLEADO_OK = Pattern.compile("^[A-Za-z0-9-]{3,30}$");
+    private static final Pattern TELEFONO_OK = Pattern.compile("^[0-9+() -]{7,25}$");
+
+    private static final String DOMINIO_ALUMNO = "@alumno.ipn.mx";
+    private static final String DOMINIO_PREFECTO = "@ipn.mx";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
-        String boleta   = limpiar(request.getParameter("matricula"));
-        String nombre   = limpiar(request.getParameter("nombre"));
-        String entrada  = limpiar(request.getParameter("usuario")).toLowerCase(Locale.ROOT);
+        String rol = Util.param(request, "rol").toLowerCase(Locale.ROOT);
+        if (!rol.equals("alumno") && !rol.equals("prefecto")) {
+            response.sendRedirect("Rol.html");
+            return;
+        }
+        boolean esAlumno = rol.equals("alumno");
+
+        String nombre = Util.param(request, "nombre");
+        String entrada = Util.param(request, "usuario").toLowerCase(Locale.ROOT);
         String password = request.getParameter("password");
         String confirma = request.getParameter("confirmPassword");
+        String boleta = Util.param(request, "matricula");
+        String empleado = Util.param(request, "numero_empleado");
+        String telefono = Util.param(request, "telefono");
 
-        long idEscuela;
-        long idCarrera;
-        try {
-            idEscuela = Long.parseLong(request.getParameter("id_escuela"));
-            idCarrera = Long.parseLong(request.getParameter("id_carrera"));
-        } catch (NumberFormatException e) {
-            volverConError(request, response, "Elige tu escuela y tu carrera.");
+        long idEscuela = Util.paramLong(request, "id_escuela", 0);
+        long idCarrera = Util.paramLong(request, "id_carrera", 0);
+        if (idEscuela == 0 || (esAlumno && idCarrera == 0)) {
+            volverConError(request, response, esAlumno ? "Elige tu escuela y tu carrera." : "Elige tu escuela.");
             return;
         }
-
-        if (boleta.isEmpty() || nombre.isEmpty() || entrada.isEmpty()
-                || password == null || password.isEmpty()) {
-            volverConError(request, response, "Completa todos los campos.");
+        if (nombre.length() < 3 || nombre.length() > 150) {
+            volverConError(request, response, "Escribe tu nombre completo (3 a 150 caracteres).");
             return;
         }
-        if (boleta.length() > 30 || nombre.length() > 150) {
-            volverConError(request, response, "La boleta o el nombre son demasiado largos.");
+        if (esAlumno && !BOLETA_OK.matcher(boleta).matches()) {
+            volverConError(request, response, "La boleta solo puede tener letras y números (5 a 30 caracteres).");
             return;
+        }
+        if (!esAlumno) {
+            if (!EMPLEADO_OK.matcher(empleado).matches()) {
+                volverConError(request, response, "El número de empleado solo puede tener letras, números y guion (3 a 30 caracteres).");
+                return;
+            }
+            if (!telefono.isEmpty() && !TELEFONO_OK.matcher(telefono).matches()) {
+                volverConError(request, response, "El teléfono no es válido.");
+                return;
+            }
         }
         String nombreUsuario = entrada.contains("@") ? entrada.substring(0, entrada.indexOf('@')) : entrada;
         if (!USUARIO_OK.matcher(nombreUsuario).matches()) {
@@ -58,8 +83,9 @@ public class RegistrarServlet extends HttpServlet {
                     "El usuario solo puede tener minúsculas, números, punto y guion bajo (3 a 30 caracteres).");
             return;
         }
-        if (password.length() < 6) {
-            volverConError(request, response, "La contraseña debe tener al menos 6 caracteres.");
+        String errorPass = Util.validarPassword(password);
+        if (errorPass != null) {
+            volverConError(request, response, errorPass);
             return;
         }
         if (!password.equals(confirma)) {
@@ -67,56 +93,100 @@ public class RegistrarServlet extends HttpServlet {
             return;
         }
 
-        String correo = entrada.contains("@") ? entrada : nombreUsuario + DOMINIO;
-
-        // id_rol 1 = alumno (lo inserta el script de la BD)
-        String sqlUsuario = "INSERT INTO usuario (nombre_completo, nombre_usuario, correo_institucional, "
-                + "contrasena, id_rol, id_escuela, estado) VALUES (?, ?, ?, ?, 1, ?, 'activo')";
-        String sqlAlumno = "INSERT INTO alumno (id_usuario, boleta, id_carrera, semestre_actual) "
-                + "VALUES (?, ?, ?, 1)";
+        String dominio = esAlumno ? DOMINIO_ALUMNO : DOMINIO_PREFECTO;
+        String correo = nombreUsuario + dominio;
+        String estado = esAlumno ? "activo" : "pendiente";
 
         try (Connection con = Conexion.conectar()) {
-            try (PreparedStatement ps = con.prepareStatement(
-                    "SELECT 1 FROM carrera WHERE id_carrera = ? AND id_escuela = ? AND estado = 'activa'")) {
-                ps.setLong(1, idCarrera);
-                ps.setLong(2, idEscuela);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (!rs.next()) {
-                        volverConError(request, response, "La carrera elegida no pertenece a esa escuela.");
-                        return;
+            // La carrera debe pertenecer a la escuela elegida; la escuela debe estar activa
+            if (esAlumno) {
+                try (PreparedStatement ps = con.prepareStatement(
+                        "SELECT 1 FROM carrera WHERE id_carrera = ? AND id_escuela = ? AND estado = 'activa'")) {
+                    ps.setLong(1, idCarrera);
+                    ps.setLong(2, idEscuela);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            volverConError(request, response, "La carrera elegida no pertenece a esa escuela.");
+                            return;
+                        }
+                    }
+                }
+            } else {
+                try (PreparedStatement ps = con.prepareStatement(
+                        "SELECT 1 FROM escuela WHERE id_escuela = ? AND estado = 'activa'")) {
+                    ps.setLong(1, idEscuela);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            volverConError(request, response, "La escuela elegida no está disponible.");
+                            return;
+                        }
                     }
                 }
             }
+
             con.setAutoCommit(false);
-            try (PreparedStatement psU = con.prepareStatement(sqlUsuario, Statement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement psU = con.prepareStatement(
+                    "INSERT INTO usuario (nombre_completo, nombre_usuario, correo_institucional, "
+                    + "contrasena, id_rol, id_escuela, estado) "
+                    + "VALUES (?, ?, ?, ?, (SELECT id_rol FROM rol WHERE nombre_rol = ?), ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS)) {
                 psU.setString(1, nombre);
                 psU.setString(2, nombreUsuario);
                 psU.setString(3, correo);
                 psU.setString(4, PasswordUtil.hash(password));
-                psU.setLong(5, idEscuela);
+                psU.setString(5, rol);
+                psU.setLong(6, idEscuela);
+                psU.setString(7, estado);
                 psU.executeUpdate();
 
+                long idUsuario;
                 try (ResultSet keys = psU.getGeneratedKeys()) {
                     if (!keys.next()) {
                         con.rollback();
                         volverConError(request, response, "No se pudo crear el usuario.");
                         return;
                     }
-                    try (PreparedStatement psA = con.prepareStatement(sqlAlumno)) {
-                        psA.setLong(1, keys.getLong(1));
+                    idUsuario = keys.getLong(1);
+                }
+
+                if (esAlumno) {
+                    long idAlumno;
+                    try (PreparedStatement psA = con.prepareStatement(
+                            "INSERT INTO alumno (id_usuario, boleta, id_carrera, semestre_actual) VALUES (?, ?, ?, 1)",
+                            Statement.RETURN_GENERATED_KEYS)) {
+                        psA.setLong(1, idUsuario);
                         psA.setString(2, boleta);
                         psA.setLong(3, idCarrera);
                         psA.executeUpdate();
+                        try (ResultSet k = psA.getGeneratedKeys()) {
+                            k.next();
+                            idAlumno = k.getLong(1);
+                        }
+                    }
+                    try (PreparedStatement psP = con.prepareStatement("INSERT INTO perfil (id_alumno) VALUES (?)")) {
+                        psP.setLong(1, idAlumno);
+                        psP.executeUpdate();
+                    }
+                } else {
+                    try (PreparedStatement psF = con.prepareStatement(
+                            "INSERT INTO prefecto (id_usuario, numero_empleado, telefono, id_escuela) VALUES (?, ?, ?, ?)")) {
+                        psF.setLong(1, idUsuario);
+                        psF.setString(2, empleado);
+                        psF.setString(3, telefono.isEmpty() ? null : telefono);
+                        psF.setLong(4, idEscuela);
+                        psF.executeUpdate();
                     }
                 }
                 con.commit();
-                response.sendRedirect("iniciarsesion.html?registro=ok");
+                response.sendRedirect("iniciarsesion.html?registro=" + (esAlumno ? "ok" : "pendiente"));
             } catch (SQLIntegrityConstraintViolationException e) {
                 con.rollback();
-                if (e.getErrorCode() == 1062) { // duplicado
-                    volverConError(request, response, "Esa boleta, usuario o correo ya están registrados.");
-                } else {                        // 1452 = falta rol/escuela/carrera
-                    log("Violación de integridad", e);
+                if (e.getErrorCode() == 1062) {
+                    volverConError(request, response, esAlumno
+                            ? "Esa boleta, usuario o correo ya están registrados."
+                            : "Ese número de empleado, usuario o correo ya están registrados.");
+                } else {
+                    log("Violación de integridad en registro", e);
                     volverConError(request, response,
                             "Falta información en la BD (roles, escuela o carrera). Revisa que los scripts se hayan ejecutado.");
                 }
@@ -126,7 +196,7 @@ public class RegistrarServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             log("Error en registro", e);
-            volverConError(request, response, "Error con la base de datos. Revisa la consola de Tomcat.");
+            volverConError(request, response, "Error con la base de datos. Inténtalo más tarde.");
         }
     }
 
@@ -134,9 +204,5 @@ public class RegistrarServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setAttribute("error", msg); // solo mensajes fijos, nunca texto del usuario
         request.getRequestDispatcher("/Registrar.jsp").forward(request, response);
-    }
-
-    private static String limpiar(String s) {
-        return s == null ? "" : s.trim();
     }
 }

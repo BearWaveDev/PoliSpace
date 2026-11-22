@@ -37,27 +37,30 @@
                 <h2>Selecciona una opción</h2>
                 <p class="subtitle">Elije tu Rol</p>
                 
-                <form>
-                    <!-- Opción Prefecto -->
+                <form action="Registrar.jsp" method="GET">
+                    <!-- Opción Alumno -->
                     <label class="radio-politecnico">
-                        <input type="radio" id="Prefecto" name="Rol" value="Prefecto" checked>
+                        <input type="radio" id="Alumno" name="rol" value="alumno" checked>
                         <span class="circulo-custom"></span>
-                        <span class="texto-opcion">Prefecto</span>
+                        <span class="texto-opcion">Alumno</span>
                     </label>
 
                     <br>
 
-                    <!-- Opción Alumno -->
+                    <!-- Opción Prefecto -->
                     <label class="radio-politecnico">
-                        <input type="radio" id="Alumno" name="Rol" value="Alumno">
+                        <input type="radio" id="Prefecto" name="rol" value="prefecto">
                         <span class="circulo-custom"></span>
-                        <span class="texto-opcion">Alumno</span>
+                        <span class="texto-opcion">Prefecto</span>
                     </label>
+
+                    <p class="subtitle" style="margin:16px 0;font-size:.85rem;">
+                        Las cuentas de prefecto las activa un administrador después de registrarse.
+                        Las cuentas de administrador las crea otro administrador.
+                    </p>
+
+                    <button type="submit" class="btn-primary">Continuar</button>
                 </form>
-                
-                <a href="Registrar.jsp">
-                   <button type="button" class="btn-primary">Entrar</button>
-                </a>
                 
               </div>
            </section>

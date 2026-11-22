@@ -1,0 +1,41 @@
+<%-- Perfil de cuenta para prefecto y administrador. Requiere base.jspf. --%>
+<%
+    String titulo = rolId == Util.ROL_ADMIN ? "Mi cuenta" : "Mi perfil";
+    Map<String, String> cuenta = null;
+    try {
+        cuenta = Db.one("SELECT u.nombre_completo, u.nombre_usuario, u.correo_institucional, u.fecha_registro, "
+                + "e.nombre_escuela, r.nombre_rol, COALESCE(pf.numero_empleado, ad.numero_empleado) AS numero_empleado, pf.telefono "
+                + "FROM usuario u INNER JOIN rol r ON r.id_rol = u.id_rol INNER JOIN escuela e ON e.id_escuela = u.id_escuela "
+                + "LEFT JOIN prefecto pf ON pf.id_usuario = u.id_usuario LEFT JOIN administrador ad ON ad.id_usuario = u.id_usuario "
+                + "WHERE u.id_usuario = ?", uid);
+    } catch (RuntimeException e) {
+        application.log("Error al cargar la cuenta", e);
+    }
+%>
+<%@ include file="/includes/top.jspf" %>
+<% if (cuenta == null) { %>
+    <div class="alerta alerta-error">No se pudo cargar tu cuenta.</div>
+<% } else { %>
+<div class="card">
+    <div class="perfil-cab">
+        <div class="avatar"><%= Util.avatar(ctx, uid, cuenta.get("nombre_completo")) %></div>
+        <div>
+            <h1 class="title-large"><%= h(cuenta.get("nombre_completo")) %></h1>
+            <p class="subtitle"><%= h(Util.nombreRol(rolId)) %> · <%= h(cuenta.get("nombre_escuela")) %></p>
+        </div>
+    </div>
+    <div class="grid-2 mt">
+        <div>
+            <div class="dato"><div class="et">Usuario</div><div class="val"><%= h(cuenta.get("nombre_usuario")) %></div></div>
+            <div class="dato"><div class="et">Correo institucional</div><div class="val"><%= h(cuenta.get("correo_institucional")) %></div></div>
+        </div>
+        <div>
+            <div class="dato"><div class="et">Número de empleado</div><div class="val"><%= h(cuenta.get("numero_empleado")) %></div></div>
+            <% if (cuenta.get("telefono") != null) { %><div class="dato"><div class="et">Teléfono</div><div class="val"><%= h(cuenta.get("telefono")) %></div></div><% } %>
+            <div class="dato"><div class="et">Cuenta creada</div><div class="val"><%= Util.fechaHora(cuenta.get("fecha_registro")) %></div></div>
+        </div>
+    </div>
+    <a href="<%= ctx %>/<%= carpetaRol %>/EditarPerfil.jsp" class="btn-primary btn-link">Editar nombre o contraseña</a>
+</div>
+<% } %>
+<%@ include file="/includes/bottom.jspf" %>

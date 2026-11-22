@@ -5,5 +5,17 @@
     </welcome-file-list>
     <session-config>
         <session-timeout>30</session-timeout>
+        <cookie-config><http-only>true</http-only></cookie-config>
     </session-config>
+    <error-page><error-code>403</error-code><location>/error.jsp</location></error-page>
+    <error-page><error-code>404</error-code><location>/error.jsp</location></error-page>
+    <error-page><error-code>500</error-code><location>/error.jsp</location></error-page>
+    <error-page><exception-type>java.lang.Throwable</exception-type><location>/error.jsp</location></error-page>
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <url-pattern>*.jspf</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>

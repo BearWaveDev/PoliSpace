@@ -1,0 +1,97 @@
+<%@ include file="/includes/alcance.jspf" %>
+<%
+    String titulo = "Materias";
+    String errorBd = null;
+    String q = Util.param(request, "q");
+
+    if (Util.esPost(request)) {
+        String accion = Util.param(request, "accion");
+        long id = Util.paramLong(request, "id", 0);
+        try {
+            if ("estado".equals(accion)) {
+                String nuevo = "inactiva".equals(Util.param(request, "nuevo")) ? "inactiva" : "activa";
+                Db.update("UPDATE materia m INNER JOIN carrera c ON c.id_carrera = m.id_carrera SET m.estado = ? WHERE m.id_materia = ? AND (? = 0 OR c.id_escuela = ?)", nuevo, id, alcance, alcance);
+                Util.ok(session, "Materia " + ("activa".equals(nuevo) ? "activada." : "desactivada."));
+            } else if ("guardar".equals(accion)) {
+                String nombre = Util.param(request, "nombre_materia"), clave = Util.param(request, "clave").toUpperCase(Locale.ROOT);
+                long idCarrera = Util.paramLong(request, "id_carrera", 0);
+                if (nombre.length() < 3 || nombre.length() > 120) {
+                    Util.error(session, "El nombre debe tener entre 3 y 120 caracteres.");
+                } else if (!clave.matches("^[A-Z0-9-]{2,30}$")) {
+                    Util.error(session, "La clave solo puede tener letras, números y guion (2 a 30 caracteres).");
+                } else if (Db.count("SELECT COUNT(*) FROM carrera WHERE id_carrera = ? AND estado = 'activa' AND (? = 0 OR id_escuela = ?)", idCarrera, alcance, alcance) == 0) {
+                    Util.error(session, "Elige una carrera válida.");
+                } else if (id == 0) {
+                    Db.update("INSERT INTO materia (nombre_materia, clave, id_carrera) VALUES (?, ?, ?)", nombre, clave, idCarrera);
+                    Util.ok(session, "Materia creada.");
+                } else {
+                    int n = Db.update("UPDATE materia m INNER JOIN carrera c ON c.id_carrera = m.id_carrera SET m.nombre_materia = ?, m.clave = ?, m.id_carrera = ? "
+                            + "WHERE m.id_materia = ? AND (? = 0 OR c.id_escuela = ?)", nombre, clave, idCarrera, id, alcance, alcance);
+                    Util.ok(session, n > 0 ? "Materia actualizada." : "No se encontró la materia.");
+                }
+            }
+        } catch (Db.DbException e) {
+            if (e.esDuplicado()) Util.error(session, "Ya existe una materia con esa clave en esa carrera.");
+            else if (e.esRelacion()) Util.error(session, "No se pudo cambiar: la materia está en uso en horarios.");
+            else { application.log("Error en materias", e); Util.error(session, "No se pudo completar la acción."); }
+        }
+        response.sendRedirect(yo + "?esc=" + escFiltro + "&q=" + Util.url(q));
+        return;
+    }
+
+    long editarId = Util.paramLong(request, "editar", 0);
+    Map<String, String> edit = null;
+    List<Map<String, String>> carreras = new ArrayList<>();
+    List<Map<String, String>> materias = new ArrayList<>();
+    try {
+        carreras = Db.list("SELECT c.id_carrera, c.nombre_carrera, e.clave AS escuela FROM carrera c INNER JOIN escuela e ON e.id_escuela = c.id_escuela "
+                + "WHERE c.estado = 'activa' AND (? = 0 OR c.id_escuela = ?) ORDER BY e.clave, c.nombre_carrera", escFiltro, escFiltro);
+        if (editarId > 0) {
+            edit = Db.one("SELECT m.* FROM materia m INNER JOIN carrera c ON c.id_carrera = m.id_carrera WHERE m.id_materia = ? AND (? = 0 OR c.id_escuela = ?)", editarId, alcance, alcance);
+        }
+        materias = Db.list("SELECT m.id_materia, m.nombre_materia, m.clave, m.estado, c.nombre_carrera, e.clave AS escuela "
+                + "FROM materia m INNER JOIN carrera c ON c.id_carrera = m.id_carrera INNER JOIN escuela e ON e.id_escuela = c.id_escuela "
+                + "WHERE (? = 0 OR c.id_escuela = ?) AND (m.nombre_materia LIKE ? OR m.clave LIKE ?) ORDER BY e.clave, c.nombre_carrera, m.nombre_materia LIMIT 300",
+                escFiltro, escFiltro, "%" + q + "%", "%" + q + "%");
+    } catch (RuntimeException e) {
+        application.log("Error al listar materias", e);
+        errorBd = "No se pudieron cargar las materias.";
+    }
+%>
+<%@ include file="/includes/top.jspf" %>
+<% if (errorBd != null) { %><div class="alerta alerta-error"><%= h(errorBd) %></div><% } %>
+<form class="form-card seccion" method="POST">
+    <%= Util.csrfField(session) %><input type="hidden" name="accion" value="guardar"><input type="hidden" name="esc" value="<%= escFiltro %>">
+    <input type="hidden" name="id" value="<%= edit == null ? "0" : h(edit.get("id_materia")) %>">
+    <h3><%= edit == null ? "Crear materia" : "Editar materia" %></h3>
+    <div class="form-grid">
+        <div class="campo"><label for="nombre_materia">Nombre</label><input type="text" id="nombre_materia" name="nombre_materia" maxlength="120" value="<%= edit == null ? "" : h(edit.get("nombre_materia")) %>" required></div>
+        <div class="campo"><label for="clave">Clave</label><input type="text" id="clave" name="clave" maxlength="30" value="<%= edit == null ? "" : h(edit.get("clave")) %>" required></div>
+        <div class="campo"><label for="id_carrera">Carrera</label>
+            <select id="id_carrera" name="id_carrera" required><option value="">Elige…</option>
+                <% for (Map<String, String> c : carreras) { %><option value="<%= h(c.get("id_carrera")) %>"<%= edit != null && c.get("id_carrera").equals(edit.get("id_carrera")) ? " selected" : "" %>><%= esAdmin ? h(c.get("escuela")) + " · " : "" %><%= h(c.get("nombre_carrera")) %></option><% } %>
+            </select></div>
+    </div>
+    <div class="form-acciones"><button class="btn-primary" type="submit"><%= edit == null ? "Crear" : "Guardar cambios" %></button>
+        <% if (edit != null) { %><a class="btn-sec" href="<%= yo %>?esc=<%= escFiltro %>">Cancelar</a><% } %></div>
+</form>
+<form class="filtros" method="GET">
+    <% if (esAdmin) { %><select name="esc"><option value="0">Todas las escuelas</option>
+        <% for (Map<String, String> es : listaEscuelas) { %><option value="<%= h(es.get("id_escuela")) %>"<%= es.get("id_escuela").equals(String.valueOf(escFiltro)) ? " selected" : "" %>><%= h(es.get("clave")) %></option><% } %></select><% } %>
+    <input type="search" name="q" value="<%= h(q) %>" placeholder="Nombre o clave"><button class="btn-primary" type="submit">Buscar</button>
+</form>
+<% if (materias.isEmpty() && errorBd == null) { %><div class="vacio"><strong>No hay materias</strong>Crea la primera para poder armar horarios.</div><% } else { %>
+<div class="tabla-wrap"><table class="tabla">
+    <thead><tr><th>Clave</th><th>Materia</th><% if (esAdmin) { %><th>Escuela</th><% } %><th>Carrera</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+    <% for (Map<String, String> m : materias) { boolean activa = "activa".equals(m.get("estado")); %>
+        <tr><td><%= h(m.get("clave")) %></td><td><b><%= h(m.get("nombre_materia")) %></b></td><% if (esAdmin) { %><td><%= h(m.get("escuela")) %></td><% } %>
+            <td><%= h(m.get("nombre_carrera")) %></td><td><span class="chip <%= activa ? "ok" : "" %>"><%= h(m.get("estado")) %></span></td>
+            <td><div class="acciones"><a class="btn-mini" href="<%= yo %>?editar=<%= h(m.get("id_materia")) %>&esc=<%= escFiltro %>">Editar</a>
+                <form method="POST"><%= Util.csrfField(session) %><input type="hidden" name="accion" value="estado"><input type="hidden" name="id" value="<%= h(m.get("id_materia")) %>">
+                    <input type="hidden" name="esc" value="<%= escFiltro %>"><input type="hidden" name="nuevo" value="<%= activa ? "inactiva" : "activa" %>">
+                    <button class="btn-mini <%= activa ? "peligro" : "ok" %>" type="submit"><%= activa ? "Desactivar" : "Activar" %></button></form></div></td></tr>
+    <% } %>
+    </tbody></table></div>
+<% } %>
+<%@ include file="/includes/bottom.jspf" %>
