@@ -37,6 +37,9 @@ public final class Util {
                 + "\" alt=\"\" loading=\"lazy\" onerror=\"this.remove()\">";
     }
 
+    /** Número para mostrar; -1 (consulta fallida) se muestra como un guion largo. */
+    public static String num(long n) { return n < 0 ? "—" : String.valueOf(n); }
+
     public static String inicial(String s) {
         if (s == null || s.trim().isEmpty()) return "?";
         return s.trim().substring(0, 1).toUpperCase(Locale.ROOT);

@@ -90,6 +90,16 @@ public final class Db {
         }
     }
 
+    /** Como count(), pero si la consulta falla devuelve -1 y anota el motivo en la lista (para paneles con varios contadores). */
+    public static long contarSeguro(List<String> errores, String nombre, String sql, Object... p) {
+        try {
+            return count(sql, p);
+        } catch (RuntimeException e) {
+            errores.add(nombre + ": " + e.getMessage());
+            return -1;
+        }
+    }
+
     /** INSERT / UPDATE / DELETE; devuelve filas afectadas. */
     public static int update(String sql, Object... p) {
         try (Connection con = Conexion.conectar();
