@@ -1,5 +1,15 @@
-<%@ include file="/includes/base.jspf" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.sql.*,java.util.*,java.math.BigDecimal,com.mycompany.polispace_websito.*" %>
 <%
+    // ==========================================================
+    // PARTE 1: LÓGICA EN JAVA (sesión, datos de la base, formularios)
+    // ==========================================================
+    request.setCharacterEncoding("UTF-8");
+    String ctx = request.getContextPath();              // ruta base de la aplicación
+    long uid = Util.idUsuario(session);                 // id del usuario que inició sesión
+    int rolId = Util.idRol(session);                    // 1 alumno, 2 prefecto, 3 administrador
+    String carpetaRol = Util.carpeta(rolId);            // alumno / prefecto / admin
+    String yo = request.getRequestURI();                // dirección de esta misma página
+
     String titulo = "Usuarios";
     String errorBd = null;
     String fEstado = Util.param(request, "estado"), fQ = Util.param(request, "q");
@@ -76,9 +86,103 @@
                 + "WHERE (? = '' OR u.estado = ?) AND (? = 0 OR u.id_rol = ?) AND (? = '' OR u.nombre_completo LIKE ? OR u.nombre_usuario LIKE ? OR u.correo_institucional LIKE ?) "
                 + "ORDER BY u.fecha_registro DESC LIMIT 200", fEstado, fEstado, fRol, fRol, fQ, like, like, like);
     } catch (RuntimeException e) { application.log("Error al cargar usuarios", e); errorBd = "No se pudo cargar la información."; }
+
+    // ----- Datos para la barra superior y el aviso (mensaje de éxito o error) -----
+    String flashTipo = (String) session.getAttribute("flashTipo");
+    String flashMsg = (String) session.getAttribute("flashMsg");
+    if (flashMsg != null) {
+        session.removeAttribute("flashTipo");
+        session.removeAttribute("flashMsg");
+    }
 %>
-<%@ include file="/includes/top.jspf" %>
-<% if (errorBd != null) { %><div class="alerta alerta-error"><%= h(errorBd) %></div><% } %>
+
+<%-- PARTE 2: HTML (lo que ve el usuario). Las partes de Java que aparecen aquí solo repiten o muestran datos --%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoliSpace - <%= Util.esc(titulo) %></title>
+    <link rel="stylesheet" href="<%= ctx %>/estilos/General.css"/>
+    <link rel="stylesheet" href="<%= ctx %>/estilos/panel.css"/>
+</head>
+<body>
+<div class="app-container">
+    <aside class="sidebar">
+        <div>
+            <div class="logo">
+                <img src="<%= ctx %>/Imagenes/Logo2.png" alt="Logo PoliSpace" width="180" height="100">
+            </div>
+            <nav class="sidebar-nav">
+                <a href="<%= ctx %>/admin/Inicio.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/hogar.png" alt="" class="nav-icon">
+                    <span>Inicio</span>
+                </a>
+                <a href="<%= ctx %>/admin/Usuarios.jsp" class="sidebar-nav-item active">
+                    <img src="<%= ctx %>/Imagenes/usuariob.png" alt="" class="nav-icon">
+                    <span>Usuarios</span>
+                </a>
+                <a href="<%= ctx %>/admin/Escuelas.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/hogar.png" alt="" class="nav-icon">
+                    <span>Escuelas</span>
+                </a>
+                <a href="<%= ctx %>/admin/Carreras.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/cuaderno.png" alt="" class="nav-icon">
+                    <span>Carreras</span>
+                </a>
+                <a href="<%= ctx %>/admin/Profesores.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/profesorb.png" alt="" class="nav-icon">
+                    <span>Profesores</span>
+                </a>
+                <a href="<%= ctx %>/admin/Grupos.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/usuariob.png" alt="" class="nav-icon">
+                    <span>Grupos y alumnos</span>
+                </a>
+                <a href="<%= ctx %>/admin/Materias.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/materialb.png" alt="" class="nav-icon">
+                    <span>Materias</span>
+                </a>
+                <a href="<%= ctx %>/admin/Ubicaciones.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/marketb.png" alt="" class="nav-icon">
+                    <span>Ubicaciones</span>
+                </a>
+                <a href="<%= ctx %>/admin/Horarios.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/horariob.png" alt="" class="nav-icon">
+                    <span>Horarios</span>
+                </a>
+                <a href="<%= ctx %>/admin/Asistencia.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/horariob.png" alt="" class="nav-icon">
+                    <span>Asistencia</span>
+                </a>
+                <a href="<%= ctx %>/admin/Moderacion.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/publicacionesb.png" alt="" class="nav-icon">
+                    <span>Moderación</span>
+                </a>
+                <a href="<%= ctx %>/admin/Perfil.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/usuariob.png" alt="" class="nav-icon">
+                    <span>Mi cuenta</span>
+                </a>
+            </nav>
+        </div>
+        <div class="sidebar-footer">
+            <a href="<%= ctx %>/LogoutServlet" class="sidebar-nav-item">
+                <img src="<%= ctx %>/Imagenes/usuariob.png" alt="" class="nav-icon">
+                <span>Cerrar sesión</span>
+            </a>
+        </div>
+    </aside>
+    <main class="main-content">
+        <header class="topbar">
+            <h2 class="title-large"><%= Util.esc(titulo) %></h2>
+            <div class="topbar-right">
+                <span class="badge badge-pink">Administrador</span>
+                <div class="avatar" title="<%= Util.esc((String) session.getAttribute("nombre")) %>"><%= Util.avatar(ctx, uid, (String) session.getAttribute("nombre")) %></div>
+            </div>
+        </header>
+        <% if (flashMsg != null) { %>
+        <div class="alerta alerta-<%= "ok".equals(flashTipo) ? "ok" : "error" %>"><%= Util.esc(flashMsg) %></div>
+        <% }
+ if (errorBd != null) { %><div class="alerta alerta-error"><%= Util.esc(errorBd) %></div><% } %>
 <details class="seccion"><summary class="btn-sec" style="display:inline-block;cursor:pointer;">+ Crear usuario</summary>
 <form class="form-card" method="POST" style="margin-top:12px;"><%= Util.csrfField(session) %><input type="hidden" name="accion" value="crear">
     <div class="form-grid">
@@ -88,9 +192,9 @@
         <div class="campo"><label for="password">Contraseña inicial</label><input id="password" type="password" name="password" minlength="8" maxlength="100" autocomplete="new-password" required></div>
         <div class="campo"><label for="id_rol">Rol</label><select id="id_rol" name="id_rol" required><option value="">Elige…</option><option value="1">Alumno</option><option value="2">Prefecto</option><option value="3">Administrador</option></select></div>
         <div class="campo"><label for="id_escuela">Escuela</label><select id="id_escuela" name="id_escuela" required><option value="">Elige…</option>
-            <% for (Map<String, String> e : escuelas) { %><option value="<%= h(e.get("id_escuela")) %>"><%= h(e.get("clave")) %></option><% } %></select></div>
+            <% for (Map<String, String> e : escuelas) { %><option value="<%= Util.esc(e.get("id_escuela")) %>"><%= Util.esc(e.get("clave")) %></option><% } %></select></div>
         <div class="campo"><label for="id_carrera">Carrera (alumno)</label><select id="id_carrera" name="id_carrera"><option value="0">—</option>
-            <% for (Map<String, String> c : carreras) { %><option value="<%= h(c.get("id_carrera")) %>"><%= h(c.get("nombre_carrera")) %> (esc. <%= h(c.get("id_escuela")) %>)</option><% } %></select></div>
+            <% for (Map<String, String> c : carreras) { %><option value="<%= Util.esc(c.get("id_carrera")) %>"><%= Util.esc(c.get("nombre_carrera")) %> (esc. <%= Util.esc(c.get("id_escuela")) %>)</option><% } %></select></div>
         <div class="campo"><label for="boleta">Boleta (alumno)</label><input id="boleta" name="boleta" maxlength="30"></div>
         <div class="campo"><label for="numero_empleado">N.º de empleado (prefecto/admin)</label><input id="numero_empleado" name="numero_empleado" maxlength="30"></div>
         <div class="campo"><label for="telefono">Teléfono (prefecto)</label><input id="telefono" name="telefono" maxlength="25"></div>
@@ -99,7 +203,7 @@
 </form></details>
 
 <form class="filtros" method="GET">
-    <input type="text" name="q" maxlength="60" placeholder="Buscar nombre, usuario o correo" value="<%= h(fQ) %>">
+    <input type="text" name="q" maxlength="60" placeholder="Buscar nombre, usuario o correo" value="<%= Util.esc(fQ) %>">
     <select name="rol"><option value="0">Todos los roles</option><option value="1"<%= fRol == 1 ? " selected" : "" %>>Alumno</option><option value="2"<%= fRol == 2 ? " selected" : "" %>>Prefecto</option><option value="3"<%= fRol == 3 ? " selected" : "" %>>Administrador</option></select>
     <select name="estado"><option value="">Todos los estados</option>
         <% for (String es : new String[]{"activo", "pendiente", "bloqueado", "inactivo"}) { %><option value="<%= es %>"<%= es.equals(fEstado) ? " selected" : "" %>><%= es %></option><% } %></select>
@@ -108,18 +212,22 @@
 <% if (usuarios.isEmpty() && errorBd == null) { %><div class="vacio"><strong>Sin resultados</strong></div><% } else { %>
 <div class="tabla-wrap"><table class="tabla"><thead><tr><th>Nombre</th><th>Usuario</th><th>Rol</th><th>Escuela</th><th>Estado</th><th>Registro</th><th></th></tr></thead><tbody>
 <% for (Map<String, String> u : usuarios) { String est = u.get("estado"); boolean yoMismo = String.valueOf(uid).equals(u.get("id_usuario")); %>
-<tr><td><b><%= h(u.get("nombre_completo")) %></b><br><span class="muted"><%= h(u.get("correo_institucional")) %></span></td><td><%= h(u.get("nombre_usuario")) %></td>
-<td><%= h(Util.nombreRol(Integer.parseInt(u.get("id_rol")))) %></td><td><%= h(u.get("escuela")) %></td>
-<td><span class="chip <%= est.equals("activo") ? "ok" : est.equals("pendiente") ? "warn" : "mal" %>"><%= h(est) %></span></td><td><%= h(Util.fechaHora(u.get("fecha_registro"))) %></td>
+<tr><td><b><%= Util.esc(u.get("nombre_completo")) %></b><br><span class="muted"><%= Util.esc(u.get("correo_institucional")) %></span></td><td><%= Util.esc(u.get("nombre_usuario")) %></td>
+<td><%= Util.esc(Util.nombreRol(Integer.parseInt(u.get("id_rol")))) %></td><td><%= Util.esc(u.get("escuela")) %></td>
+<td><span class="chip <%= est.equals("activo") ? "ok" : est.equals("pendiente") ? "warn" : "mal" %>"><%= Util.esc(est) %></span></td><td><%= Util.esc(Util.fechaHora(u.get("fecha_registro"))) %></td>
 <td><div class="acciones">
-<% if (!yoMismo) { %>
-<% for (String[] op : new String[][]{{"activo", "Activar", "ok"}, {"bloqueado", "Bloquear", "peligro"}, {"inactivo", "Desactivar", "peligro"}}) { if (op[0].equals(est)) continue; %>
-<form method="POST"><%= Util.csrfField(session) %><input type="hidden" name="accion" value="estado"><input type="hidden" name="id" value="<%= h(u.get("id_usuario")) %>"><input type="hidden" name="nuevo" value="<%= op[0] %>">
-<input type="hidden" name="estado" value="<%= h(fEstado) %>"><input type="hidden" name="rol" value="<%= fRol %>"><input type="hidden" name="q" value="<%= h(fQ) %>"><button class="btn-mini <%= op[2] %>" type="submit"><%= op[1] %></button></form>
+<% if (!yoMismo) {
+ for (String[] op : new String[][]{{"activo", "Activar", "ok"}, {"bloqueado", "Bloquear", "peligro"}, {"inactivo", "Desactivar", "peligro"}}) { if (op[0].equals(est)) continue; %>
+<form method="POST"><%= Util.csrfField(session) %><input type="hidden" name="accion" value="estado"><input type="hidden" name="id" value="<%= Util.esc(u.get("id_usuario")) %>"><input type="hidden" name="nuevo" value="<%= op[0] %>">
+<input type="hidden" name="estado" value="<%= Util.esc(fEstado) %>"><input type="hidden" name="rol" value="<%= fRol %>"><input type="hidden" name="q" value="<%= Util.esc(fQ) %>"><button class="btn-mini <%= op[2] %>" type="submit"><%= op[1] %></button></form>
 <% } } else { %><span class="muted">Tu cuenta</span><% } %>
-<form method="POST" class="fila"><%= Util.csrfField(session) %><input type="hidden" name="accion" value="password"><input type="hidden" name="id" value="<%= h(u.get("id_usuario")) %>">
-<input type="hidden" name="estado" value="<%= h(fEstado) %>"><input type="hidden" name="rol" value="<%= fRol %>"><input type="hidden" name="q" value="<%= h(fQ) %>">
+<form method="POST" class="fila"><%= Util.csrfField(session) %><input type="hidden" name="accion" value="password"><input type="hidden" name="id" value="<%= Util.esc(u.get("id_usuario")) %>">
+<input type="hidden" name="estado" value="<%= Util.esc(fEstado) %>"><input type="hidden" name="rol" value="<%= fRol %>"><input type="hidden" name="q" value="<%= Util.esc(fQ) %>">
 <input class="inline-input" type="password" name="password" placeholder="Nueva contraseña" minlength="8" maxlength="100" autocomplete="new-password" required style="width:150px;"><button class="btn-mini" type="submit" onclick="return confirm('¿Restablecer la contraseña de este usuario?');">Restablecer</button></form>
 </div></td></tr>
 <% } %></tbody></table></div><% } %>
-<%@ include file="/includes/bottom.jspf" %>
+
+    </main>
+</div>
+</body>
+</html>

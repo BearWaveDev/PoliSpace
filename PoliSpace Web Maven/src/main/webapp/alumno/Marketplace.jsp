@@ -1,5 +1,15 @@
-<%@ include file="/includes/base.jspf" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.sql.*,java.util.*,java.math.BigDecimal,com.mycompany.polispace_websito.*" %>
 <%
+    // ==========================================================
+    // PARTE 1: LÓGICA EN JAVA (sesión, datos de la base, formularios)
+    // ==========================================================
+    request.setCharacterEncoding("UTF-8");
+    String ctx = request.getContextPath();              // ruta base de la aplicación
+    long uid = Util.idUsuario(session);                 // id del usuario que inició sesión
+    int rolId = Util.idRol(session);                    // 1 alumno, 2 prefecto, 3 administrador
+    String carpetaRol = Util.carpeta(rolId);            // alumno / prefecto / admin
+    String yo = request.getRequestURI();                // dirección de esta misma página
+
     String titulo = "Marketplace";
     String q = Util.param(request, "q");
     if (q.length() > 100) q = q.substring(0, 100);
@@ -46,9 +56,91 @@
         application.log("Error al listar productos", e);
         errorBd = "No se pudieron cargar los productos.";
     }
+
+    // ----- Datos para la barra superior y el aviso (mensaje de éxito o error) -----
+    long notifSinLeer = 0;   // notificaciones sin leer (campanita)
+    try {
+        notifSinLeer = Db.count("SELECT COUNT(*) FROM notificacion WHERE id_usuario_destino = ? AND leida = FALSE", uid);
+    } catch (RuntimeException ex) { /* el contador no es crítico */ }
+    String flashTipo = (String) session.getAttribute("flashTipo");
+    String flashMsg = (String) session.getAttribute("flashMsg");
+    if (flashMsg != null) {
+        session.removeAttribute("flashTipo");
+        session.removeAttribute("flashMsg");
+    }
 %>
-<%@ include file="/includes/top.jspf" %>
-<% if (errorBd != null) { %><div class="alerta alerta-error"><%= h(errorBd) %></div><% } %>
+
+<%-- PARTE 2: HTML (lo que ve el usuario). Las partes de Java que aparecen aquí solo repiten o muestran datos --%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoliSpace - <%= Util.esc(titulo) %></title>
+    <link rel="stylesheet" href="<%= ctx %>/estilos/General.css"/>
+    <link rel="stylesheet" href="<%= ctx %>/estilos/panel.css"/>
+</head>
+<body>
+<div class="app-container">
+    <aside class="sidebar">
+        <div>
+            <div class="logo">
+                <img src="<%= ctx %>/Imagenes/Logo2.png" alt="Logo PoliSpace" width="180" height="100">
+            </div>
+            <nav class="sidebar-nav">
+                <a href="<%= ctx %>/alumno/Inicio.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/hogar.png" alt="" class="nav-icon">
+                    <span>Inicio</span>
+                </a>
+                <a href="<%= ctx %>/alumno/Perfil.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/usuariob.png" alt="" class="nav-icon">
+                    <span>Mi perfil</span>
+                </a>
+                <a href="<%= ctx %>/alumno/Horario.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/horariob.png" alt="" class="nav-icon">
+                    <span>Horario</span>
+                </a>
+                <a href="<%= ctx %>/alumno/Profesor.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/profesorb.png" alt="" class="nav-icon">
+                    <span>Profesores</span>
+                </a>
+                <a href="<%= ctx %>/alumno/Publicaciones.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/publicacionesb.png" alt="" class="nav-icon">
+                    <span>Publicaciones</span>
+                </a>
+                <a href="<%= ctx %>/alumno/MaterialEstudio.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/materialb.png" alt="" class="nav-icon">
+                    <span>Material de estudio</span>
+                </a>
+                <a href="<%= ctx %>/alumno/Marketplace.jsp" class="sidebar-nav-item active">
+                    <img src="<%= ctx %>/Imagenes/marketb.png" alt="" class="nav-icon">
+                    <span>Marketplace</span>
+                </a>
+            </nav>
+        </div>
+        <div class="sidebar-footer">
+            <a href="<%= ctx %>/LogoutServlet" class="sidebar-nav-item">
+                <img src="<%= ctx %>/Imagenes/usuariob.png" alt="" class="nav-icon">
+                <span>Cerrar sesión</span>
+            </a>
+        </div>
+    </aside>
+    <main class="main-content">
+        <header class="topbar">
+            <h2 class="title-large"><%= Util.esc(titulo) %></h2>
+            <div class="topbar-right">
+                <span class="badge badge-pink">Alumno</span>
+                <a href="<%= ctx %>/alumno/Notis.jsp" class="notif-link" title="Notificaciones">
+                    <img src="<%= ctx %>/Imagenes/Notis.png" alt="Notificaciones" class="nav-icon">
+                    <% if (notifSinLeer > 0) { %><span class="notif-count"><%= notifSinLeer > 99 ? "99+" : String.valueOf(notifSinLeer) %></span><% } %>
+                </a>
+                <div class="avatar" title="<%= Util.esc((String) session.getAttribute("nombre")) %>"><%= Util.avatar(ctx, uid, (String) session.getAttribute("nombre")) %></div>
+            </div>
+        </header>
+        <% if (flashMsg != null) { %>
+        <div class="alerta alerta-<%= "ok".equals(flashTipo) ? "ok" : "error" %>"><%= Util.esc(flashMsg) %></div>
+        <% }
+ if (errorBd != null) { %><div class="alerta alerta-error"><%= Util.esc(errorBd) %></div><% } %>
 <div class="tabs">
     <a class="tab" href="Publicaciones.jsp">General</a>
     <a class="tab" href="MaterialEstudio.jsp">Material de estudio</a>
@@ -58,7 +150,7 @@
 <div class="fila-entre">
     <form class="filtros" method="GET">
         <% if (soloMios) { %><input type="hidden" name="mios" value="1"><% } %>
-        <input type="search" name="q" value="<%= h(q) %>" placeholder="Buscar productos…">
+        <input type="search" name="q" value="<%= Util.esc(q) %>" placeholder="Buscar productos…">
         <select name="tipo">
             <option value="">Todos los tipos</option>
             <option value="venta"<%= "venta".equals(tipo) ? " selected" : "" %>>Venta</option>
@@ -76,13 +168,13 @@
 <% for (Map<String, String> p : productos) {
        boolean mio = "1".equals(p.get("mio")); String est = p.get("estado"); %>
     <div class="item">
-        <div class="fila-entre"><h4><%= h(p.get("nombre_producto")) %></h4>
-            <span class="chip <%= "disponible".equals(est) ? "ok" : "reservado".equals(est) ? "warn" : "" %>"><%= h(est) %></span></div>
-        <div class="precio"><%= h(Util.precio(p.get("precio"), p.get("tipo"))) %></div>
-        <% if (p.get("descripcion") != null) { %><p class="muted"><%= h(Util.recorta(p.get("descripcion"), 140)) %></p><% } %>
-        <p class="muted"><span class="chip info"><%= h(p.get("tipo")) %></span> Publicado por <b><%= h(p.get("vendedor")) %></b></p>
+        <div class="fila-entre"><h4><%= Util.esc(p.get("nombre_producto")) %></h4>
+            <span class="chip <%= "disponible".equals(est) ? "ok" : "reservado".equals(est) ? "warn" : "" %>"><%= Util.esc(est) %></span></div>
+        <div class="precio"><%= Util.esc(Util.precio(p.get("precio"), p.get("tipo"))) %></div>
+        <% if (p.get("descripcion") != null) { %><p class="muted"><%= Util.esc(Util.recorta(p.get("descripcion"), 140)) %></p><% } %>
+        <p class="muted"><span class="chip info"><%= Util.esc(p.get("tipo")) %></span> Publicado por <b><%= Util.esc(p.get("vendedor")) %></b></p>
         <% if (mio) { %>
-        <form class="fila" method="POST"><%= Util.csrfField(session) %><input type="hidden" name="id" value="<%= h(p.get("id_producto")) %>">
+        <form class="fila" method="POST"><%= Util.csrfField(session) %><input type="hidden" name="id" value="<%= Util.esc(p.get("id_producto")) %>">
             <select class="inline-input" name="estado" style="width:auto;">
                 <% for (String e : new String[]{"disponible", "reservado", "vendido", "pausado"}) { %><option value="<%= e %>"<%= e.equals(est) ? " selected" : "" %>><%= e %></option><% } %>
             </select>
@@ -93,4 +185,8 @@
     </div>
 <% } %>
 </div>
-<%@ include file="/includes/bottom.jspf" %>
+
+    </main>
+</div>
+</body>
+</html>

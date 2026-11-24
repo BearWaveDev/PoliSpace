@@ -1,5 +1,15 @@
-<%@ include file="/includes/base.jspf" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.sql.*,java.util.*,java.math.BigDecimal,com.mycompany.polispace_websito.*" %>
 <%
+    // ==========================================================
+    // PARTE 1: LÓGICA EN JAVA (sesión, datos de la base, formularios)
+    // ==========================================================
+    request.setCharacterEncoding("UTF-8");
+    String ctx = request.getContextPath();              // ruta base de la aplicación
+    long uid = Util.idUsuario(session);                 // id del usuario que inició sesión
+    int rolId = Util.idRol(session);                    // 1 alumno, 2 prefecto, 3 administrador
+    String carpetaRol = Util.carpeta(rolId);            // alumno / prefecto / admin
+    String yo = request.getRequestURI();                // dirección de esta misma página
+
     String titulo = "Publicaciones";
     final String[] TIPOS = {"general", "pregunta", "recurso", "aviso", "otro"};
     String fTipo = Util.param(request, "tipo");
@@ -106,9 +116,91 @@
         application.log("Error al listar publicaciones", e);
         errorBd = "No se pudieron cargar las publicaciones.";
     }
+
+    // ----- Datos para la barra superior y el aviso (mensaje de éxito o error) -----
+    long notifSinLeer = 0;   // notificaciones sin leer (campanita)
+    try {
+        notifSinLeer = Db.count("SELECT COUNT(*) FROM notificacion WHERE id_usuario_destino = ? AND leida = FALSE", uid);
+    } catch (RuntimeException ex) { /* el contador no es crítico */ }
+    String flashTipo = (String) session.getAttribute("flashTipo");
+    String flashMsg = (String) session.getAttribute("flashMsg");
+    if (flashMsg != null) {
+        session.removeAttribute("flashTipo");
+        session.removeAttribute("flashMsg");
+    }
 %>
-<%@ include file="/includes/top.jspf" %>
-<% if (errorBd != null) { %><div class="alerta alerta-error"><%= h(errorBd) %></div><% } %>
+
+<%-- PARTE 2: HTML (lo que ve el usuario). Las partes de Java que aparecen aquí solo repiten o muestran datos --%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoliSpace - <%= Util.esc(titulo) %></title>
+    <link rel="stylesheet" href="<%= ctx %>/estilos/General.css"/>
+    <link rel="stylesheet" href="<%= ctx %>/estilos/panel.css"/>
+</head>
+<body>
+<div class="app-container">
+    <aside class="sidebar">
+        <div>
+            <div class="logo">
+                <img src="<%= ctx %>/Imagenes/Logo2.png" alt="Logo PoliSpace" width="180" height="100">
+            </div>
+            <nav class="sidebar-nav">
+                <a href="<%= ctx %>/alumno/Inicio.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/hogar.png" alt="" class="nav-icon">
+                    <span>Inicio</span>
+                </a>
+                <a href="<%= ctx %>/alumno/Perfil.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/usuariob.png" alt="" class="nav-icon">
+                    <span>Mi perfil</span>
+                </a>
+                <a href="<%= ctx %>/alumno/Horario.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/horariob.png" alt="" class="nav-icon">
+                    <span>Horario</span>
+                </a>
+                <a href="<%= ctx %>/alumno/Profesor.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/profesorb.png" alt="" class="nav-icon">
+                    <span>Profesores</span>
+                </a>
+                <a href="<%= ctx %>/alumno/Publicaciones.jsp" class="sidebar-nav-item active">
+                    <img src="<%= ctx %>/Imagenes/publicacionesb.png" alt="" class="nav-icon">
+                    <span>Publicaciones</span>
+                </a>
+                <a href="<%= ctx %>/alumno/MaterialEstudio.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/materialb.png" alt="" class="nav-icon">
+                    <span>Material de estudio</span>
+                </a>
+                <a href="<%= ctx %>/alumno/Marketplace.jsp" class="sidebar-nav-item">
+                    <img src="<%= ctx %>/Imagenes/marketb.png" alt="" class="nav-icon">
+                    <span>Marketplace</span>
+                </a>
+            </nav>
+        </div>
+        <div class="sidebar-footer">
+            <a href="<%= ctx %>/LogoutServlet" class="sidebar-nav-item">
+                <img src="<%= ctx %>/Imagenes/usuariob.png" alt="" class="nav-icon">
+                <span>Cerrar sesión</span>
+            </a>
+        </div>
+    </aside>
+    <main class="main-content">
+        <header class="topbar">
+            <h2 class="title-large"><%= Util.esc(titulo) %></h2>
+            <div class="topbar-right">
+                <span class="badge badge-pink">Alumno</span>
+                <a href="<%= ctx %>/alumno/Notis.jsp" class="notif-link" title="Notificaciones">
+                    <img src="<%= ctx %>/Imagenes/Notis.png" alt="Notificaciones" class="nav-icon">
+                    <% if (notifSinLeer > 0) { %><span class="notif-count"><%= notifSinLeer > 99 ? "99+" : String.valueOf(notifSinLeer) %></span><% } %>
+                </a>
+                <div class="avatar" title="<%= Util.esc((String) session.getAttribute("nombre")) %>"><%= Util.avatar(ctx, uid, (String) session.getAttribute("nombre")) %></div>
+            </div>
+        </header>
+        <% if (flashMsg != null) { %>
+        <div class="alerta alerta-<%= "ok".equals(flashTipo) ? "ok" : "error" %>"><%= Util.esc(flashMsg) %></div>
+        <% }
+ if (errorBd != null) { %><div class="alerta alerta-error"><%= Util.esc(errorBd) %></div><% } %>
 
 <div class="tabs">
     <a class="tab activa" href="Publicaciones.jsp">General</a>
@@ -122,7 +214,7 @@
     <form class="form-card seccion" method="POST">
         <%= Util.csrfField(session) %>
         <input type="hidden" name="accion" value="crear">
-        <input type="hidden" name="f_tipo" value="<%= h(fTipo) %>"><input type="hidden" name="f_q" value="<%= h(q) %>">
+        <input type="hidden" name="f_tipo" value="<%= Util.esc(fTipo) %>"><input type="hidden" name="f_q" value="<%= Util.esc(q) %>">
         <div class="form-grid">
             <div class="campo" style="grid-column: span 2;"><label for="titulo">¿Qué quieres compartir?</label>
                 <input type="text" id="titulo" name="titulo" maxlength="180" placeholder="Título de tu publicación" required></div>
@@ -137,7 +229,7 @@
     </form>
 
     <form class="filtros" method="GET">
-        <input type="search" name="q" value="<%= h(q) %>" placeholder="Buscar en la comunidad…">
+        <input type="search" name="q" value="<%= Util.esc(q) %>" placeholder="Buscar en la comunidad…">
         <select name="tipo">
             <option value="">Todos los tipos</option>
             <% for (String t : TIPOS) { %><option value="<%= t %>"<%= t.equals(fTipo) ? " selected" : "" %>><%= t.substring(0, 1).toUpperCase() + t.substring(1) %></option><% } %>
@@ -147,37 +239,37 @@
 
     <% if (posts.isEmpty() && errorBd == null) { %>
         <div class="vacio"><strong>No encontramos publicaciones</strong>Prueba con otra búsqueda o publica algo nuevo.</div>
-    <% } %>
-    <% for (Map<String, String> p : posts) {
+    <% }
+ for (Map<String, String> p : posts) {
            List<Map<String, String>> coms = comentarios.getOrDefault(p.get("id_publicacion"), new ArrayList<>());
            boolean like = "1".equals(p.get("di_like")), guard = "1".equals(p.get("guardada")); %>
-    <article class="post" id="p<%= h(p.get("id_publicacion")) %>">
+    <article class="post" id="p<%= Util.esc(p.get("id_publicacion")) %>">
         <div class="post-cab">
             <div class="avatar"><%= Util.avatar(ctx, Long.parseLong(p.get("id_autor")), p.get("autor")) %></div>
-            <div><b><%= h(p.get("autor")) %></b>
-                <div class="muted"><%= p.get("nombre_grupo") != null ? "Grupo " + h(p.get("nombre_grupo")) + " · " : "" %><%= Util.fechaHora(p.get("fecha_publicacion")) %></div></div>
-            <span class="chip info" style="margin-left:auto;"><%= h(p.get("tipo")) %></span>
+            <div><b><%= Util.esc(p.get("autor")) %></b>
+                <div class="muted"><%= p.get("nombre_grupo") != null ? "Grupo " + Util.esc(p.get("nombre_grupo")) + " · " : "" %><%= Util.fechaHora(p.get("fecha_publicacion")) %></div></div>
+            <span class="chip info" style="margin-left:auto;"><%= Util.esc(p.get("tipo")) %></span>
         </div>
-        <div class="post-titulo"><%= h(p.get("titulo")) %></div>
-        <div class="post-texto"><%= h(p.get("contenido")) %></div>
+        <div class="post-titulo"><%= Util.esc(p.get("titulo")) %></div>
+        <div class="post-texto"><%= Util.esc(p.get("contenido")) %></div>
         <div class="post-pie">
-            <form method="POST"><%= Util.csrfField(session) %><input type="hidden" name="accion" value="megusta"><input type="hidden" name="id" value="<%= h(p.get("id_publicacion")) %>">
-                <input type="hidden" name="f_tipo" value="<%= h(fTipo) %>"><input type="hidden" name="f_q" value="<%= h(q) %>">
-                <button class="reaccion<%= like ? " on" : "" %>" type="submit">♥ Me gusta (<%= h(p.get("likes")) %>)</button></form>
-            <form method="POST"><%= Util.csrfField(session) %><input type="hidden" name="accion" value="guardar"><input type="hidden" name="id" value="<%= h(p.get("id_publicacion")) %>">
-                <input type="hidden" name="f_tipo" value="<%= h(fTipo) %>"><input type="hidden" name="f_q" value="<%= h(q) %>">
+            <form method="POST"><%= Util.csrfField(session) %><input type="hidden" name="accion" value="megusta"><input type="hidden" name="id" value="<%= Util.esc(p.get("id_publicacion")) %>">
+                <input type="hidden" name="f_tipo" value="<%= Util.esc(fTipo) %>"><input type="hidden" name="f_q" value="<%= Util.esc(q) %>">
+                <button class="reaccion<%= like ? " on" : "" %>" type="submit">♥ Me gusta (<%= Util.esc(p.get("likes")) %>)</button></form>
+            <form method="POST"><%= Util.csrfField(session) %><input type="hidden" name="accion" value="guardar"><input type="hidden" name="id" value="<%= Util.esc(p.get("id_publicacion")) %>">
+                <input type="hidden" name="f_tipo" value="<%= Util.esc(fTipo) %>"><input type="hidden" name="f_q" value="<%= Util.esc(q) %>">
                 <button class="reaccion<%= guard ? " on" : "" %>" type="submit"><%= guard ? "Guardado" : "Guardar" %></button></form>
-            <span class="muted"><%= h(p.get("ncom")) %> comentarios</span>
+            <span class="muted"><%= Util.esc(p.get("ncom")) %> comentarios</span>
         </div>
         <div class="comentarios">
             <% int desde = Math.max(0, coms.size() - 3);
                for (int i = desde; i < coms.size(); i++) { %>
-                <div class="comentario"><b><%= h(coms.get(i).get("autor")) %>:</b> <%= h(coms.get(i).get("contenido")) %></div>
-            <% } %>
-            <% if (desde > 0) { %><div class="muted">Mostrando los últimos 3 de <%= coms.size() %> comentarios.</div><% } %>
+                <div class="comentario"><b><%= Util.esc(coms.get(i).get("autor")) %>:</b> <%= Util.esc(coms.get(i).get("contenido")) %></div>
+            <% }
+ if (desde > 0) { %><div class="muted">Mostrando los últimos 3 de <%= coms.size() %> comentarios.</div><% } %>
             <form class="comentario-form" method="POST"><%= Util.csrfField(session) %>
-                <input type="hidden" name="accion" value="comentar"><input type="hidden" name="id" value="<%= h(p.get("id_publicacion")) %>">
-                <input type="hidden" name="f_tipo" value="<%= h(fTipo) %>"><input type="hidden" name="f_q" value="<%= h(q) %>">
+                <input type="hidden" name="accion" value="comentar"><input type="hidden" name="id" value="<%= Util.esc(p.get("id_publicacion")) %>">
+                <input type="hidden" name="f_tipo" value="<%= Util.esc(fTipo) %>"><input type="hidden" name="f_q" value="<%= Util.esc(q) %>">
                 <input class="inline-input" type="text" name="contenido" maxlength="1000" placeholder="Escribe un comentario…" required>
                 <button class="btn-sec" type="submit">Comentar</button></form>
         </div>
@@ -188,11 +280,15 @@
 <aside>
     <div class="card">
         <h3>Publicaciones destacadas</h3>
-        <% if (destacadas.isEmpty()) { %><p class="muted">Aún no hay destacadas este mes.</p><% } %>
-        <% for (Map<String, String> d : destacadas) { %>
-            <div class="comentario"><a href="#p<%= h(d.get("id_publicacion")) %>"><b><%= h(Util.recorta(d.get("titulo"), 40)) %></b></a> <span class="muted">· ♥ <%= h(d.get("likes")) %></span></div>
+        <% if (destacadas.isEmpty()) { %><p class="muted">Aún no hay destacadas este mes.</p><% }
+ for (Map<String, String> d : destacadas) { %>
+            <div class="comentario"><a href="#p<%= Util.esc(d.get("id_publicacion")) %>"><b><%= Util.esc(Util.recorta(d.get("titulo"), 40)) %></b></a> <span class="muted">· ♥ <%= Util.esc(d.get("likes")) %></span></div>
         <% } %>
     </div>
 </aside>
 </div>
-<%@ include file="/includes/bottom.jspf" %>
+
+    </main>
+</div>
+</body>
+</html>
