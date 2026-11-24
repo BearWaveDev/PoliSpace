@@ -8,6 +8,22 @@
             : codigo == 403 ? "No tienes permiso para esta acción, o la página caducó. Vuelve a cargarla e inténtalo de nuevo."
             : "Ocurrió un error en el servidor. Inténtalo de nuevo en un momento.";
     String ctx = request.getContextPath();
+
+    // Causa real del error: siempre al log del servidor; en pantalla solo si POLISPACE_DEBUG=1
+    Throwable causa = (Throwable) request.getAttribute("javax.servlet.error.exception");
+    Object _u = request.getAttribute("javax.servlet.error.request_uri");
+    String detalle = "";
+    if (codigo == 500) {
+        StringBuilder sb = new StringBuilder("Página: " + _u + "\n");
+        for (Throwable t = causa; t != null && sb.length() < 3000; t = t.getCause() == t ? null : t.getCause()) {
+            sb.append(t.getClass().getName()).append(": ").append(t.getMessage()).append("\n");
+            StackTraceElement[] st = t.getStackTrace();
+            for (int i = 0; i < Math.min(6, st.length); i++) sb.append("    en ").append(st[i]).append("\n");
+        }
+        detalle = sb.toString();
+        application.log("Error 500 -> " + detalle);
+    }
+    boolean verDetalle = "1".equals(System.getenv("POLISPACE_DEBUG")) || "1".equals(System.getProperty("POLISPACE_DEBUG"));
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,6 +40,7 @@
         <img src="<%= ctx %>/Imagenes/Logo2.png" alt="PoliSpace" width="96" height="96">
         <h1 class="title-large"><%= codigo %> · <%= titulo %></h1>
         <p class="subtitle"><%= texto %></p>
+        <% if (verDetalle && !detalle.isEmpty()) { %><pre style="text-align:left;white-space:pre-wrap;font-size:12px;background:#f4f5f8;padding:10px;border-radius:8px;overflow:auto;max-height:260px;"><%= detalle.replace("&","&amp;").replace("<","&lt;") %></pre><% } %>
         <a href="<%= ctx %>/index.html" class="btn-primary btn-link">Ir al inicio</a>
     </div>
 </div>
