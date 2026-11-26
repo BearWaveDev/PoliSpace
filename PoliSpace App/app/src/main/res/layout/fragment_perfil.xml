@@ -272,6 +272,18 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- MENSAJE CUANDO NO HAY PUBLICACIONES -->
+            <TextView
+                android:id="@+id/tvPerfilVacio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="24dp"
+                android:text=""
+                android:textColor="@color/color_texto_secundario"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
             <!-- LISTA DE PUBLICACIONES -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvPublicacionesPerfil"

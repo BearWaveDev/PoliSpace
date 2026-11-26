@@ -2,12 +2,14 @@ package com.example.polispaceapp.fragmentsAlumno;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,10 +29,12 @@ import com.example.polispaceapp.configuracionLateralAlumno.InfoCuentaFragment;
 import com.example.polispaceapp.configuracionLateralAlumno.SeguridadCuentaFragment;
 import com.example.polispaceapp.db.Base;
 import com.example.polispaceapp.db.DatosAlumno;
+import com.example.polispaceapp.db.PublicacionesDB;
 import com.example.polispaceapp.db.Sesion;
 import com.example.polispaceapp.models.Publicacion;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
@@ -43,6 +47,13 @@ public class PerfilFragment extends Fragment {
     private RecyclerView rvPublicacionesPerfil;
     private PublicacionAdapter publicacionAdapter;
     private ArrayList<Publicacion> listaPublicaciones;
+
+    // Pestañas del perfil: 0 = Mis publicaciones, 1 = Me gusta.
+    private static final int TAB_MIS_PUBLICACIONES = 0;
+    private static final int TAB_ME_GUSTA = 1;
+    private TabLayout tabLayoutPerfil;
+    private TextView tvPerfilVacio;
+    private int tabActual = TAB_MIS_PUBLICACIONES;
 
     // Datos del alumno que inició sesión (vienen de SQLite).
     private DatosAlumno datos;
@@ -78,8 +89,12 @@ public class PerfilFragment extends Fragment {
         btnMenuPerfil = view.findViewById(R.id.btn_menu_perfil);
         rvPublicacionesPerfil = view.findViewById(R.id.rvPublicacionesPerfil);
 
-        // Configurar publicaciones.
+        tabLayoutPerfil = view.findViewById(R.id.tabLayoutPerfil);
+        tvPerfilVacio = view.findViewById(R.id.tvPerfilVacio);
+
+        // Configurar publicaciones y pestañas.
         configurarPublicaciones();
+        configurarPestanas();
 
         // Cargar los datos del alumno y su fotografía.
         cargarDatosAlumno(view);
@@ -304,59 +319,108 @@ public class PerfilFragment extends Fragment {
 
         listaPublicaciones = new ArrayList<>();
 
-        // PUBLICACIÓN 1
-        listaPublicaciones.add(new Publicacion(
-                "María López",
-                "Hace 2 horas",
-                "Examen de programación - Segundo parcial",
-                "Les comparto el examen que utilizamos para estudiar. " +
-                        "Incluye ejercicios de arreglos, ciclos y funciones.",
-                "PDF",
-                "Examen_Programacion.pdf",
-                "2.4 MB",
-                "CECyT 9",
-                "Programación",
-                "Programación"
-        ));
-
-        // PUBLICACIÓN 2
-        listaPublicaciones.add(new Publicacion(
-                "Carlos Hernández",
-                "Hace 5 horas",
-                "Guía de matemáticas",
-                "Les dejo esta guía de ejercicios para preparar " +
-                        "el próximo examen. Espero que les ayude.",
-                "PDF",
-                "Guia_Matematicas.pdf",
-                "1.8 MB",
-                "CECyT 9",
-                "Programación",
-                "Matemáticas"
-        ));
-
-        // PUBLICACIÓN 3
-        listaPublicaciones.add(new Publicacion(
-                "Ana Martínez",
-                "Ayer",
-                "Apuntes de bases de datos",
-                "Resumen sobre consultas SQL, relaciones y " +
-                        "normalización. Lo hice para estudiar.",
-                "DOCX",
-                "Apuntes_BD.docx",
-                "850 KB",
-                "CECyT 9",
-                "Programación",
-                "Bases de datos"
-        ));
-
         if (rvPublicacionesPerfil != null) {
             rvPublicacionesPerfil.setLayoutManager(
                     new LinearLayoutManager(requireContext())
             );
 
-            publicacionAdapter = new PublicacionAdapter(listaPublicaciones);
+            // En la pestaña "Me gusta", al quitar el me gusta la
+            // publicación desaparece de la lista.
+            publicacionAdapter = new PublicacionAdapter(
+                    listaPublicaciones,
+                    () -> {
+                        if (tabActual == TAB_ME_GUSTA) {
+                            cargarPublicaciones();
+                        }
+                    }
+            );
             rvPublicacionesPerfil.setAdapter(publicacionAdapter);
+
+            cargarPublicaciones();
         }
+    }
+
+    // Cambiar entre "Mis publicaciones" y "Me gusta".
+    private void configurarPestanas() {
+        if (tabLayoutPerfil == null) return;
+
+        TabLayout.Tab tab = tabLayoutPerfil.getTabAt(tabActual);
+        if (tab != null) tab.select();
+
+        tabLayoutPerfil.addOnTabSelectedListener(
+                new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        tabActual = tab.getPosition();
+                        cargarPublicaciones();
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) { }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) { }
+                }
+        );
+    }
+
+    private void cargarPublicaciones() {
+        if (!isAdded() || publicacionAdapter == null) return;
+
+        long idAlumno = Sesion.idAlumno(requireContext());
+
+        listaPublicaciones.clear();
+
+        if (idAlumno > 0) {
+            PublicacionesDB db = null;
+
+            try {
+                db = new PublicacionesDB(requireContext());
+
+                listaPublicaciones.addAll(
+                        tabActual == TAB_ME_GUSTA
+                                ? db.obtenerMeGusta(idAlumno)
+                                : db.obtenerMisPublicaciones(idAlumno)
+                );
+
+            } catch (Exception e) {
+                Log.e("PerfilFragment", "No se pudieron cargar las publicaciones", e);
+
+                Toast.makeText(
+                        requireContext(),
+                        "No se pudieron cargar las publicaciones: " + e.getMessage(),
+                        Toast.LENGTH_LONG
+                ).show();
+
+            } finally {
+                if (db != null) db.cerrar();
+            }
+        }
+
+        publicacionAdapter.notifyDataSetChanged();
+        actualizarMensajeVacio();
+    }
+
+    private void actualizarMensajeVacio() {
+        if (tvPerfilVacio == null) return;
+
+        if (listaPublicaciones.isEmpty()) {
+            tvPerfilVacio.setText(
+                    tabActual == TAB_ME_GUSTA
+                            ? "Aún no le has dado me gusta a ninguna publicación."
+                            : "Aún no has publicado nada."
+            );
+            tvPerfilVacio.setVisibility(View.VISIBLE);
+        } else {
+            tvPerfilVacio.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Por si publiqué o di me gusta en otra pantalla.
+        cargarPublicaciones();
     }
 
     // Reemplazar fragment y guardar historial.

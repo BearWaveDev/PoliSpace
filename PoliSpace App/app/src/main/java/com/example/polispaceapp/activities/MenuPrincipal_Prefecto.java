@@ -29,7 +29,7 @@ public class MenuPrincipal_Prefecto extends AppCompatActivity {
 
 
         if (savedInstanceState == null) {
-            replaceFragment(new InicioFragment());
+            replaceFragment(new inicioPrefectoFragment());
         }
 
 

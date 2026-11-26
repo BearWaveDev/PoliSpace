@@ -64,7 +64,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:padding="5dp"
-        android:src="@android:drawable/btn_star_big_on"
+        android:src="@drawable/ic_like_lleno"
         android:contentDescription="Me gusta"
         app:tint="@color/color_primario"/>
 

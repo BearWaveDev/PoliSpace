@@ -14,7 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
+import com.example.polispaceapp.models.Comentario;
 import com.example.polispaceapp.models.Publicacion;
 
 public class PublicacionesDB {
@@ -161,8 +163,37 @@ public class PublicacionesDB {
         }
     }
 
-    // Devuelve las publicaciones del feed, de la más reciente a la más antigua.
+    // Feed de Material: todas las publicaciones, de la más reciente a la más antigua.
     public ArrayList<Publicacion> obtenerFeed(long idAlumno) {
+        return consultarPublicaciones(idAlumno, "", new String[0]);
+    }
+
+    // Perfil, pestaña "Mis publicaciones": solo las que publicó el alumno.
+    public ArrayList<Publicacion> obtenerMisPublicaciones(long idAlumno) {
+        return consultarPublicaciones(
+                idAlumno,
+                "AND p.id_alumno = ? ",
+                new String[]{String.valueOf(idAlumno)}
+        );
+    }
+
+    // Perfil, pestaña "Me gusta": solo las publicaciones a las que
+    // el alumno les dio me gusta.
+    public ArrayList<Publicacion> obtenerMeGusta(long idAlumno) {
+        return consultarPublicaciones(
+                idAlumno,
+                "AND EXISTS(SELECT 1 FROM me_gusta mg2 " +
+                        "WHERE mg2.id_publicacion = p.id_publicacion " +
+                        "AND mg2.id_alumno = ?) ",
+                new String[]{String.valueOf(idAlumno)}
+        );
+    }
+
+    private ArrayList<Publicacion> consultarPublicaciones(
+            long idAlumno,
+            String filtro,
+            String[] argsFiltro
+    ) {
         ArrayList<Publicacion> lista = new ArrayList<>();
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -178,7 +209,9 @@ public class PublicacionesDB {
                         "EXISTS(SELECT 1 FROM me_gusta mg " +
                         "WHERE mg.id_publicacion = p.id_publicacion AND mg.id_alumno = ?) AS me_gusta, " +
                         "EXISTS(SELECT 1 FROM guardado g " +
-                        "WHERE g.id_publicacion = p.id_publicacion AND g.id_alumno = ?) AS guardada " +
+                        "WHERE g.id_publicacion = p.id_publicacion AND g.id_alumno = ?) AS guardada, " +
+                        "(SELECT COUNT(*) FROM comentario cm " +
+                        "WHERE cm.id_publicacion = p.id_publicacion) AS total_comentarios " +
                         "FROM publicacion p " +
                         "INNER JOIN alumno a ON a.id_alumno = p.id_alumno " +
                         "INNER JOIN usuario u ON u.id_usuario = a.id_usuario " +
@@ -187,15 +220,16 @@ public class PublicacionesDB {
                         "LEFT JOIN material_publicacion mp ON mp.id_publicacion = p.id_publicacion " +
                         "LEFT JOIN material_estudio m ON m.id_material = mp.id_material " +
                         "WHERE p.estado = 'publicada' " +
+                        filtro +
                         "ORDER BY p.fecha_publicacion DESC, p.id_publicacion DESC";
 
-        try (Cursor cursor = db.rawQuery(
-                sql,
-                new String[]{
-                        String.valueOf(idAlumno),
-                        String.valueOf(idAlumno)
-                }
-        )) {
+        // Primero los ? del SELECT (me gusta y guardado), luego los del filtro.
+        String[] args = new String[2 + argsFiltro.length];
+        args[0] = String.valueOf(idAlumno);
+        args[1] = String.valueOf(idAlumno);
+        System.arraycopy(argsFiltro, 0, args, 2, argsFiltro.length);
+
+        try (Cursor cursor = db.rawQuery(sql, args)) {
             while (cursor.moveToNext()) {
                 Publicacion publicacion = new Publicacion(
                         cursor.getString(1),
@@ -214,6 +248,7 @@ public class PublicacionesDB {
                 publicacion.setRutaArchivo(cursor.getString(7));
                 publicacion.setMeGusta(cursor.getInt(11) == 1);
                 publicacion.setGuardada(cursor.getInt(12) == 1);
+                publicacion.setCantidadComentarios(cursor.getInt(13));
 
                 lista.add(publicacion);
             }
@@ -229,6 +264,7 @@ public class PublicacionesDB {
             SimpleDateFormat entrada = new SimpleDateFormat(
                     "yyyy-MM-dd HH:mm:ss", Locale.getDefault()
             );
+            entrada.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date fechaDate = entrada.parse(fecha);
 
             if (fechaDate == null) return fecha;
@@ -310,6 +346,50 @@ public class PublicacionesDB {
         } finally {
             db.endTransaction();
         }
+    }
+
+    // ---------------------------------------------------------------
+    // Comentarios
+    // ---------------------------------------------------------------
+    public long agregarComentario(
+            long idAlumno,
+            long idPublicacion,
+            String contenido
+    ) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues valores = new ContentValues();
+        valores.put("id_publicacion", idPublicacion);
+        valores.put("id_alumno", idAlumno);
+        valores.put("contenido", contenido);
+
+        return db.insertOrThrow("comentario", null, valores);
+    }
+
+    public ArrayList<Comentario> obtenerComentarios(long idPublicacion) {
+        ArrayList<Comentario> lista = new ArrayList<>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String sql =
+                "SELECT u.nombre_completo, cm.contenido, cm.fecha " +
+                        "FROM comentario cm " +
+                        "INNER JOIN alumno a ON a.id_alumno = cm.id_alumno " +
+                        "INNER JOIN usuario u ON u.id_usuario = a.id_usuario " +
+                        "WHERE cm.id_publicacion = ? " +
+                        "ORDER BY cm.fecha ASC, cm.id_comentario ASC";
+
+        try (Cursor cursor = db.rawQuery(
+                sql, new String[]{String.valueOf(idPublicacion)})) {
+            while (cursor.moveToNext()) {
+                lista.add(new Comentario(
+                        cursor.getString(0),
+                        cursor.getString(1),
+                        formatearFecha(cursor.getString(2))
+                ));
+            }
+        }
+
+        return lista;
     }
 
     public void cerrar() {

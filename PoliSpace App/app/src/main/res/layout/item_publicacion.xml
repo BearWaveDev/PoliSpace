@@ -288,7 +288,7 @@
                     android:id="@+id/ivMeGusta"
                     android:layout_width="19dp"
                     android:layout_height="19dp"
-                    android:src="@drawable/ic_corazon"
+                    android:src="@drawable/ic_like"
                     android:contentDescription="Me gusta"
                     app:tint="@color/color_primario" />
 

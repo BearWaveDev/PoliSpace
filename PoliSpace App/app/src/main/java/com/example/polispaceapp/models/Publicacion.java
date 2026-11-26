@@ -17,6 +17,7 @@ public class Publicacion {
     private String rutaArchivo;
     private boolean meGusta;
     private boolean guardada;
+    private int cantidadComentarios;
 
     public Publicacion(
             String nombreUsuario,
@@ -63,4 +64,7 @@ public class Publicacion {
     public void setRutaArchivo(String ruta) { rutaArchivo = ruta; }
     public void setMeGusta(boolean estado) { meGusta = estado; }
     public void setGuardada(boolean estado) { guardada = estado; }
+
+    public int getCantidadComentarios() { return cantidadComentarios; }
+    public void setCantidadComentarios(int total) { cantidadComentarios = total; }
 }

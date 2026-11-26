@@ -11,10 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.polispaceapp.R;
 import com.example.polispaceapp.db.PublicacionesDB;
+import com.example.polispaceapp.fragmentsAlumno.ComentariosBottomSheet;
 import com.example.polispaceapp.db.Sesion;
 import com.example.polispaceapp.models.Publicacion;
 import com.google.android.material.chip.Chip;
@@ -26,8 +29,20 @@ public class PublicacionAdapter
 
     private final List<Publicacion> listaPublicaciones;
 
+    // Se ejecuta después de dar o quitar "me gusta" (el perfil lo usa
+    // para recargar su lista).
+    private final Runnable alCambiarMeGusta;
+
     public PublicacionAdapter(List<Publicacion> listaPublicaciones) {
+        this(listaPublicaciones, null);
+    }
+
+    public PublicacionAdapter(
+            List<Publicacion> listaPublicaciones,
+            Runnable alCambiarMeGusta
+    ) {
         this.listaPublicaciones = listaPublicaciones;
+        this.alCambiarMeGusta = alCambiarMeGusta;
     }
 
     @NonNull
@@ -73,6 +88,7 @@ public class PublicacionAdapter
 
         holder.actualizarMeGusta(publicacion.isMeGusta());
         holder.actualizarGuardado(publicacion.isGuardada());
+        holder.actualizarComentarios(publicacion.getCantidadComentarios());
 
         holder.btnMeGusta.setOnClickListener(v -> {
             cambiarEstado(holder, publicacion, true);
@@ -82,13 +98,7 @@ public class PublicacionAdapter
             cambiarEstado(holder, publicacion, false);
         });
 
-        holder.btnComentar.setOnClickListener(v ->
-                Toast.makeText(
-                        v.getContext(),
-                        "Aquí abriremos los comentarios",
-                        Toast.LENGTH_SHORT
-                ).show()
-        );
+        holder.btnComentar.setOnClickListener(v -> abrirComentarios(holder, publicacion));
 
         holder.btnDescargar.setOnClickListener(v -> {
             Toast.makeText(
@@ -105,6 +115,38 @@ public class PublicacionAdapter
                         Toast.LENGTH_SHORT
                 ).show()
         );
+    }
+
+    private void abrirComentarios(
+            PublicacionViewHolder holder,
+            Publicacion publicacion
+    ) {
+        if (publicacion.getIdPublicacion() <= 0
+                || !(holder.itemView.getContext() instanceof FragmentActivity)) {
+            Toast.makeText(
+                    holder.itemView.getContext(),
+                    "No se pudieron abrir los comentarios.",
+                    Toast.LENGTH_SHORT
+            ).show();
+            return;
+        }
+
+        FragmentActivity actividad =
+                (FragmentActivity) holder.itemView.getContext();
+
+        ComentariosBottomSheet hoja =
+                ComentariosBottomSheet.newInstance(publicacion.getIdPublicacion());
+
+        hoja.setListener(total -> {
+            publicacion.setCantidadComentarios(total);
+
+            int posicion = holder.getAdapterPosition();
+            if (posicion != RecyclerView.NO_POSITION) {
+                notifyItemChanged(posicion);
+            }
+        });
+
+        hoja.show(actividad.getSupportFragmentManager(), "comentarios");
     }
 
     private void cambiarEstado(
@@ -137,6 +179,10 @@ public class PublicacionAdapter
             if (esMeGusta) {
                 publicacion.setMeGusta(nuevoEstado);
                 holder.actualizarMeGusta(nuevoEstado);
+
+                if (alCambiarMeGusta != null) {
+                    alCambiarMeGusta.run();
+                }
             } else {
                 publicacion.setGuardada(nuevoEstado);
                 holder.actualizarGuardado(nuevoEstado);
@@ -170,7 +216,7 @@ public class PublicacionAdapter
         TextView tvNombreUsuario, tvFecha;
         TextView tvTitulo, tvDescripcion;
         TextView tvTipoArchivo, tvNombreArchivo, tvPesoArchivo;
-        TextView tvMeGusta;
+        TextView tvMeGusta, tvCantidadComentarios;
 
         Chip chipEscuela, chipCarrera, chipMateria;
 
@@ -196,6 +242,7 @@ public class PublicacionAdapter
             chipMateria = itemView.findViewById(R.id.chipMateria);
 
             tvMeGusta = itemView.findViewById(R.id.tvMeGusta);
+            tvCantidadComentarios = itemView.findViewById(R.id.tvCantidadComentarios);
             ivMeGusta = itemView.findViewById(R.id.ivMeGusta);
 
             btnDescargar = itemView.findViewById(R.id.btnDescargarArchivo);
@@ -209,11 +256,25 @@ public class PublicacionAdapter
         void actualizarMeGusta(boolean activo) {
             tvMeGusta.setText(activo ? "Te gusta" : "Me gusta");
 
+            // Corazón relleno cuando te gusta, corazón vacío cuando no.
             ivMeGusta.setImageResource(
-                    activo
-                            ? android.R.drawable.btn_star_big_on
-                            : android.R.drawable.btn_star_big_off
+                    activo ? R.drawable.ic_like_lleno : R.drawable.ic_like
             );
+
+            tvMeGusta.setTextColor(ContextCompat.getColor(
+                    itemView.getContext(),
+                    activo ? R.color.color_primario : R.color.color_texto_secundario
+            ));
+        }
+
+        void actualizarComentarios(int total) {
+            if (total <= 0) {
+                tvCantidadComentarios.setText("Comentar");
+            } else if (total == 1) {
+                tvCantidadComentarios.setText("1 comentario");
+            } else {
+                tvCantidadComentarios.setText(total + " comentarios");
+            }
         }
 
         void actualizarGuardado(boolean activo) {

@@ -62,6 +62,11 @@
     try {
         notifSinLeer = Db.count("SELECT COUNT(*) FROM notificacion WHERE id_usuario_destino = ? AND leida = FALSE", uid);
     } catch (RuntimeException ex) { /* el contador no es crítico */ }
+    long chatSinLeer = 0;    // mensajes de chat sin leer (pestaña Chat)
+    try {
+        chatSinLeer = Db.count("SELECT COUNT(*) FROM mensaje x INNER JOIN chat_participante p ON p.id_conversacion = x.id_conversacion AND p.id_alumno = ? "
+                + "WHERE x.leido = FALSE AND x.id_alumno <> ?", idAlumno, idAlumno);
+    } catch (RuntimeException ex) { /* el chat aún no está instalado o falló; no es crítico */ }
     String flashTipo = (String) session.getAttribute("flashTipo");
     String flashMsg = (String) session.getAttribute("flashMsg");
     if (flashMsg != null) {
@@ -146,6 +151,7 @@
     <a class="tab" href="MaterialEstudio.jsp">Material de estudio</a>
     <a class="tab<%= soloMios ? "" : " activa" %>" href="Marketplace.jsp">Marketplace</a>
     <a class="tab<%= soloMios ? " activa" : "" %>" href="Marketplace.jsp?mios=1">Mis productos</a>
+    <a class="tab" href="Chat.jsp">Chat<% if (chatSinLeer > 0) { %> <span class="chip mal"><%= chatSinLeer > 99 ? "99+" : String.valueOf(chatSinLeer) %></span><% } %></a>
 </div>
 <div class="fila-entre">
     <form class="filtros" method="GET">
@@ -181,6 +187,8 @@
             <button class="btn-mini" name="accion" value="estado" type="submit">Cambiar estado</button>
             <button class="btn-mini peligro" name="accion" value="eliminar" type="submit" onclick="return confirm('¿Eliminar este producto?');">Eliminar</button>
         </form>
+        <% } else if ("disponible".equals(est) || "reservado".equals(est)) { %>
+        <a class="btn-primary btn-link btn-mini" href="Chat.jsp?producto=<%= Util.esc(p.get("id_producto")) %>">Chatear con el vendedor</a>
         <% } %>
     </div>
 <% } %>
